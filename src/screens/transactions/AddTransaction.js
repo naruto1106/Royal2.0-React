@@ -1,154 +1,251 @@
 import React from 'react';
-import { Typography, Row, Col, Input, InputNumber, DatePicker, Button } from 'antd';
 import {
-    DownOutlined
-} from '@ant-design/icons';
-import { useState, useEffect } from 'react';
+  Typography,
+  Row,
+  Col,
+  Input,
+  InputNumber,
+  DatePicker,
+  Button,
+  Select
+} from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { useState } from 'react';
+import { Form } from 'react-bootstrap';
 
 const { Title } = Typography;
 const buttonStyle = {
-    'boxSizing': 'border-box',
-    'height': '40px',
-    'background': '#ffffff',
-    'border': '0.5px solid #359dd9',
-    "color": "#359dd9",
-    "borderRadius": "10px",
-    "padding": "10px 90px"
+  boxSizing: 'border-box',
+  height: '40px',
+  background: '#ffffff',
+  border: '0.5px solid #359dd9',
+  color: '#359dd9',
+  borderRadius: '10px',
+  padding: '10px 90px'
 };
 function AddTransaction() {
+  const onChange = value => {
+    console.log('changed', value);
+  };
+  const DateChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+  const [setting_show, setSetting_show] = useState(false);
+  const setting_click = () => {
+    if (setting_show == false) {
+      setSetting_show(true);
+    }
+    if (setting_show == true) {
+      setSetting_show(false);
+    }
+  };
+  const onselectChange = value => {
+    console.log(`selected ${value}`);
+  };
+  const onSearch = value => {
+    console.log('search:', value);
+  };
+  return (
+    <>
+      <Row>
+        <Col offset={1}>
+          <Title level={4}>Add a transaction</Title>
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <Col offset={1} span={20}>
+          <Form.Group className="mb-3">
+            <Form.Label>Member</Form.Label>
+            <br />
+            <Input type="text" size="large" />
+          </Form.Group>
+        </Col>
+      </Row>
 
-    const onChange = (value) => {
-        console.log('changed', value);
-    }
-    const DateChange = (date, dateString) => {
-        console.log(date, dateString);
-    }
-    const [setting_show, setSetting_show] = useState(false);
-    const setting_click = () => {
-        if (setting_show == false) {
-            setSetting_show(true)
-        }
-        if (setting_show == true) {
-            setSetting_show(false)
-        }
-    }
-    return (
+      <Row>
+        <Col offset={1} span={6}>
+          <Form.Group className="mb-3">
+            <Form.Label>Total value</Form.Label>
+            <br />
+            <InputNumber
+              min={1}
+              size="large"
+              defaultValue={3}
+              style={{ width: '100%' }}
+              onChange={onChange}
+            />
+          </Form.Group>
+        </Col>
+        <Col offset={1} span={6}>
+          <Form.Group className="mb-3">
+            <Form.Label>Oty</Form.Label>
+            <br />
+            <InputNumber
+              min={1}
+              size="large"
+              defaultValue={3}
+              style={{ width: '100%' }}
+              onChange={onChange}
+            />
+          </Form.Group>
+        </Col>
+        <Col offset={1} span={6}>
+          <Form.Group className="mb-3">
+            <Form.Label>Transaction Date</Form.Label>
+            <br />
+            <DatePicker
+              size="large"
+              onChange={DateChange}
+              style={{ width: '100%' }}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <Col offset={1} span={17}>
+          <Title
+            level={4}
+            style={{ color: '#359dd9' }}
+            onClick={() => setting_click()}
+          >
+            Advanced Settings &nbsp;&nbsp;&nbsp;{' '}
+            <DownOutlined style={{ fontSize: '14px' }} />
+          </Title>
+        </Col>
+        <Col>
+          <Button style={buttonStyle}>Add </Button>
+        </Col>
+      </Row>
+      <br />
+      {setting_show == true && (
         <>
-            <Row>
-                <Col offset={1}>
-                    <Title level={2}>Add a transaction</Title>
+          <Row>
+            <Col offset={1} span={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>&nbsp;</Form.Label>
+                <br />
+                <Input type="text" size="large" onChange={onChange} />
+              </Form.Group>
+            </Col>
+            <Col offset={1} span={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>&nbsp;</Form.Label>
+                <br />
+                <Input type="text" size="large" onChange={onChange} />
+              </Form.Group>
+            </Col>
+            <Col offset={2} span={5}>
+              <Form.Group className="mb-3">
+                <Form.Label>Notes</Form.Label>
+                <br />
+                <Input type="text" size="large" onChange={onChange} />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col offset={1} span={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Ex Tax Amount</Form.Label>
+                <br />
+                <InputNumber
+                  min={0}
+                  size="large"
+                  style={{ width: '100%' }}
+                  onChange={onChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col offset={1} span={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Tax Amount</Form.Label>
+                <br />
+                <InputNumber
+                  min={0}
+                  size="large"
+                  style={{ width: '100%' }}
+                  onChange={onChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col offset={2} span={5}>
+              <Form.Group className="mb-3">
+                <Form.Label>Tax Type</Form.Label>
+                <br />
+                <InputNumber
+                  min={0}
+                  size="large"
+                  style={{ width: '100%' }}
+                  onChange={onChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-                </Col>
-            </Row>
-            <br />
-            <Row>
-                <Col offset={1} >
-                    Member
-                </Col>
-            </Row>
-            <Row>
-                <Col offset={1} span={20}>
-                    <Input type="text" size="large" />
-                </Col>
-            </Row>
-            <br />
-            <Row>
-                <Col offset={1} >
-                    Total value
-                </Col>
-                <Col offset={4}>
-                    Oty
-                </Col>
-            </Row>
-            <Row>
-                <Col offset={1} span={6}>
-                    <InputNumber min={1} defaultValue={3} style={{ width: "100%" }} onChange={onChange} />
-                </Col>
-                <Col offset={1} span={6}>
-                    <InputNumber min={1} defaultValue={3} style={{ width: "100%" }} onChange={onChange} />
-                </Col>
-                <Col offset={2} span={5}>
-                    Transaction Date &nbsp;&nbsp;&nbsp;  <DatePicker style={{ width: "50%" }} onChange={DateChange} />
-                </Col>
-
-            </Row>
-            <br /><br />
-            <Row>
-                <Col offset={1} span={17} >
-                    <h4 level={2} style={{ color: "#359dd9", fontFamily: "bold" }} onClick={() => setting_click()}>Advanced Settings &nbsp;&nbsp;&nbsp; <DownOutlined /></h4>
-
-                </Col>
-                <Col span>
-                    <Button style={buttonStyle} block> Add</Button>
-                </Col>
-            </Row>
-            <br /><br /><br />
-            {
-                setting_show == true && (<>
-                    <Row>
-                        <Col offset={16}>Notes</Col>
-                    </Row>
-                    <Row>
-                        <Col offset={1} span={6}>
-                            <Input type="text" onChange={onChange} />
-                        </Col>
-                        <Col offset={1} span={6}>
-                            <Input type="text" onChange={onChange} />
-                        </Col>
-                        <Col offset={2} span={5}>
-                            <Input type="text" onChange={onChange} />
-                        </Col>
-                    </Row>
-                    <br />
-                    <Row>
-                        <Col offset={1} span={6}>
-                            Ex Tax Amount
-                        </Col>
-                        <Col offset={1} span={6}>
-                            Tax Amount
-                        </Col>
-                        <Col offset={2} span={5}>
-                            Tax Type
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col offset={1} span={6}>
-                            <InputNumber min={0} style={{ width: "100%" }} onChange={onChange} />
-                        </Col>
-                        <Col offset={1} span={6}>
-                            <InputNumber min={0} style={{ width: "100%" }} onChange={onChange} />
-                        </Col>
-                        <Col offset={2} span={5}>
-                            <Input type="text" onChange={onChange} />
-                        </Col>
-                    </Row>
-                    <br />
-                    <Row>
-                        <Col offset={1} span={6}>
-                            Branch
-                        </Col>
-                        <Col offset={1} span={6}>
-                            Grand Total
-                        </Col>
-                        <Col offset={2} span={5}>
-                            Unit Price
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col offset={1} span={6}>
-                            <InputNumber min={0} style={{ width: "100%" }} onChange={onChange} />
-                        </Col>
-                        <Col offset={1} span={6}>
-                            <InputNumber min={0} style={{ width: "100%" }} onChange={onChange} />
-                        </Col>
-                        <Col offset={2} span={5}>
-                            <InputNumber min={0} style={{ width: "100%" }} onChange={onChange} />
-                        </Col>
-                    </Row>
-                </>)
-            }
-
+          <Row>
+            <Col offset={1} span={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Branch</Form.Label>
+                <br />
+                <Select
+                  showSearch
+                  placeholder="Select"
+                  size="large"
+                  optionFilterProp="children"
+                  style={{ width: '100%' }}
+                  onChange={onselectChange}
+                  onSearch={onSearch}
+                  filterOption={(input, option) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={[
+                    {
+                      value: 'jack',
+                      label: 'Jack'
+                    },
+                    {
+                      value: 'lucy',
+                      label: 'Lucy'
+                    },
+                    {
+                      value: 'tom',
+                      label: 'Tom'
+                    }
+                  ]}
+                />
+              </Form.Group>
+            </Col>
+            <Col offset={1} span={6}>
+              <Form.Group className="mb-3">
+                <Form.Label>Grand Total</Form.Label>
+                <br />
+                <InputNumber
+                  min={0}
+                  size="large"
+                  style={{ width: '100%' }}
+                  onChange={onChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col offset={2} span={5}>
+              <Form.Group className="mb-3">
+                <Form.Label>Unit Price</Form.Label>
+                <br />
+                <InputNumber
+                  min={0}
+                  size="large"
+                  style={{ width: '100%' }}
+                  onChange={onChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
         </>
-    )
+      )}
+    </>
+  );
 }
 export default AddTransaction;

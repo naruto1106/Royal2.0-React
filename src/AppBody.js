@@ -79,14 +79,12 @@ function AppBody() {
                 name="Password Reset"
                 element={<ResetPassword />}
               />
-              
             </Route>
 
             {/* Private */}
             <Route element={<PrivateRoute />}>
               <Route name="Home" path="*" element={<Layout />} />
             </Route>
-            
           </Routes>
         </React.Suspense>
       </Router>

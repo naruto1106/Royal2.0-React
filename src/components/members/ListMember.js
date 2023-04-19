@@ -1,35 +1,29 @@
 import React from 'react';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
-
-import { Typography, Checkbox } from 'antd';
 import endpoint from '../../utils/endpoint';
 import AdvanceTableWrapper from '../common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from '../common/advance-table/AdvanceTable';
 import AdvanceTableFooter from '../common/advance-table/AdvanceTableFooter';
 import ActionButton from '../common/ActionButton';
 
-
-
-
 function ListMember() {
   const gettabledata = axios.get(endpoint.listmember);
   const tabledata = gettabledata.data;
   console.log('tabledata123', tabledata);
   // const [perpage, setPerpage] = useState(3);
-  const editRow = (index) => {
+  const editRow = index => {
     alert(index);
-  }
+  };
   const deleteRow = () => {
-    alert("index");
-  }
+    alert('index');
+  };
   const AllChange = () => {
     // console.log("checkbox_all",row);
-  }
-  const onChange = (row) => {
-    console.log("check_box_click", row);// isSelected: true, false
-  }
+  };
+  const onChange = row => {
+    console.log('check_box_click', row); // isSelected: true, false
+  };
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -50,39 +44,90 @@ function ListMember() {
       );
     }
   );
+  const row_select = index => {
+    console.log('row_index', index);
+  };
   const columns = [
     {
       accessor: 'row',
       Header: 'Row',
       Cell: rowData => {
-        return (
-          <>
-            {rowData.row.index + 1}
-          </>
-        )
+        return <>{rowData.row.index + 1}</>;
       }
     },
     {
       accessor: 'email',
-      Header: 'Code'
+      Header: 'Code',
+      Cell: rowData => {
+        const { email } = rowData.row.original;
+        return (
+          <div
+            onClick={() => row_select(rowData.row.index)}
+            style={{ cursor: 'pointer' }}
+          >
+            {email}{' '}
+          </div>
+        );
+      }
     },
     {
       accessor: 'name',
-      Header: 'Name/Company'
+      Header: 'Name/Company',
+      Cell: rowData => {
+        const { name } = rowData.row.original;
+        return (
+          <div
+            onClick={() => row_select(rowData.row.index)}
+            style={{ cursor: 'pointer' }}
+          >
+            {name}{' '}
+          </div>
+        );
+      }
     },
     {
-      accessor: 'age',
-      Header: 'Group/Tier'
+      accessor: 'group',
+      Header: 'Group/Tier',
+      Cell: rowData => {
+        const { group } = rowData.row.original;
+        return (
+          <div
+            onClick={() => row_select(rowData.row.index)}
+            style={{ cursor: 'pointer' }}
+          >
+            {group}{' '}
+          </div>
+        );
+      }
     },
     {
       accessor: 'point',
-      Header: 'Points'
+      Header: 'Points',
+      Cell: rowData => {
+        const { point } = rowData.row.original;
+        return (
+          <div
+            onClick={() => row_select(rowData.row.index)}
+            style={{ cursor: 'pointer' }}
+          >
+            {point}{' '}
+          </div>
+        );
+      }
     },
     {
       id: 'Edit',
-      Header: <>
-        <ActionButton icon="trash-alt" onClick={() => deleteRow()} title="Delete" variant="action" className="p-0 me-2" />
-      </>,
+      Header: (
+        <>
+          <ActionButton
+            icon="trash-alt"
+            onClick={() => deleteRow()}
+            title="Delete"
+            variant="action"
+            className="p-0 me-2"
+          />
+        </>
+      ),
       headerProps: {
         style: {
           maxWidth: 10
@@ -96,74 +141,74 @@ function ListMember() {
       Cell: rowData => {
         return (
           <>
-            <ActionButton icon="edit" title="Edit" onClick={() => editRow(rowData.row.index)} variant="action" className="p-0 me-2" />
+            <ActionButton
+              icon="edit"
+              title="Edit"
+              onClick={() => editRow(rowData.row.index)}
+              variant="action"
+              className="p-0 me-2"
+            />
           </>
-        )
+        );
       }
     },
     {
-      id: "selection",
+      id: 'selection',
       Header: ({ getToggleAllRowsSelectedProps }) => (
-
-        <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} onClick={() => AllChange()} />
+        <IndeterminateCheckbox
+          {...getToggleAllRowsSelectedProps()}
+          onClick={() => AllChange()}
+        />
       ),
 
       Cell: ({ row }) => (
         <div>
-          <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} onClick={() => onChange(row)} />
+          <IndeterminateCheckbox
+            {...row.getToggleRowSelectedProps()}
+            onClick={() => onChange(row)}
+          />
         </div>
       )
-    },
-
-
-
+    }
   ];
 
   const data = [
     {
       name: 'Anna',
       email: 'anna@example.com',
-      age: 18,
-      age: 18,
-      age: 18,
+      group: 18,
+      point: 18
     },
     {
       name: 'Homer',
       email: 'homer@example.com',
-      email: 'homer@example.com',
-      email: 'homer@example.com',
-      age: 35
+      group: 'homer@example.com',
+      point: 35
     },
     {
       name: 'Oscar',
       email: 'homer@example.com',
-      email: 'homer@example.com',
-      email: 'oscar@example.com',
-      age: 52
+      group: 'homer@example.com',
+      point: 52
     },
     {
       name: 'Anna',
       email: 'anna@example.com',
-      age: 18,
-      age: 18,
-      age: 18,
+      group: 18,
+      point: 18
     },
     {
       name: 'Homer',
       email: 'homer@example.com',
-      email: 'homer@example.com',
-      email: 'homer@example.com',
-      age: 35
+      group: 'homer@example.com',
+      point: 35
     },
     {
       name: 'Oscar',
       email: 'homer@example.com',
-      email: 'homer@example.com',
-      email: 'oscar@example.com',
-      age: 52
-    },
-
-
+      group: 'homer@example.com',
+      point: 52
+    }
   ];
   return (
     <>
@@ -173,10 +218,7 @@ function ListMember() {
         sortable
         pagination
         perPage={5}
-
-
       >
-
         <AdvanceTable
           table
           headerClassName="bg-200 text-900 text-nowrap align-middle"
@@ -186,8 +228,6 @@ function ListMember() {
             striped: true,
             className: 'fs--1 mb-0 overflow-hidden'
           }}
-
-
         />
         <div className="mt-3">
           <AdvanceTableFooter
@@ -199,8 +239,7 @@ function ListMember() {
           />
         </div>
       </AdvanceTableWrapper>
-
     </>
-  )
+  );
 }
 export default ListMember;

@@ -71,7 +71,6 @@ const Layout = () => {
 
   useEffect(() => {
     handleRedirect();
-   
   }, []);
 
   return (
@@ -89,7 +88,7 @@ const Layout = () => {
           {/* //--- MainLayout Starts  */}
           <Route element={<MainLayout />}>
             {/*Dashboard*/}
-            
+
             {getRoutes().map((route, index) => {
               return (
                 route.component && (
@@ -104,49 +103,47 @@ const Layout = () => {
               );
             })}
             <Route
-             key="all_members"
-             path="/datamanager/bb_loyal2_members"
-             exact="true"
-             name="All Members"
-             element={<AllMembers />}>
+              key="all_members"
+              path="/datamanager/bb_loyal2_members"
+              exact="true"
+              name="All Members"
+              element={<AllMembers />}
+            >
               {/*AllMembers*/}
-              {
-                getAllMembers().map((route, index) => {
-                  return (
-                    route.component && (
-                      <Route
-                       key={index}
-                       path={route.path}
-                       exact={route.exact}
-                       name={route.name}
-                       element={<route.component />}
-                       />
-                    )
-                  );
-                })
-              }
+              {getAllMembers().map((route, index) => {
+                return (
+                  route.component && (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      element={<route.component />}
+                    />
+                  )
+                );
+              })}
             </Route>
             <Route
-             key="all_transations"
-             path="/transactions"
-             exact="true"
-             name="All Transactions"
-             element={<AllTransactions />}>
-              {
-                getAllTransactions().map((route, index) => {
-                  return (
-                    route.component && (
-                      <Route
-                       key={index}
-                       path={route.path}
-                       exact={route.exact}
-                       name={route.name}
-                       element={<route.component />}
-                       />
-                    )
-                  );
-                })
-              }
+              key="all_transations"
+              path="/transactions"
+              exact="true"
+              name="All Transactions"
+              element={<AllTransactions />}
+            >
+              {getAllTransactions().map((route, index) => {
+                return (
+                  route.component && (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      element={<route.component />}
+                    />
+                  )
+                );
+              })}
             </Route>
             {invalidRoutes.map((path, index) => (
               <Route

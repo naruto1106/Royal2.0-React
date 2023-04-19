@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, Form, Input, Row, Col } from 'antd';
 
 function AddMember() {
-  const onFinish = (values) => {
+  const onFinish = values => {
     console.log('Success:', values);
   };
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
   return (
@@ -15,16 +15,16 @@ function AddMember() {
           <Form
             name="basic"
             labelCol={{
-              span: 8,
+              span: 8
             }}
             wrapperCol={{
-              span: 16,
+              span: 16
             }}
             style={{
-              maxWidth: 600,
+              maxWidth: 600
             }}
             initialValues={{
-              remember: true,
+              remember: true
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -35,39 +35,33 @@ function AddMember() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your First name!',
-                },
+                  message: 'Please input your First name!'
+                }
               ]}
             >
-              <Input
-                placeholder='First name'
-              />
+              <Input placeholder="First name" />
             </Form.Item>
             <Form.Item
               name="lastname"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Last name!',
-                },
+                  message: 'Please input your Last name!'
+                }
               ]}
             >
-              <Input
-                placeholder='Last name'
-              />
+              <Input placeholder="Last name" />
             </Form.Item>
             <Form.Item
               name="companyname"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Company name!',
-                },
+                  message: 'Please input your Company name!'
+                }
               ]}
             >
-              <Input
-                placeholder='Company name'
-              />
+              <Input placeholder="Company name" />
             </Form.Item>
             <Form.Item
               name="email"
@@ -75,13 +69,11 @@ function AddMember() {
                 {
                   type: 'email',
                   required: true,
-                  message: 'Please input your Email!',
-                },
+                  message: 'Please input your Email!'
+                }
               ]}
             >
-              <Input
-                placeholder='Email'
-              />
+              <Input placeholder="Email" />
             </Form.Item>
 
             <Form.Item
@@ -90,8 +82,8 @@ function AddMember() {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your password!',
-                },
+                  message: 'Please input your password!'
+                }
               ]}
             >
               <Input.Password />
@@ -100,7 +92,7 @@ function AddMember() {
             <Form.Item
               wrapperCol={{
                 offset: 8,
-                span: 16,
+                span: 16
               }}
             >
               <Button type="primary" htmlType="submit">
@@ -110,9 +102,8 @@ function AddMember() {
           </Form>
         </Col>
       </Row>
-
     </>
-  )
+  );
 }
 
 export default AddMember;

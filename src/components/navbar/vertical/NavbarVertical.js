@@ -107,7 +107,7 @@ const NavbarVertical = () => {
   };
 
   const menuOptions = generateMenuOptions(menuOptionsSource);
-// console.log(menuOptions,'menu optionsssssssssssss');
+  // console.log(menuOptions,'menu optionsssssssssssss');
 
   return (
     <>

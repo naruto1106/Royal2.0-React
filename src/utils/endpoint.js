@@ -56,5 +56,5 @@ export default {
     `${API_ENDPOINT_PREFIX}/${suffix.replace(':id', id)}`,
   listmember: `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_members/list`,
   historymember: `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_members`,
-
+  historytransaction: `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_transactions`
 };

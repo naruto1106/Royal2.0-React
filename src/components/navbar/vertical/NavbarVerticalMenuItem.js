@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import Flex from 'components/common/Flex';
 import SoftBadge from 'components/common/SoftBadge';
 

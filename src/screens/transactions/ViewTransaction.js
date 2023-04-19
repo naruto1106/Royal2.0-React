@@ -1,53 +1,55 @@
 import React from 'react';
-import { Typography,Row, Col, Button } from 'antd';
-import { Table } from 'react-bootstrap'
-
+import { Typography, Row, Col, Button } from 'antd';
+import { Table } from 'react-bootstrap';
 const { Title } = Typography;
-function ViewTransaction(){
-    
-    
-     
-    
-    return(
-        <>
-            
-            <Row>
-                <Col>
-                    <Title level={3}>Viewing transaction</Title>
-                </Col>
-                <Col offset={12}>
-                    <Button style={{marginRight:"20px"}} >Edit</Button>
-                    <Button >Delete</Button>
-                </Col>
-            </Row>
-            <br/><br/>
-            <Table responsive>
-                
-                <tbody>
-                    <tr>
-                        <td>Member</td>
-                        <td>M00001 Max Max</td>
-                    </tr>
-                    <tr>
-                        <td>Total Value</td>
-                        <td>100.00</td>
-                    </tr>
-                    <tr>
-                        <td>Transaction Date</td>
-                        <td>08-02-2023</td>
-                    </tr>
-                    <tr>
-                        <td>Code</td>
-                        <td>T00001</td>
-                    </tr>
-                    <tr>
-                        <td>Points</td>
-                        <td>100</td>
-                    </tr>
-                    
-                </tbody>
-            </Table>
-        </>
-    )
+const text_position = {
+  textAlign: 'right'
+};
+function ViewTransaction() {
+  return (
+    <>
+      <Row>
+        <Col offset={1}>
+          <Title level={4}>Viewing transaction</Title>
+        </Col>
+        <Col offset={12}>
+          <Button style={{ marginRight: '20px', borderRadius: '10px' }}>
+            Edit
+          </Button>
+          <Button style={{ borderRadius: '10px' }}>Delete</Button>
+        </Col>
+      </Row>
+      <br />
+      <br />
+      <Row>
+        <Col offset={1} span={13}>
+          <Table responsive>
+            <tbody>
+              <tr>
+                <td>Member</td>
+                <td style={text_position}>M00001 Max Max</td>
+              </tr>
+              <tr>
+                <td>Total Value</td>
+                <td style={text_position}>100.00</td>
+              </tr>
+              <tr>
+                <td>Transaction Date</td>
+                <td style={text_position}>08-02-2023</td>
+              </tr>
+              <tr>
+                <td>Code</td>
+                <td style={text_position}>T00001</td>
+              </tr>
+              <tr>
+                <td>Points</td>
+                <td style={text_position}>100</td>
+              </tr>
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </>
+  );
 }
 export default ViewTransaction;
