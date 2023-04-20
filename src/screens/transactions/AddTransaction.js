@@ -104,17 +104,17 @@ function AddTransaction() {
       </Row>
       <br />
       <Row>
-        <Col offset={1} span={17}>
+        <Col offset={1} span={5} style={{ cursor: 'pointer' }}>
           <Title
             level={4}
             style={{ color: '#359dd9' }}
             onClick={() => setting_click()}
           >
-            Advanced Settings &nbsp;&nbsp;&nbsp;{' '}
+            Advanced Settings &nbsp;&nbsp;&nbsp;
             <DownOutlined style={{ fontSize: '14px' }} />
           </Title>
         </Col>
-        <Col>
+        <Col offset={12}>
           <Button style={buttonStyle}>Add </Button>
         </Col>
       </Row>
@@ -173,8 +173,8 @@ function AddTransaction() {
               <Form.Group className="mb-3">
                 <Form.Label>Tax Type</Form.Label>
                 <br />
-                <InputNumber
-                  min={0}
+                <Input
+                  type="text"
                   size="large"
                   style={{ width: '100%' }}
                   onChange={onChange}

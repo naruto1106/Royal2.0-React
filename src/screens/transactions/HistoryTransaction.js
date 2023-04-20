@@ -9,6 +9,14 @@ import { Card } from 'react-bootstrap';
 import endpoint from 'utils/endpoint';
 
 const { Title } = Typography;
+const chat_hidden = {
+  position: 'absolute',
+  width: '50%',
+  height: '80px',
+  right: '100px',
+  backgroundColor: 'white',
+  zIndex: '1'
+};
 function HistoryTransaction() {
   let [labels, setLables] = useState([]);
   let [data_member, setData_member] = useState([]);
@@ -38,7 +46,7 @@ function HistoryTransaction() {
     datasets: [
       {
         type: 'line',
-        label: 'Sales history',
+        label: '',
         borderColor: getColor('primary'),
         borderWidth: 2,
         fill: false,
@@ -83,6 +91,7 @@ function HistoryTransaction() {
             </Card.Body>
           </Card>
         </Col>
+        <div style={chat_hidden}></div>
       </Row>
     </>
   );

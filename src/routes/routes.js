@@ -38,6 +38,28 @@ const ViewTransaction = React.lazy(() =>
   import('../screens/transactions/ViewTransaction')
 );
 
+const AddVouchers = React.lazy(() => import('../screens/vouchers/AddVoucher'));
+
+const ListVouchers = React.lazy(() =>
+  import('../screens/vouchers/ListVoucher')
+);
+const SearchVouchers = React.lazy(() =>
+  import('../screens/vouchers/SearchVoucher')
+);
+const ImportVouchers = React.lazy(() =>
+  import('../screens/vouchers/ImportVoucher')
+);
+const ViewVouchers = React.lazy(() =>
+  import('../screens/vouchers/ViewVoucher')
+);
+
+const AddGroups = React.lazy(() => import('../screens/members/AddGroups'));
+const ListGroups = React.lazy(() => import('../screens/members/ListGroups'));
+const SearchGroups = React.lazy(() =>
+  import('../screens/members/SearchGroups')
+);
+const CsvGroups = React.lazy(() => import('../screens/members/CsvGroups'));
+
 const RedirectToViewList = () => {
   let { module_name } = useParams();
 
@@ -181,6 +203,69 @@ export const getAllTransactions = () => {
       exact: true,
       name: 'Import Transaction',
       component: ImportTransaction
+    }
+  ];
+};
+export const getAllVouchers = () => {
+  return [
+    {
+      path: '/all_vouchers/add',
+      exact: true,
+      name: 'Add Vouchers',
+      component: AddVouchers
+    },
+
+    {
+      path: '/all_vouchers/view',
+      exact: true,
+      name: 'View Vouchers',
+      component: ViewVouchers
+    },
+    {
+      path: '/all_vouchers/list',
+      exact: true,
+      name: 'List Vouchers',
+      component: ListVouchers
+    },
+    {
+      path: '/all_vouchers/search',
+      exact: true,
+      name: 'Search Vouchers',
+      component: SearchVouchers
+    },
+    {
+      path: '/all_vouchers/import',
+      exact: true,
+      name: 'Import Vouchers',
+      component: ImportVouchers
+    }
+  ];
+};
+export const getMembersGroups = () => {
+  return [
+    {
+      path: '/members_groups/add',
+      exact: true,
+      name: 'Add Groups',
+      component: AddGroups
+    },
+    {
+      path: '/members_groups/list',
+      exact: true,
+      name: 'List Groups',
+      component: ListGroups
+    },
+    {
+      path: '/members_groups/search',
+      exact: true,
+      name: 'Search Groups',
+      component: SearchGroups
+    },
+    {
+      path: '/members_groups/csv',
+      exact: true,
+      name: 'CsvGroups',
+      component: CsvGroups
     }
   ];
 };

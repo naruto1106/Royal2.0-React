@@ -14,7 +14,7 @@ const datapicker = {
   borderRadius: '10px',
   width: '100%'
 };
-function SearchTransaction() {
+function SearchVoucher() {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -23,7 +23,7 @@ function SearchTransaction() {
     <>
       <Row>
         <Col offset={1}>
-          <Title level={4}>Search transactions</Title>
+          <Title level={4}>Search vouchers</Title>
         </Col>
       </Row>
       <br />
@@ -37,35 +37,10 @@ function SearchTransaction() {
           />
         </Col>
       </Row>
-      <br />
-      <Row>
-        <Col offset={1} span={20}>
-          <Input
-            type="text"
-            style={{ borderRadius: '10px' }}
-            size="large"
-            placeholder="Member"
-          />
-        </Col>
-      </Row>
-      <br />
-      <br />
-      <Row>
-        <Col offset={1} span={5}>
-          <p> Transaction Date between </p>
-        </Col>
-        <Col span={4}>
-          <DatePicker size="large" style={datapicker} onChange={onChange} />
-        </Col>
 
-        <Col span={2} offset={1}>
-          <p> and </p>
-        </Col>
-        <Col span={4}>
-          <DatePicker size="large" style={datapicker} onChange={onChange} />
-        </Col>
-      </Row>
       <br />
+      <br />
+
       <Row>
         <Col offset={1} span={5}>
           <p> Date Added/Imported between </p>
@@ -89,4 +64,4 @@ function SearchTransaction() {
     </>
   );
 }
-export default SearchTransaction;
+export default SearchVoucher;
