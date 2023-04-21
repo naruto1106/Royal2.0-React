@@ -1,81 +1,101 @@
 import React from 'react';
-import { Typography, Tooltip, Input, Row, Col } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { Form, Button } from 'react-bootstrap';
+import { Typography, Button, Tooltip, Form, Input } from 'antd';
+import { QuestionOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
+const btnQuestion = {
+  backgroundColor: '#359dd9',
+  marginTop: '-10px',
+  color: 'white',
+  float: 'right'
+};
+const inputStyle = { width: '93%', marginTop: '-15px' };
+const inputBorderRadius = { borderRadius: '15px' };
+const inputQuestion = {
+  display: 'inline-block',
+  width: '93%',
+  marginTop: '-15px',
+  borderRadius: '15px'
+};
 
 function AddGroups() {
   const onFinish = values => {
     console.log('Success:', values);
   };
-
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
   return (
     <>
-      <Row>
-        <Col>
-          <Title level={4} style={{ marginLeft: '44px' }}>
-            Add a group tier
-          </Title>
-        </Col>
-      </Row>
-      <Row style={{ marginLeft: '44px' }}>
-        <Col span={20}>
-          <Form.Group className="mb-3">
-            <p>Name</p>
-            <Input
-              type="text"
-              style={{ borderRadius: '15px', width: '100%' }}
-              size="large"
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row style={{ marginLeft: '44px' }}>
-        <Col span={20}>
-          <Form.Group className="mb-3">
-            <p>Code</p>
-            <Input
-              type="text"
-              style={{ borderRadius: '15px', width: '100%' }}
-              size="large"
-            />
-          </Form.Group>
-        </Col>
-        <Col span={1}>
-          <br />
-          <Tooltip placement="left" title="Add group" color="#359dd9">
-            <QuestionCircleOutlined
-              style={{
-                backgroundColor: '#359dd9',
-                borderRadius: '50%',
-                border: 'none',
-                color: 'white',
-                fontSize: '21px',
-                marginTop: '25px',
-                marginLeft: '96px'
-              }}
-            />
-          </Tooltip>
-        </Col>
-      </Row>
-      <Row style={{ marginLeft: '44px' }}>
-        <Col>
+      <Title level={4}>Add a group tier</Title>
+
+      <Form
+        name="basic"
+        labelCol={{
+          span: 1
+        }}
+        wrapperCol={{
+          span: 23
+        }}
+        // style={{
+        //   maxWidth: 550
+        // }}
+        initialValues={{
+          remember: true
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <p>Name</p>
+        <Form.Item
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: 'Please input Name!'
+            }
+          ]}
+          style={inputStyle}
+        >
+          <Input placeholder="Name" style={inputBorderRadius} />
+        </Form.Item>
+        <p>Code</p>
+        <Form.Item
+          name="code"
+          rules={[
+            {
+              required: true,
+              message: 'Please input Code!'
+            }
+          ]}
+          style={inputQuestion}
+        >
+          <Input placeholder="Code" style={inputBorderRadius} />
+        </Form.Item>
+        <Tooltip placement="left" title="Add group" color="#359dd9">
           <Button
-            style={{
-              borderRadius: '15px',
-              borderColor: '#359dd9',
-              marginTop: '29px',
-              width: '171px',
-              height: '38px'
-            }}
-            variant="outline-primary"
-            onClick={() => onFinish()}
-          >
-            Add
-          </Button>
-        </Col>
-      </Row>
+            shape="circle"
+            icon={<QuestionOutlined />}
+            style={btnQuestion}
+            size="small"
+          ></Button>
+        </Tooltip>
+        <br />
+        <Button
+          style={{
+            borderRadius: '15px',
+            backgroundColor: 'white',
+            borderColor: '#359dd9',
+            color: '#359dd9',
+            marginTop: '5px',
+            width: '150px'
+          }}
+          htmlType="submit"
+        >
+          Add
+        </Button>
+      </Form>
     </>
   );
 }

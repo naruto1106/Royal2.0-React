@@ -2,13 +2,13 @@ import React from 'react';
 // import { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 
-import { Typography, Row, Col } from 'antd';
+// import { Typography } from 'antd';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import ActionButton from 'components/common/ActionButton';
 
-const { Title } = Typography;
+// const { Title } = Typography;
 function ListGroups() {
   const editRow = index => {
     alert(index);
@@ -45,48 +45,18 @@ function ListGroups() {
   const columns = [
     {
       accessor: 'row',
-      Header: 'Row',
-      Cell: rowData => {
-        return <>{rowData.row.index + 1}</>;
-      },
-      headerProps: {
-        style: {
-          width: 5
-        }
-      },
-      cellProps: {
-        style: {
-          maxWidth: 5
-        }
-      }
+      Header: 'Row'
+      // Cell: rowData => {
+      //   return <>{rowData.row.index + 1}</>;
+      // }
     },
     {
       accessor: 'code',
-      Header: 'Code',
-      headerProps: {
-        style: {
-          maxWidth: 10
-        }
-      },
-      cellProps: {
-        style: {
-          maxWidth: 10
-        }
-      }
+      Header: 'Code'
     },
     {
       accessor: 'name',
-      Header: 'Name',
-      headerProps: {
-        style: {
-          maxWidth: 200
-        }
-      },
-      cellProps: {
-        style: {
-          maxWidth: 200
-        }
-      }
+      Header: 'Name'
     },
 
     {
@@ -104,12 +74,12 @@ function ListGroups() {
       ),
       headerProps: {
         style: {
-          width: 10
+          maxWidth: 10
         }
       },
       cellProps: {
         style: {
-          width: 10
+          maxWidth: 10
         }
       },
       Cell: rowData => {
@@ -134,16 +104,7 @@ function ListGroups() {
           onClick={() => AllChange()}
         />
       ),
-      headerProps: {
-        style: {
-          width: 10
-        }
-      },
-      cellProps: {
-        style: {
-          width: 10
-        }
-      },
+
       Cell: ({ row }) => (
         <div>
           <IndeterminateCheckbox
@@ -190,44 +151,34 @@ function ListGroups() {
 
   return (
     <>
-      <Row>
-        <Col>
-          <Title level={4} style={{ paddingLeft: '35px' }}>
-            All group/tier records
-          </Title>
-        </Col>
-      </Row>
-      <Row style={{ marginTop: '37px' }}>
-        <Col span={22}>
-          <AdvanceTableWrapper
-            columns={columns}
-            data={data}
-            sortable
-            pagination
-            perPage={5}
-          >
-            <AdvanceTable
-              table
-              headerClassName="bg-200 text-900 text-nowrap align-middle"
-              rowClassName="align-middle white-space-nowrap"
-              tableProps={{
-                bordered: true,
-                striped: true,
-                className: 'fs--1 mb-0 overflow-hidden'
-              }}
-            />
-            <div className="mt-3">
-              <AdvanceTableFooter
-                rowCount={data.length}
-                table
-                rowInfo
-                navButtons
-                rowsPerPageSelection
-              />
-            </div>
-          </AdvanceTableWrapper>
-        </Col>
-      </Row>
+      <h4>All group/tier records</h4>
+      <AdvanceTableWrapper
+        columns={columns}
+        data={data}
+        sortable
+        pagination
+        perPage={5}
+      >
+        <AdvanceTable
+          table
+          headerClassName="bg-200 text-900 text-nowrap align-middle"
+          rowClassName="align-middle white-space-nowrap"
+          tableProps={{
+            bordered: true,
+            striped: true,
+            className: 'fs--1 mb-0 overflow-hidden'
+          }}
+        />
+        <div className="mt-3">
+          <AdvanceTableFooter
+            rowCount={data.length}
+            table
+            rowInfo
+            navButtons
+            rowsPerPageSelection
+          />
+        </div>
+      </AdvanceTableWrapper>
     </>
   );
 }
