@@ -22,6 +22,15 @@ function ListMember() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberLists, setMemeberLists] = useState([]);
+  const [columns, setColumns] = useState([
+    {
+      accessor: 'row',
+      Header: 'Row',
+      Cell: rowData => {
+        return <>{rowData.row.index + 1}</>;
+      }
+    }
+  ]);
   const initPageModule = async () => {
     try {
       // default part
@@ -53,6 +62,116 @@ function ListMember() {
     };
   }, []);
   // Loading part
+
+  useEffect(() => {
+    console.log(layoutData, 'this is layoutdata------');
+    if (layoutData) {
+      console.log(layoutData.options.columns);
+      let objectData = layoutData.options.columns;
+      let tempArray = [];
+      for (const key in objectData) {
+        let tempElement = {};
+        tempElement.accessor = key;
+        tempElement.Header = objectData[key];
+        tempElement.Cell = function (rowData) {
+          //  const { code } = rowData.row.original;
+          const value = rowData.row.original[key];
+          const divTag = (
+            <div
+              onClick={() => {
+                console.log(rowData.row.original);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {value}
+            </div>
+          );
+          return divTag;
+        };
+        tempArray.push(tempElement);
+        // console.log(`${key}: ${object[key]}`);
+      }
+      let editBtn = {
+        id: 'Edit',
+        Header: (
+          <>
+            <ActionButton
+              icon="trash-alt"
+              onClick={() => {
+                console.log('delete row');
+              }}
+              title="Delete"
+              variant="action"
+              className="p-0 me-2"
+            />
+          </>
+        ),
+        // headerProps: {
+        //   style: {
+        //     maxWidth: 10
+        //   }
+        // },
+        // cellProps: {
+        //   style: {
+        //     maxWidth: 10
+        //   }
+        // },
+        Cell: rowData => {
+          return (
+            <>
+              <ActionButton
+                icon="edit"
+                title="Edit"
+                onClick={() => {
+                  console.log(rowData.row.original);
+                }}
+                variant="action"
+                className="p-0 me-2"
+              />
+            </>
+          );
+        }
+      };
+      tempArray.push(editBtn);
+      // let delBtn={};
+      // delBtn.id='selection';
+      // delBtn.Header=function({ getToggleAllRowsSelectedProps }){
+      //      return <IndeterminateCheckbox
+      //       {...getToggleAllRowsSelectedProps()}
+      //       // onClick={() =>{console.log('delete action')}}
+      //     />
+      // };
+      // delBtn.Cell=function({row}){
+      //      return  <div>
+      //       <IndeterminateCheckbox
+      //         {...row.getToggleRowSelectedProps()}
+      //         // onClick={() => {console.log(row)}}
+      //       />
+      //     </div>
+      // };
+      // let delBtn={
+      //   id: 'selection',
+      //   Header: ({ getToggleAllRowsSelectedProps }) => (
+      //     <IndeterminateCheckbox
+      //       {...getToggleAllRowsSelectedProps()}
+      //       // onClick={() =>{console.log('delete action')}}
+      //     />
+      //   ),
+      //   Cell: ({ row }) => (
+      //     <div>
+      //       <IndeterminateCheckbox
+      //         {...row.getToggleRowSelectedProps()}
+      //         // onClick={() => {console.log(row)}}
+      //       />
+      //     </div>
+      //   )
+      // };
+      // tempArray.push(delBtn);
+      console.log(tempArray);
+      setColumns(tempArray);
+    }
+  }, [layoutData]);
+
   if (loadingSchema) {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
@@ -93,7 +212,7 @@ function ListMember() {
   const row_select = row => {
     navigate('/datamanager/bb_loyal2_members/view/' + row._id);
   };
-  const columns = [
+  const columns2 = [
     {
       accessor: 'row',
       Header: 'Row',
@@ -242,6 +361,13 @@ function ListMember() {
         data={memberLists}
         sortable
         pagination
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: event => {
+              console.log(event, record);
+            } // click row
+          };
+        }}
         perPage={5}
       >
         <AdvanceTable

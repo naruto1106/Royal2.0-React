@@ -36,3 +36,11 @@
     height: 20px;
   }
 }
+.ant-btn {
+  &::after {
+    all: unset;
+  }
+}
+[ant-click-animating-without-extra-node='true']::after {
+  display: none;
+}

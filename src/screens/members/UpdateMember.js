@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Button,
   Form,
   Input,
   Row,
@@ -12,6 +11,7 @@ import {
   Select,
   Divider
 } from 'antd';
+import { Button } from 'react-bootstrap';
 import { CalendarOutlined, QuestionOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 
@@ -352,26 +352,14 @@ function UpdateMember() {
             <br />
             <br />
             <Button
-              style={{
-                borderRadius: '15px',
-                backgroundColor: '#27bcfd',
-                color: 'white'
-              }}
+              className="btn-active-command rounded-pill mt-2"
               htmlType="submit"
-              block
+              // style={{paddingLeft:'20px',paddingRight:'20px'}}
             >
               Save
             </Button>
-            <Button
-              block
-              style={{
-                borderRadius: '15px',
-                backgroundColor: 'white',
-                borderColor: '#27bcfd',
-                color: '#27bcfd',
-                marginTop: '5px'
-              }}
-            >
+            <br></br>
+            <Button className="rounded-pill mt-2" variant="outline-primary">
               Delete
             </Button>
           </Form>

@@ -11,7 +11,6 @@ import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 
 import {
-  Button,
   Form,
   Input,
   Col,
@@ -23,6 +22,7 @@ import {
   Row,
   message
 } from 'antd';
+import { Button } from 'react-bootstrap';
 // import { NavLink } from 'react-router-dom';
 // const { TextArea } = Input;
 // const { Option } = Select;
@@ -68,7 +68,6 @@ function AddMember() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
-      console.log(layoutSchema.options.fields, 'this is fields');
       _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
@@ -501,18 +500,7 @@ function AddMember() {
             <br />
             <br />
             <div style={{ width: '100%', textAlign: 'center' }}>
-              <Button
-                style={{
-                  borderRadius: '15px',
-                  backgroundColor: '#2C7BE5',
-                  color: 'white',
-                  textAlign: 'center',
-                  width: '165px'
-                }}
-                type="primary"
-                htmlType="submit"
-                block
-              >
+              <Button className="btn-active-command" htmlType="submit">
                 Save
               </Button>
             </div>
