@@ -2,17 +2,20 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
+import { Modal } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
+import endpoint from '../../utils/endpoint';
+const { confirm } = Modal;
 
 function ListMember() {
   const navigate = useNavigate();
@@ -22,15 +25,26 @@ function ListMember() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberLists, setMemeberLists] = useState([]);
-  const [columns, setColumns] = useState([
-    {
-      accessor: 'row',
-      Header: 'Row',
-      Cell: rowData => {
-        return <>{rowData.row.index + 1}</>;
-      }
+  const [columns, setColumns] = useState([]);
+  const [resultsPerPage, SetresultsPerPage] = useState(999);
+  const IndeterminateCheckbox = React.forwardRef(
+    ({ indeterminate, ...rest }, ref) => {
+      const defaultRef = React.useRef();
+      const resolvedRef = ref || defaultRef;
+      React.useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate;
+      }, [resolvedRef, indeterminate]);
+
+      return (
+        <Form.Check
+          type="checkbox"
+          className="form-check fs-0 mb-0 d-flex align-items-center"
+        >
+          <Form.Check.Input type="checkbox" ref={resolvedRef} {...rest} />
+        </Form.Check>
+      );
     }
-  ]);
+  );
   const initPageModule = async () => {
     try {
       // default part
@@ -53,7 +67,6 @@ function ListMember() {
       _isMounted.current && setLoadingSchema(false);
     }
   };
-
   useEffect(() => {
     _isMounted.current = true;
     initPageModule();
@@ -61,14 +74,73 @@ function ListMember() {
       _isMounted.current = false;
     };
   }, []);
-  // Loading part
 
+  const editRow = row => {
+    navigate('/datamanager/bb_loyal2_members/edit/' + row._id);
+  };
+  const deleteRow = () => {
+    showDeleteConfirm();
+  };
+  const AllChange = row => {
+    console.log('checkbox_alldddd', row);
+  };
+  // const [df,setdf]=useState([]);
+  // let ddd=[];
+  // console.log(df,'ddd')
+  const onChange = row => {
+    console.log('check_box_click', row); // isSelected: true, false
+    // if(ddd.includes(row.id)==false){
+    //   ddd.push(row.id);
+
+    // }
+    // else{
+    //   ddd.delete(row.id)
+
+    // }
+    // console.log(ddd)
+    // setdf(ddd)
+
+    // console.log(df)
+  };
+
+  const row_select = row => {
+    navigate('/datamanager/bb_loyal2_members/view/' + row._id);
+  };
+  const showDeleteConfirm = () => {
+    confirm({
+      title: 'Are you sure delete?',
+      icon: <ExclamationCircleFilled />,
+      content: '',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      }
+    });
+  };
   useEffect(() => {
     console.log(layoutData, 'this is layoutdata------');
     if (layoutData) {
       console.log(layoutData.options.columns);
       let objectData = layoutData.options.columns;
-      let tempArray = [];
+      SetresultsPerPage(
+        layoutData.options.pagination.results_per_page
+          ? layoutData.options.pagination.results_per_page
+          : 999
+      );
+      let tempArray = [
+        {
+          accessor: 'row',
+          Header: 'Row',
+          Cell: rowData => {
+            return <>{rowData.row.index + 1}</>;
+          }
+        }
+      ];
       for (const key in objectData) {
         let tempElement = {};
         tempElement.accessor = key;
@@ -79,7 +151,7 @@ function ListMember() {
           const divTag = (
             <div
               onClick={() => {
-                console.log(rowData.row.original);
+                row_select(rowData.row.original);
               }}
               style={{ cursor: 'pointer' }}
             >
@@ -89,7 +161,6 @@ function ListMember() {
           return divTag;
         };
         tempArray.push(tempElement);
-        // console.log(`${key}: ${object[key]}`);
       }
       let editBtn = {
         id: 'Edit',
@@ -97,9 +168,7 @@ function ListMember() {
           <>
             <ActionButton
               icon="trash-alt"
-              onClick={() => {
-                console.log('delete row');
-              }}
+              onClick={() => deleteRow()}
               title="Delete"
               variant="action"
               className="p-0 me-2"
@@ -122,9 +191,7 @@ function ListMember() {
               <ActionButton
                 icon="edit"
                 title="Edit"
-                onClick={() => {
-                  console.log(rowData.row.original);
-                }}
+                onClick={() => editRow(rowData.row.original)}
                 variant="action"
                 className="p-0 me-2"
               />
@@ -133,242 +200,46 @@ function ListMember() {
         }
       };
       tempArray.push(editBtn);
-      // let delBtn={};
-      // delBtn.id='selection';
-      // delBtn.Header=function({ getToggleAllRowsSelectedProps }){
-      //      return <IndeterminateCheckbox
-      //       {...getToggleAllRowsSelectedProps()}
-      //       // onClick={() =>{console.log('delete action')}}
-      //     />
-      // };
-      // delBtn.Cell=function({row}){
-      //      return  <div>
-      //       <IndeterminateCheckbox
-      //         {...row.getToggleRowSelectedProps()}
-      //         // onClick={() => {console.log(row)}}
-      //       />
-      //     </div>
-      // };
-      // let delBtn={
-      //   id: 'selection',
-      //   Header: ({ getToggleAllRowsSelectedProps }) => (
-      //     <IndeterminateCheckbox
-      //       {...getToggleAllRowsSelectedProps()}
-      //       // onClick={() =>{console.log('delete action')}}
-      //     />
-      //   ),
-      //   Cell: ({ row }) => (
-      //     <div>
-      //       <IndeterminateCheckbox
-      //         {...row.getToggleRowSelectedProps()}
-      //         // onClick={() => {console.log(row)}}
-      //       />
-      //     </div>
-      //   )
-      // };
-      // tempArray.push(delBtn);
-      console.log(tempArray);
+
+      let checkBtn = {
+        id: 'selection',
+        Header: ({ getToggleAllRowsSelectedProps }) => (
+          <IndeterminateCheckbox
+            {...getToggleAllRowsSelectedProps()}
+            onClick={getToggleAllRowsSelectedProps =>
+              AllChange(getToggleAllRowsSelectedProps)
+            }
+          />
+        ),
+        Cell: ({ row }) => (
+          <div>
+            <IndeterminateCheckbox
+              {...row.getToggleRowSelectedProps()}
+              onClick={() => onChange(row)}
+            />
+          </div>
+        )
+      };
+      tempArray.push(checkBtn);
       setColumns(tempArray);
     }
   }, [layoutData]);
 
+  // Loading part
   if (loadingSchema) {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   // end Loading part
-
-  // const [perpage, setPerpage] = useState(3);
-  const editRow = index => {
-    alert('comming soon' + index);
-  };
-  const deleteRow = () => {
-    alert('comming soon');
-  };
-  const AllChange = () => {
-    // console.log("checkbox_all",row);
-  };
-  const onChange = row => {
-    console.log('check_box_click', row); // isSelected: true, false
-  };
-  const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-      const defaultRef = React.useRef();
-      const resolvedRef = ref || defaultRef;
-      React.useEffect(() => {
-        resolvedRef.current.indeterminate = indeterminate;
-      }, [resolvedRef, indeterminate]);
-
-      return (
-        <Form.Check
-          type="checkbox"
-          className="form-check fs-0 mb-0 d-flex align-items-center"
-        >
-          <Form.Check.Input type="checkbox" ref={resolvedRef} {...rest} />
-        </Form.Check>
-      );
-    }
-  );
-  const row_select = row => {
-    navigate('/datamanager/bb_loyal2_members/view/' + row._id);
-  };
-  const columns2 = [
-    {
-      accessor: 'row',
-      Header: 'Row',
-      Cell: rowData => {
-        return <>{rowData.row.index + 1}</>;
-      }
-    },
-    {
-      accessor: 'code',
-      Header: 'Code',
-      Cell: rowData => {
-        // const { code } = rowData.row.original;
-        return (
-          <div
-            onClick={() => row_select(rowData.row.index)}
-            style={{ cursor: 'pointer' }}
-          >
-            {}
-          </div>
-        );
-      }
-    },
-    {
-      accessor: 'name',
-      Header: 'Name/Company',
-      Cell: rowData => {
-        const { first_name, last_name } = rowData.row.original;
-        return (
-          <div
-            onClick={() => row_select(rowData.row.original)}
-            style={{ cursor: 'pointer' }}
-          >
-            {first_name + '  ' + last_name + '  /'}
-          </div>
-        );
-      }
-    },
-    {
-      accessor: 'groupISbb_users_groupsID',
-      Header: 'Group/Tier',
-      Cell: rowData => {
-        const { groupISbb_users_groupsID } = rowData.row.original;
-        return (
-          <div
-            onClick={() => row_select(rowData.row.original)}
-            style={{ cursor: 'pointer' }}
-          >
-            {groupISbb_users_groupsID}{' '}
-          </div>
-        );
-      }
-    },
-    {
-      accessor: 'point',
-      Header: 'Points',
-      Cell: rowData => {
-        // const { point } = rowData.row.original;
-        return (
-          <div
-            onClick={() => row_select(rowData.row.index)}
-            style={{ cursor: 'pointer' }}
-          >
-            {' '}
-          </div>
-        );
-      }
-    },
-    {
-      id: 'Edit',
-      Header: (
-        <>
-          <ActionButton
-            icon="trash-alt"
-            onClick={() => deleteRow()}
-            title="Delete"
-            variant="action"
-            className="p-0 me-2"
-          />
-        </>
-      ),
-      headerProps: {
-        style: {
-          maxWidth: 10
-        }
-      },
-      cellProps: {
-        style: {
-          maxWidth: 10
-        }
-      },
-      Cell: rowData => {
-        return (
-          <>
-            <ActionButton
-              icon="edit"
-              title="Edit"
-              onClick={() => editRow(rowData.row.index)}
-              variant="action"
-              className="p-0 me-2"
-            />
-          </>
-        );
-      }
-    },
-    {
-      id: 'selection',
-      Header: ({ getToggleAllRowsSelectedProps }) => (
-        <IndeterminateCheckbox
-          {...getToggleAllRowsSelectedProps()}
-          onClick={() => AllChange()}
-        />
-      ),
-
-      Cell: ({ row }) => (
-        <div>
-          <IndeterminateCheckbox
-            {...row.getToggleRowSelectedProps()}
-            onClick={() => onChange(row)}
-          />
-        </div>
-      )
-    }
-  ];
-
-  const data = [
-    {
-      name: 'Anna',
-      email: 'test@example.com',
-      age: 18,
-      type: 18,
-      res: 18
-    },
-    {
-      name: 'Homer',
-      email: 'test@example.com',
-      age: 18,
-      type: 18,
-      res: 18
-    }
-  ];
-
   return (
     <>
       <AdvanceTableWrapper
         columns={columns}
         data={memberLists}
         sortable
-        pagination
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: event => {
-              console.log(event, record);
-            } // click row
-          };
-        }}
-        perPage={5}
+        // pagination
+        // selection
+        perPage={resultsPerPage}
       >
         <AdvanceTable
           table
@@ -382,11 +253,11 @@ function ListMember() {
         />
         <div className="mt-3">
           <AdvanceTableFooter
-            rowCount={data.length}
+            rowCount={memberLists.length}
             table
             rowInfo
             navButtons
-            rowsPerPageSelection
+            // rowsPerPageSelection
           />
         </div>
       </AdvanceTableWrapper>

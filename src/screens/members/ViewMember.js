@@ -31,9 +31,10 @@ const downcolor = {
   fontSize: '16px'
 };
 const tdpadding = {
-  paddingLeft: '0px'
+  paddingLeft: '0px',
+  color: '#444444'
 };
-const tdright = { textAlign: 'right' };
+const tdright = { textAlign: 'right', color: '#444444' };
 function HistoryMember() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ function HistoryMember() {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
-
+  let layoutFields = layoutData.options.fields;
   return (
     <>
-      <Row>
+      <Row className="mx-4">
         <Col>
           <Title level={4} style={{ color: '#444444' }}>
             Viewing member record
@@ -108,27 +109,7 @@ function HistoryMember() {
                   <Title level={5}>
                     Account Lookup <RightOutlined style={style} />
                   </Title>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Title level={5}>
-                    View Barcode <RightOutlined style={style} />
-                  </Title>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Title level={5}>
-                    View Vouchers <RightOutlined style={style} />
-                  </Title>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Title level={5}>
-                    Email Pass.Reset <RightOutlined style={style} />
-                  </Title>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Title level={5}>
-                    View Messages <RightOutlined style={style} />
-                  </Title>
-                </Dropdown.Item>
+                </Dropdown.Item>               
                 <Dropdown.Item>
                   <Title level={5}>
                     Send MEssages <RightOutlined style={style} />
@@ -153,50 +134,86 @@ function HistoryMember() {
           </Dropdown>
         </Col>
       </Row>
-      <Row>
+      <Row className="mx-4">
         <Col span={12}>
           <Table responsive style={{ marginTop: '60px', width: '100%' }}>
             <tbody style={tdpadding}>
-              <tr>
-                <td style={tdpadding}>First Name</td>
-                <td style={tdright}>
-                  {memberData ? memberData.first_name : ''}
-                </td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Last Name</td>
-                <td style={tdright}>
-                  {memberData ? memberData.last_name : ''}
-                </td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Email</td>
-                <td style={tdright}>{memberData ? memberData.email : ''}</td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Optout Email</td>
-                <td style={tdright}></td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Optout Text</td>
-                <td style={tdright}></td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Optout Post</td>
-                <td style={tdright}></td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Code</td>
-                <td style={tdright}></td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Suspended</td>
-                <td style={tdright}></td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>Signup Data</td>
-                <td style={tdright}></td>
-              </tr>
+              {layoutFields.first_name ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.first_name}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.first_name : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.last_name ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.last_name}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.last_name : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.email ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.email}</td>
+                  <td style={tdright}>{memberData ? memberData.email : ''}</td>
+                </tr>
+              ) : null}
+              {layoutFields.cell ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.cell}</td>
+                  <td style={tdright}>{memberData ? memberData.cell : ''}</td>
+                </tr>
+              ) : null}
+              {layoutFields.street_state ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.street_state}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.street_state : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.street_city ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.street_city}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.street_city : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.street_address ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.street_address}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.street_address : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.street_address2 ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.street_address2}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.street_address2 : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.street_suburb ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.street_suburb}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.street_suburb : ''}
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.street_zipcode ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.street_zipcode}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.street_zipcode : ''}
+                  </td>
+                </tr>
+              ) : null}
             </tbody>
           </Table>
         </Col>

@@ -1,64 +1,185 @@
 import React from 'react';
+import Axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router-dom';
+import endpoint from '../../utils/endpoint';
+import { getErrorAlert } from 'helpers/utils';
+import Loading from 'components/loading';
+import handleError from 'utils/handleError';
+import { setMemberMenuData } from 'redux/slices/currentDataSlice';
+import { useNavigate } from 'react-router-dom';
+import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Modal } from 'antd';
+const { confirm } = Modal;
 import {
   Form,
   Input,
-  Row,
   Col,
   Tooltip,
-  DatePicker,
-  Radio,
-  Switch,
-  Select,
-  Divider
+  // DatePicker,
+  // Radio,
+  // Switch,
+  // Select,
+  Divider,
+  Typography,
+  Row,
+  message
 } from 'antd';
 import { Button } from 'react-bootstrap';
-import { CalendarOutlined, QuestionOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
-
-const { TextArea } = Input;
-const { Option } = Select;
-const inputStyle = { width: '93%', marginTop: '-15px' };
+// import { NavLink } from 'react-router-dom';
+// const { TextArea } = Input;
+// const { Option } = Select;
+const { Title } = Typography;
+const inputStyle = { width: '93%' };
 const inputBorderRadius = { borderRadius: '15px' };
-const twoInputStyle = {
-  display: 'inline-block',
-  width: '45%',
-  marginTop: '-15px'
-};
-const dateStyle = { width: '100%', borderRadius: '15px' };
+// const twoInputStyle = {
+//   display: 'inline-block',
+//   width: '45%'
+//   // marginTop: '-15px'
+// };
+// const dateStyle = { width: '100%', borderRadius: '15px' };
 const inputQuestion = {
   display: 'inline-block',
   width: '93%',
-  marginTop: '-15px',
+  // marginTop: '-15px',
   borderRadius: '15px'
 };
-const btnQuestion = {
-  backgroundColor: '#359dd9',
-  marginTop: '-10px',
-  color: 'white',
-  float: 'right'
-};
 
+const btnQuestion = {
+  backgroundColor: '#359DD9',
+  borderRadius: '50%',
+  border: 'none',
+  color: 'white',
+  fontSize: '21px'
+};
 function UpdateMember() {
-  let date = new Date();
-  let date_value =
-    date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear();
-  const onFinish = values => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  let { routeKey, id } = useParams();
+  const _isMounted = useRef(false);
+  // let { routeKey } = useParams();
+  const [loadingSchema, setLoadingSchema] = useState(true);
+  const [layoutData, setLayoutData] = useState(null);
+
+  const initPageModule = async () => {
+    try {
+      _isMounted.current && setLoadingSchema(true);
+      const ep = endpoint.getDataManagerSchemaEndpoint(`${routeKey}/${id}`);
+      const moduleSchemaRes = await Axios.get(ep);
+      let schema = moduleSchemaRes.data;
+      console.log('menuSchema:->', schema);
+      let layoutSchema = schema.layout;
+      console.log(schema.menu, ' schema.menu schema.menu schema.menu');
+      dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      console.log(layoutSchema.options.fields, 'this is fields');
+      _isMounted.current && setLayoutData(layoutSchema);
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+    }
+  };
+  useEffect(() => {
+    _isMounted.current = true;
+    initPageModule();
+    return () => {
+      _isMounted.current = false;
+    };
+  }, [onFinish]);
+  if (loadingSchema) {
+    return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
+  }
+  if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
+
+  const onFinish = async values => {
     console.log('Success:', values);
+    try {
+      _isMounted.current && setLoadingSchema(true);
+      const { _id, first_name, last_name, email } = values;
+
+      const updateMember = await Axios.patch(
+        endpoint.appUsers(`/app/users/${_id}`),
+        {
+          _id,
+          first_name,
+          last_name,
+          email,
+          user_type: 3
+        }
+      );
+      const user = updateMember.data;
+      if (user.error) return message.error(user.error);
+      message.success('Updated successful!');
+      initPageModule();
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+    }
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
+
+  const onDelete = async id => {
+    try {
+      _isMounted.current && setLoadingSchema(true);
+
+      const deleteMember = await Axios.delete(
+        endpoint.appUsers(`/app/users/${id}`)
+      );
+      const user = deleteMember.data;
+      if (user.error) return message.error(user.error);
+      message.success('Deleted successful!');
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+      navigate('/datamanager/bb_loyal2_members/list');
+    }
+  };
+  const showDeleteConfirm = id => {
+    confirm({
+      title: 'Are you sure delete?',
+      icon: <ExclamationCircleFilled />,
+      content: '',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        onDelete(id);
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
+      }
+    });
+  };
+
+  let layoutFields = layoutData.options.fields;
+  let FieldsData = layoutData.data;
+  form.setFieldsValue({
+    first_name: FieldsData[0].first_name,
+    last_name: FieldsData[0].last_name,
+    email: FieldsData[0].email,
+    _id: FieldsData[0]._id
+  });
   return (
     <>
-      <h3>Members</h3>
+      <Title level={3} className="mx-4">
+        Members
+      </Title>
       <Divider />
-      <Row justify="center">
+      <Row justify="center" className="mx-4">
         <Col>
           <h4 className="d-flex justify-content-center mb-4">
             Update this member record
           </h4>
           <Form
-            name="basic"
+            name="Add"
             labelCol={{
               span: 1
             }}
@@ -71,185 +192,272 @@ function UpdateMember() {
             initialValues={{
               remember: true
             }}
+            form={form}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-            <Form.Item
-              name="firstname"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your First name!'
-                }
-              ]}
-              style={inputStyle}
-            >
-              <Input placeholder="First name" style={inputBorderRadius} />
+            <Form.Item name="_id" style={inputStyle} hidden="hidden">
+              <Input />
             </Form.Item>
-            <Form.Item
-              name="lastname"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Last name!'
-                }
-              ]}
-              style={inputStyle}
-            >
-              <Input placeholder="Last name" style={inputBorderRadius} />
-            </Form.Item>
-            <Form.Item
-              name="companyname"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Company name!'
-                }
-              ]}
-              style={inputQuestion}
-            >
-              <Input placeholder="Company name" style={inputBorderRadius} />
-            </Form.Item>
-            <Tooltip placement="right" title="Company name" color="#359dd9">
-              <Button
-                shape="circle"
-                icon={<QuestionOutlined />}
-                style={btnQuestion}
-                size="small"
-              ></Button>
-            </Tooltip>
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  type: 'email',
-                  required: true,
-                  message: 'Please input your Email!'
-                }
-              ]}
-              style={inputQuestion}
-            >
-              <Input placeholder="Email" style={inputBorderRadius} />
-            </Form.Item>
-            <Tooltip placement="right" title="Email" color="#359dd9">
-              <Button
-                shape="circle"
-                icon={<QuestionOutlined />}
-                style={btnQuestion}
-                size="small"
-              ></Button>
-            </Tooltip>
-            <Form.Item
-              name="country"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Country!'
-                }
-              ]}
-              style={inputStyle}
-            >
-              <Input placeholder="Country" style={inputBorderRadius} />
-            </Form.Item>
-            <Form.Item
-              name="mobile"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Mobile!'
-                }
-              ]}
-              style={inputQuestion}
-            >
-              <Input placeholder="Mobile" style={inputBorderRadius} />
-            </Form.Item>
-            <Tooltip placement="right" title="Mobile" color="#359dd9">
-              <Button
-                shape="circle"
-                icon={<QuestionOutlined />}
-                style={btnQuestion}
-                size="small"
-              ></Button>
-            </Tooltip>
+            {layoutFields.first_name ? (
+              <Form.Item
+                name="first_name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your First name!'
+                  }
+                ]}
+                style={inputStyle}
+              >
+                <Input
+                  placeholder={layoutFields.first_name}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
 
-            <Form.Item
+            {layoutFields.last_name ? (
+              <Form.Item
+                name="last_name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Last name!'
+                  }
+                ]}
+                style={inputStyle}
+              >
+                <Input
+                  placeholder={layoutFields.last_name}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+
+            {layoutFields.company_name ? (
+              <>
+                <Form.Item
+                  name="companyname"
+                  rules={[
+                    {
+                      required: false,
+                      message: 'Please input your Company name!'
+                    }
+                  ]}
+                  style={inputQuestion}
+                >
+                  <Input
+                    placeholder={layoutFields.company_name}
+                    style={inputBorderRadius}
+                  />
+                </Form.Item>
+                <Tooltip placement="right" title="Company name" color="#359dd9">
+                  <QuestionCircleOutlined style={btnQuestion} />
+                </Tooltip>
+              </>
+            ) : null}
+            {layoutFields.email ? (
+              <>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      type: 'email',
+                      required: true,
+                      message: 'Please input your Email!'
+                    }
+                  ]}
+                  style={inputQuestion}
+                >
+                  <Input
+                    type="email"
+                    placeholder={layoutFields.email}
+                    style={inputBorderRadius}
+                  />
+                </Form.Item>
+                <Tooltip placement="right" title="Email" color="#359dd9">
+                  <QuestionCircleOutlined style={btnQuestion} />
+                </Tooltip>
+              </>
+            ) : null}
+            {layoutFields.country ? (
+              <Form.Item
+                name="country"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input your Country!'
+                  }
+                ]}
+                style={inputStyle}
+              >
+                <Input
+                  placeholder={layoutFields.country}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+            {layoutFields.cell ? (
+              <>
+                <Form.Item
+                  name="mobile"
+                  rules={[
+                    {
+                      required: false,
+                      message: 'Please input your Mobile!'
+                    }
+                  ]}
+                  style={inputQuestion}
+                >
+                  <Input
+                    placeholder={layoutFields.cell}
+                    style={inputBorderRadius}
+                  />
+                </Form.Item>
+                <Tooltip placement="right" title="Mobile" color="#359dd9">
+                  <QuestionCircleOutlined style={btnQuestion} />
+                </Tooltip>
+              </>
+            ) : null}
+
+            {/* <Form.Item
               name="birth"
               rules={[
-                { required: true, message: 'Please input your Date of Birth' }
+                { required: false, message: 'Please input your Date of Birth' }
               ]}
               style={twoInputStyle}
             >
               <DatePicker style={dateStyle} placeholder="Input Date of Birth" />
-            </Form.Item>
-            <Form.Item
-              name="postal"
-              rules={[
-                { required: true, message: 'Please input your Postal code' }
-              ]}
+            </Form.Item> */}
+            {layoutFields.street_state ? (
+              <Form.Item
+                name="street_state"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input State!'
+                  }
+                ]}
+                style={inputStyle}
+              >
+                <Input
+                  placeholder={layoutFields.street_state}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+
+            {layoutFields.street_city ? (
+              <Form.Item
+                name="street_city"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input City!'
+                  }
+                ]}
+                style={inputStyle}
+              >
+                <Input
+                  placeholder={layoutFields.street_city}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+
+            {layoutFields.street_address ? (
+              <Form.Item
+                name="street_address"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input your Address 1'
+                  }
+                ]}
+                style={inputQuestion}
+              >
+                <Input
+                  placeholder={layoutFields.street_address}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+            {layoutFields.street_address2 ? (
+              <Form.Item
+                name="postal"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input your Address 2'
+                  }
+                ]}
+                style={inputQuestion}
+              >
+                <Input
+                  placeholder={layoutFields.street_address2}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+            {layoutFields.street_suburb ? (
+              <Form.Item
+                name="postal"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input your Address 3'
+                  }
+                ]}
+                style={inputQuestion}
+              >
+                <Input
+                  placeholder={layoutFields.street_suburb}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+            {layoutFields.street_zipcode ? (
+              <Form.Item
+                name="postal"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Please input your Zip/Post Code'
+                  }
+                ]}
+                style={inputQuestion}
+              >
+                <Input
+                  placeholder={layoutFields.street_zipcode}
+                  style={inputBorderRadius}
+                />
+              </Form.Item>
+            ) : null}
+            {/* <Form.Item
+              name="code"
+              rules={[{ required: false, message: 'Please input code' }]}
               style={twoInputStyle}
             >
-              <Input
-                placeholder="Input Postal code"
-                style={inputBorderRadius}
-              />
+              <Input placeholder="Code" style={inputBorderRadius} />
             </Form.Item>
 
             <Form.Item
-              name="city or state"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input City or State!'
-                }
-              ]}
-              style={inputStyle}
-            >
-              <Input placeholder="City or State" style={inputBorderRadius} />
-            </Form.Item>
-            <Form.Item
-              name="address"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input Address!'
-                }
-              ]}
-              style={inputStyle}
-            >
-              <TextArea
-                placeholder="Address"
-                rows={4}
-                style={inputBorderRadius}
-              />
-            </Form.Item>
-            <Form.Item
               name="code"
-              rules={[{ required: true, message: 'Please input code' }]}
+              rules={[{ required: false, message: 'Please input code' }]}
               style={twoInputStyle}
             >
               <Input placeholder="Code" style={inputBorderRadius} />
             </Form.Item>
             <Tooltip placement="right" title="Code" color="#359dd9">
-              <Button
-                shape="circle"
-                icon={<QuestionOutlined />}
-                style={btnQuestion}
-                size="small"
-              ></Button>
+              <QuestionCircleOutlined style={btnQuestion} />
             </Tooltip>
-            <Form.Item
-              name="code"
-              rules={[{ required: true, message: 'Please input code' }]}
-              style={twoInputStyle}
-            >
-              <Input placeholder="Code" style={inputBorderRadius} />
-            </Form.Item>
             <Form.Item
               name="subscription_date_from"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: 'Please input Subscription date from'
                 }
               ]}
@@ -263,7 +471,10 @@ function UpdateMember() {
             <Form.Item
               name="subscription_date_to"
               rules={[
-                { required: true, message: 'Please input Subscription date to' }
+                {
+                  required: false,
+                  message: 'Please input Subscription date to'
+                }
               ]}
               style={twoInputStyle}
             >
@@ -273,12 +484,7 @@ function UpdateMember() {
               />
             </Form.Item>
             <Tooltip placement="right" title="Subscription" color="#359dd9">
-              <Button
-                shape="circle"
-                icon={<QuestionOutlined />}
-                style={btnQuestion}
-                size="small"
-              ></Button>
+              <QuestionCircleOutlined style={btnQuestion} />
             </Tooltip>
             <p
               style={{ display: 'inline-block', marginTop: '5px' }}
@@ -289,7 +495,8 @@ function UpdateMember() {
             <Form.Item
               name="group"
               style={{
-                display: 'inline-block'
+                display: 'inline-block',
+                width: '200px'
               }}
             >
               <Select placeholder="No groups/tiers added yet.">
@@ -299,7 +506,9 @@ function UpdateMember() {
               </Select>
             </Form.Item>
             <span className="mx-4">
-              <NavLink to="#">Manage</NavLink>
+              <NavLink to="/datamanager/bb_loyal2_members/edit/1">
+                Manage
+              </NavLink>
             </span>
             <br />
             <p
@@ -311,16 +520,18 @@ function UpdateMember() {
             <Form.Item
               name="branch"
               style={{
-                display: 'inline-block'
+                display: 'inline-block',
+                width: '200px'
               }}
             >
               <Select placeholder="Select options.">
-                <Option value="group1"></Option>
-                <Option value="group2"></Option>
-                <Option value="group3"></Option>
+                <Option value="branch1"></Option>
+                <Option value="branch2"></Option>
+                <Option value="branch3"></Option>
               </Select>
             </Form.Item>
             <br />
+
             <span>Email communications</span>
             <Radio style={{ float: 'right' }} value="radio1" />
             <br />
@@ -330,7 +541,7 @@ function UpdateMember() {
             <br />
             <br />
             <span>Postal communications</span>
-            <Radio style={{ float: 'right' }} value="radio1" />
+            <Radio style={{ float: 'right' }} value="radio1" /> 
             <br />
             <br />
             <span>Sign up date</span>
@@ -349,19 +560,24 @@ function UpdateMember() {
             <span style={{ float: 'right', marginRight: '10px' }}>
               Suspended
             </span>
+            */}
+
             <br />
             <br />
-            <Button
-              className="btn-active-command rounded-pill mt-2"
-              htmlType="submit"
-              // style={{paddingLeft:'20px',paddingRight:'20px'}}
-            >
-              Save
-            </Button>
-            <br></br>
-            <Button className="rounded-pill mt-2" variant="outline-primary">
-              Delete
-            </Button>
+            <div style={{ width: '100%', textAlign: 'center' }}>
+              <Button className="btn-active-command rounded-pill" type="submit">
+                Save
+              </Button>
+            </div>
+            <div style={{ width: '100%', textAlign: 'center' }}>
+              <Button
+                variant="outline-primary"
+                className="rounded-pill mt-2"
+                onClick={() => showDeleteConfirm(FieldsData[0]._id)}
+              >
+                Delete
+              </Button>
+            </div>
           </Form>
         </Col>
       </Row>

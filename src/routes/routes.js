@@ -6,12 +6,7 @@ import keys from 'utils/keys';
 const Data = React.lazy(() => import('../screens/Data'));
 const Page = React.lazy(() => import('../screens/Page'));
 const MembersPage = React.lazy(() => import('../screens/MembersPage'));
-const MemberSubscription = React.lazy(() =>
-  import('../screens/MemberSubscription')
-);
-const MembersDatacleaner = React.lazy(() =>
-  import('../screens/MembersDatacleaner')
-);
+
 const RedirectToViewList = () => {
   let { module_name } = useParams();
 
@@ -92,18 +87,6 @@ export const getRoutes = (
       exact: true,
       name: currentPage,
       component: MembersPage
-    },
-    {
-      path: '/members_subscription',
-      exact: true,
-      name: currentPage,
-      component: MemberSubscription
-    },
-    {
-      path: '/members_datacleaner',
-      exact: true,
-      name: currentPage,
-      component: MembersDatacleaner
     }
   ];
 };
