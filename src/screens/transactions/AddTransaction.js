@@ -6,20 +6,17 @@ import {
   Input,
   InputNumber,
   DatePicker,
-  Button,
   Select
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
 const { Title } = Typography;
 const buttonStyle = {
   boxSizing: 'border-box',
   height: '40px',
-  background: '#ffffff',
   border: '0.5px solid #359dd9',
-  color: '#359dd9',
   borderRadius: '10px',
   padding: '10px 90px'
 };
@@ -115,7 +112,9 @@ function AddTransaction() {
           </Title>
         </Col>
         <Col offset={12}>
-          <Button style={buttonStyle}>Add </Button>
+          <Button style={buttonStyle} variant="outline-primary">
+            Add{' '}
+          </Button>
         </Col>
       </Row>
       <br />

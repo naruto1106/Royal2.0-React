@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const setAxiosDefaultHeader = flag => {
-  console.log('set default log');
   if (flag === true) {
     axios.defaults.crossDomain = true;
     axios.defaults.withCredentials = true;

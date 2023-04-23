@@ -1,24 +1,8 @@
-import React from 'react';
-import { Typography, Row, Col, Button, Tooltip, Upload } from 'antd';
+import React, { useState } from 'react';
+import { Typography, Row, Col, Tooltip, Upload } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-
+import { Button } from 'react-bootstrap';
 const { Title } = Typography;
-const btnStyle = {
-  borderColor: 'rgb(53, 157, 217)',
-  color: 'rgb(53, 157, 217)',
-  borderRadius: '15px',
-  width: '150px'
-};
-const btnStyle1 = {
-  borderColor: 'gray',
-  color: 'gray',
-  borderRadius: '15px',
-  width: '150px'
-};
-const titleStyle = {
-  marginBottom: '50px'
-};
-
 const toolTip = {
   background: 'rgb(53, 157, 217)',
   borderRadius: '50px',
@@ -26,17 +10,25 @@ const toolTip = {
   scale: '1.5'
 };
 
-const radioBottom = {
-  marginBottom: '20px'
-};
-
 function ImportVoucher() {
+  const [btncolor, setBtncolor] = useState('outline-secondary');
+  const [btndisable, setBtndisable] = useState(true);
+  const handleChange = info => {
+    let newFileList = [...info.fileList];
+    if (newFileList.length > 0) {
+      setBtncolor('outline-primary');
+      setBtndisable(false);
+    } else {
+      setBtncolor('outline-secondary');
+      setBtndisable(true);
+    }
+  };
+
   return (
     <>
-      <br />
       <Row>
         <Col offset={1}>
-          <Title level={4} style={titleStyle}>
+          <Title level={4} style={{ marginBottom: '40px', marginTop: '5px' }}>
             Import data from CSV/Excel file
           </Title>
         </Col>
@@ -47,21 +39,43 @@ function ImportVoucher() {
         </Col>
       </Row>
 
-      <Row style={radioBottom}>
+      <Row style={{ marginBottom: '20px' }}>
         <Col offset={1}>
           <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
-            // defaultFileList={[...fileList]}
           >
-            <Button lavel="Get sample CSV" style={btnStyle}>
+            <Button
+              lavel="Get sample CSV"
+              variant="outline-primary"
+              style={{ borderRadius: '15px', padding: '13px 20px' }}
+            >
               Get sample CSV
             </Button>
           </Upload>
         </Col>
-        <Col offset={10}></Col>
-        <Col offset={1}>
-          <Button lavel="Upload CSV" style={btnStyle1}>
+        <Col offset={10}>
+          <Upload
+            colorBorder="blue"
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture"
+            onChange={handleChange}
+          >
+            <Button
+              variant="light"
+              style={{ borderRadius: '15px', padding: '13px 30px' }}
+            >
+              Select file
+            </Button>
+          </Upload>
+        </Col>
+        <Col style={{ marginLeft: '10px' }}>
+          <Button
+            lavel="Upload CSV"
+            style={{ borderRadius: '15px', padding: '13px 30px' }}
+            disabled={btndisable}
+            variant={btncolor}
+          >
             Upload CSV
           </Button>
         </Col>
@@ -76,7 +90,12 @@ function ImportVoucher() {
       <br />
       <Row>
         <Col offset={1}>
-          <Button style={btnStyle}>Export data</Button>
+          <Button
+            style={{ borderRadius: '15px', padding: '13px 20px' }}
+            variant="outline-primary"
+          >
+            Get sample CSV
+          </Button>
         </Col>
       </Row>
     </>

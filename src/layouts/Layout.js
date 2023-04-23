@@ -7,9 +7,21 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import keys from 'utils/keys';
 import MainLayout from './MainLayout';
 import AppContext from 'context/Context';
-import { getRoutes } from 'routes/routes';
+import {
+  getRoutes,
+  getAllMembers,
+  getAllTransactions,
+  getAllVouchers,
+  getMembersGroups
+} from 'routes/routes';
 import { CloseButton } from 'components/common/Toast';
 import LoadingCenter from 'components/loading/LoadingCenter';
+import AllMembers from 'components/members/AllMembers';
+import AllTransactions from '../screens/transactions/AllTransactions';
+import AllVouchers from '../screens/vouchers/AllVouchers';
+import MembersGroups from 'screens/members/MembersGroups';
+import MemberSubscription from 'screens/members/MemberSubscription';
+import MembersDatacleaner from 'screens/members/MembersDatacleaner';
 
 const invalidRoutes = ['/', '/null', '/undefined'];
 const Layout = () => {
@@ -100,7 +112,105 @@ const Layout = () => {
                 )
               );
             })}
-
+            <Route
+              key="all_members"
+              path="/datamanager/bb_loyal2_members"
+              exact="true"
+              name="All Members"
+              element={<AllMembers />}
+            >
+              {/*AllMembers*/}
+              {getAllMembers().map((route, index) => {
+                return (
+                  route.component && (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      element={<route.component />}
+                    />
+                  )
+                );
+              })}
+            </Route>
+            <Route
+              key="members_groups"
+              path="/members_groups"
+              exact="true"
+              name="Members Groups"
+              element={<MembersGroups />}
+            >
+              {getMembersGroups().map((route, index) => {
+                return (
+                  route.component && (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      element={<route.component />}
+                    />
+                  )
+                );
+              })}
+            </Route>
+            <Route
+              key="members_subscription"
+              path="/members_subscription"
+              exact="true"
+              name="Members Subscription"
+              element={<MemberSubscription />}
+            ></Route>
+            <Route
+              key="members_datacleaner"
+              path="/members_datacleaner"
+              exact="true"
+              name="Members Datacleaner"
+              element={<MembersDatacleaner />}
+            ></Route>
+            <Route
+              key="all_transations"
+              path="/transactions"
+              exact="true"
+              name="All Transactions"
+              element={<AllTransactions />}
+            >
+              {getAllTransactions().map((route, index) => {
+                return (
+                  route.component && (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      element={<route.component />}
+                    />
+                  )
+                );
+              })}
+            </Route>
+            <Route
+              key="all_vouchers"
+              path="/all_vouchers"
+              exact="true"
+              name="All Vouchers"
+              element={<AllVouchers />}
+            >
+              {getAllVouchers().map((route, index) => {
+                return (
+                  route.component && (
+                    <Route
+                      key={index}
+                      path={route.path}
+                      exact={route.exact}
+                      name={route.name}
+                      element={<route.component />}
+                    />
+                  )
+                );
+              })}
+            </Route>
             {invalidRoutes.map((path, index) => (
               <Route
                 key={index + path}

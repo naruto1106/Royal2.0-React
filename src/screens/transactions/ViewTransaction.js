@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography, Row, Col, Button } from 'antd';
-import { Table } from 'react-bootstrap';
+import { Typography, Row, Col } from 'antd';
+import { Table, Button } from 'react-bootstrap';
 const { Title } = Typography;
 const text_position = {
   textAlign: 'right'
@@ -13,10 +13,15 @@ function ViewTransaction() {
           <Title level={4}>Viewing transaction</Title>
         </Col>
         <Col offset={12}>
-          <Button style={{ marginRight: '20px', borderRadius: '10px' }}>
+          <Button
+            style={{ marginRight: '20px', borderRadius: '10px' }}
+            variant="outline-primary"
+          >
             Edit
           </Button>
-          <Button style={{ borderRadius: '10px' }}>Delete</Button>
+          <Button style={{ borderRadius: '10px' }} variant="outline-primary">
+            Delete
+          </Button>
         </Col>
       </Row>
       <br />

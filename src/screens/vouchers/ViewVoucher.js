@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography, Row, Col, Button } from 'antd';
-import { Table } from 'react-bootstrap';
+import { Typography, Row, Col } from 'antd';
+import { Table, Button } from 'react-bootstrap';
 const { Title } = Typography;
 const btnstyle = {
   marginRight: '10px',
@@ -14,10 +14,19 @@ function ViewVoucher() {
           <Title level={4}>Viewing voucher</Title>
         </Col>
         <Col offset={12}>
-          <Button style={btnstyle}> Edit </Button>
-          <Button style={btnstyle}>Preview</Button>
-          <Button style={btnstyle}>Issue voucher</Button>
-          <Button style={btnstyle}>Delete</Button>
+          <Button style={btnstyle} variant="outline-primary">
+            {' '}
+            Edit{' '}
+          </Button>
+          <Button style={btnstyle} variant="outline-primary">
+            Preview
+          </Button>
+          <Button style={btnstyle} variant="outline-primary">
+            Issue voucher
+          </Button>
+          <Button style={btnstyle} variant="outline-primary">
+            Delete
+          </Button>
         </Col>
       </Row>
       <br />

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Typography, Row, Col, Input, DatePicker, Button } from 'antd';
+import { Typography, Row, Col, Input, DatePicker } from 'antd';
+import { Button } from 'react-bootstrap';
 const { Title } = Typography;
 const buttonStyle = {
   boxSizing: 'border-box',
   height: '40px',
-  background: '#ffffff',
+  // background: '#ffffff',
   border: '0.5px solid #359dd9',
-  color: '#359dd9',
+  // color: '#359dd9',
   borderRadius: '10px',
   padding: '7px 40px'
 };
@@ -52,14 +53,14 @@ function SearchTransaction() {
       <br />
       <Row>
         <Col offset={1} span={5}>
-          <p> Transaction Date between </p>
+          <p className="my-2"> Transaction Date between </p>
         </Col>
         <Col span={4}>
           <DatePicker size="large" style={datapicker} onChange={onChange} />
         </Col>
 
         <Col span={2} offset={1}>
-          <p> and </p>
+          <p className="my-2"> and </p>
         </Col>
         <Col span={4}>
           <DatePicker size="large" style={datapicker} onChange={onChange} />
@@ -68,20 +69,20 @@ function SearchTransaction() {
       <br />
       <Row>
         <Col offset={1} span={5}>
-          <p> Date Added/Imported between </p>
+          <p className="my-2"> Date Added/Imported between </p>
         </Col>
         <Col span={4}>
           <DatePicker size="large" style={datapicker} onChange={onChange} />
         </Col>
 
         <Col span={2} offset={1}>
-          <p> and </p>
+          <p className="my-2"> and </p>
         </Col>
         <Col span={4}>
           <DatePicker size="large" style={datapicker} onChange={onChange} />
         </Col>
         <Col span="3" offset={2}>
-          <Button style={buttonStyle} size="large">
+          <Button style={buttonStyle} variant="outline-primary" size="large">
             Search
           </Button>
         </Col>

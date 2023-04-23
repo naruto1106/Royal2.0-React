@@ -30,8 +30,8 @@ function PageComponent() {
     try {
       _isMounted.current && setLoadingSchema(true);
       dispatch(setCurrentData({ currentModuleSchemaLoading: true }));
-      console.log(routeKey, 'routekey');
       const ep = endpoint.getPageSchemaEndpoint(routeKey.replace('/', ''));
+      // console.log(ep,'eppppppppppp');
       const moduleSchemaRes = await Axios.get(ep);
       const schema = moduleSchemaRes.data;
       console.log('Page Schema:->', schema);
@@ -59,7 +59,7 @@ function PageComponent() {
   }, []);
 
   if (loadingSchema) {
-    return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
+    return <Loading style={{ marginTop: 150 }} msg="Loading Schema...page" />;
   }
   if (!moduleSchema) return getErrorAlert({ onRetry: initPageModule });
 
