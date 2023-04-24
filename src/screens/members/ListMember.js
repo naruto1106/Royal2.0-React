@@ -9,7 +9,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
@@ -27,6 +27,7 @@ function ListMember() {
   const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
+  let _array = [];
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -79,34 +80,35 @@ function ListMember() {
     navigate('/datamanager/bb_loyal2_members/edit/' + row._id);
   };
   const deleteRow = () => {
-    showDeleteConfirm();
+    // mshowDeleteConfir();
+    _array.length > 0 ? showDeleteConfirm(_array) : showDeleteConfirm1();
+    console.log(_array, 'delete=> selected item');
   };
-  const AllChange = row => {
-    console.log('checkbox_alldddd', row);
+  let index = 0;
+  const AllChange = () => {
+    // console.log(row);
+    index++;
+    _array = [];
+    index % 2 == 1
+      ? memberLists.map(id => {
+          console.log(id._id);
+          _array.push(id._id);
+        })
+      : (_array = []);
   };
-  // const [df,setdf]=useState([]);
-  // let ddd=[];
-  // console.log(df,'ddd')
+
   const onChange = row => {
-    console.log('check_box_click', row); // isSelected: true, false
-    // if(ddd.includes(row.id)==false){
-    //   ddd.push(row.id);
-
-    // }
-    // else{
-    //   ddd.delete(row.id)
-
-    // }
-    // console.log(ddd)
-    // setdf(ddd)
-
-    // console.log(df)
+    let index;
+    index = _array.indexOf(row.original._id);
+    index > -1 ? _array.splice(index, 1) : _array.push(row.original._id);
+    _array.sort();
+    // setDeleteLists(_array);
   };
 
   const row_select = row => {
     navigate('/datamanager/bb_loyal2_members/view/' + row._id);
   };
-  const showDeleteConfirm = () => {
+  const showDeleteConfirm = item => {
     confirm({
       title: 'Are you sure delete?',
       icon: <ExclamationCircleFilled />,
@@ -114,13 +116,41 @@ function ListMember() {
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        console.log('OK');
-      },
       onCancel() {
-        console.log('Cancel');
+        console.log(item, 'deleted item');
+      },
+      onOk() {
+        onDelete(item);
       }
     });
+  };
+
+  const showDeleteConfirm1 = () => {
+    confirm({
+      title: 'Select deleted item.',
+      icon: <ExclamationCircleFilled />,
+      content: '',
+      okText: 'OK',
+      okType: 'danger',
+      onOk() {
+        console.log('deleted item');
+      }
+    });
+  };
+  const onDelete = async item => {
+    // try {
+    //   _isMounted.current && setLoadingSchema(false);
+
+    await item.map(async id => {
+      await Axios.delete(endpoint.appUsers(`/app/users/${id}`));
+    });
+    initPageModule();
+    message.success('Deleted successful!');
+    // } catch (error) {
+    //   handleError(error, true);
+    // } finally {
+    //   _isMounted.current && setLoadingSchema(false);
+    // }
   };
   useEffect(() => {
     console.log(layoutData, 'this is layoutdata------');
@@ -146,7 +176,6 @@ function ListMember() {
         tempElement.accessor = key;
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {
-          //  const { code } = rowData.row.original;
           const value = rowData.row.original[key];
           const divTag = (
             <div
@@ -175,16 +204,7 @@ function ListMember() {
             />
           </>
         ),
-        // headerProps: {
-        //   style: {
-        //     maxWidth: 10
-        //   }
-        // },
-        // cellProps: {
-        //   style: {
-        //     maxWidth: 10
-        //   }
-        // },
+
         Cell: rowData => {
           return (
             <>

@@ -47,12 +47,12 @@ const btn_back = {
 const btn_log = {
   boxSizing: 'border-box',
   borderRadius: '50rem',
-  padding: '0.3825rem 40px',
+  padding: '0.3825rem 40px'
 };
 const btn_view = {
   boxSizing: 'border-box',
   borderRadius: '50rem',
-  padding: '0.41rem 29px',
+  padding: '0.41rem 29px'
 };
 const datapicker = {
   borderRadius: '10px',

@@ -6,29 +6,25 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { setMemberMenuData } from 'redux/slices/currentDataSlice';
+import { setPointMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Modal, Typography, Row } from 'antd';
+import { Modal } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../utils/endpoint';
 const { confirm } = Modal;
-import TabGroups from './TabGroups';
 
-const { Title } = Typography;
-
-// const { Title } = Typography;
-function ListGroups() {
+function SettingsList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [memberLists, setMemeberLists] = useState([]);
+  const [pointLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
   const IndeterminateCheckbox = React.forwardRef(
@@ -53,18 +49,18 @@ function ListGroups() {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerSchemaEndpoint('list');
+      const ep = endpoint.getPointDataManagerSchemaEndpoint('list');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
-      dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
-      const memberRes = await Axios.get(
+      const pointRes = await Axios.get(
         endpoint.appUsers('/app/users/') + `?user_type=3`
       );
-      setMemeberLists(memberRes.data);
+      setMemeberLists(pointRes.data);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -80,7 +76,7 @@ function ListGroups() {
   }, []);
 
   const editRow = row => {
-    navigate('/datamanager/bb_loyal2_members/edit/' + row._id);
+    navigate('/datamanager/bb_loyal2_points/edit/' + row._id);
   };
   const deleteRow = () => {
     showDeleteConfirm();
@@ -93,7 +89,7 @@ function ListGroups() {
   };
 
   const row_select = row => {
-    navigate('/datamanager/bb_loyal2_members/view/' + row._id);
+    navigate('/datamanager/bb_loyal2_points/view/' + row._id);
   };
   const showDeleteConfirm = () => {
     confirm({
@@ -164,16 +160,7 @@ function ListGroups() {
             />
           </>
         ),
-        // headerProps: {
-        //   style: {
-        //     maxWidth: 10
-        //   }
-        // },
-        // cellProps: {
-        //   style: {
-        //     maxWidth: 10
-        //   }
-        // },
+
         Cell: rowData => {
           return (
             <>
@@ -220,46 +207,37 @@ function ListGroups() {
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   // end Loading part
-
   return (
     <>
-      <Row className="mx-4">
-        <Title level={4} className="mb-3">
-          All group/tier records
-        </Title>
-      </Row>
-      <div className="mx-2">
-        <AdvanceTableWrapper
-          columns={columns}
-          data={memberLists}
-          sortable
-          // pagination
-          // selection
-          perPage={resultsPerPage}
-        >
-          <AdvanceTable
+      <AdvanceTableWrapper
+        columns={columns}
+        data={pointLists}
+        sortable
+        // pagination
+        // selection
+        perPage={resultsPerPage}
+      >
+        <AdvanceTable
+          table
+          headerClassName="bg-200 text-900 text-nowrap align-middle"
+          rowClassName="align-middle white-space-nowrap"
+          tableProps={{
+            bordered: true,
+            striped: true,
+            className: 'fs--1 mb-0 overflow-hidden'
+          }}
+        />
+        <div className="mt-3">
+          <AdvanceTableFooter
+            rowCount={pointLists.length}
             table
-            headerClassName="bg-200 text-900 text-nowrap align-middle"
-            rowClassName="align-middle white-space-nowrap"
-            tableProps={{
-              bordered: true,
-              striped: true,
-              className: 'fs--1 mb-0 overflow-hidden'
-            }}
+            rowInfo
+            navButtons
+            // rowsPerPageSelection
           />
-          <div className="mt-3">
-            <AdvanceTableFooter
-              rowCount={memberLists.length}
-              table
-              rowInfo
-              navButtons
-              // rowsPerPageSelection
-            />
-          </div>
-        </AdvanceTableWrapper>
-      </div>
-      <TabGroups />
+        </div>
+      </AdvanceTableWrapper>
     </>
   );
 }
-export default ListGroups;
+export default SettingsList;

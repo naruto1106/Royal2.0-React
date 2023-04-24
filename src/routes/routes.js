@@ -5,61 +5,17 @@ import keys from 'utils/keys';
 
 const Data = React.lazy(() => import('../screens/Data'));
 const Page = React.lazy(() => import('../screens/Page'));
+const MembersPage = React.lazy(() => import('../screens/MembersPage'));
+const GroupsPage = React.lazy(() => import('../screens/GroupsPage'));
+const PointsPage = React.lazy(() => import('../screens/PointsPage'));
 
-const AddMember = React.lazy(() => import('../components/members/AddMember'));
-const HistoryMember = React.lazy(() =>
-  import('../components/members/HistoryMember')
+const MemberSubscription = React.lazy(() =>
+  import('../screens/MemberSubscription')
 );
-const SettingsMember = React.lazy(() =>
-  import('../components/members/SettingsMember')
+const MembersDatacleaner = React.lazy(() =>
+  import('../screens/MembersDatacleaner')
 );
-const SearchMember = React.lazy(() =>
-  import('../components/members/SearchMember')
-);
-const CsvMember = React.lazy(() => import('../components/members/CsvMember'));
-const ListMember = React.lazy(() => import('../components/members/ListMember'));
-
-const AddTransaction = React.lazy(() =>
-  import('../screens/transactions/AddTransaction')
-);
-const HistoryTransaction = React.lazy(() =>
-  import('../screens/transactions/HistoryTransaction')
-);
-const ListTransaction = React.lazy(() =>
-  import('../screens/transactions/ListTransaction')
-);
-const SearchTransaction = React.lazy(() =>
-  import('../screens/transactions/SearchTransaction')
-);
-const ImportTransaction = React.lazy(() =>
-  import('../screens/transactions/ImportTransaction')
-);
-const ViewTransaction = React.lazy(() =>
-  import('../screens/transactions/ViewTransaction')
-);
-
-const AddVouchers = React.lazy(() => import('../screens/vouchers/AddVoucher'));
-
-const ListVouchers = React.lazy(() =>
-  import('../screens/vouchers/ListVoucher')
-);
-const SearchVouchers = React.lazy(() =>
-  import('../screens/vouchers/SearchVoucher')
-);
-const ImportVouchers = React.lazy(() =>
-  import('../screens/vouchers/ImportVoucher')
-);
-const ViewVouchers = React.lazy(() =>
-  import('../screens/vouchers/ViewVoucher')
-);
-
-const AddGroups = React.lazy(() => import('../screens/members/AddGroups'));
-const ListGroups = React.lazy(() => import('../screens/members/ListGroups'));
-const SearchGroups = React.lazy(() =>
-  import('../screens/members/SearchGroups')
-);
-const CsvGroups = React.lazy(() => import('../screens/members/CsvGroups'));
-
+const TransactionPage = React.lazy(() => import('../screens/TransactionPage'));
 const RedirectToViewList = () => {
   let { module_name } = useParams();
 
@@ -122,150 +78,90 @@ export const getRoutes = (
       name: currentModule,
       component: Data
     },
-    { path: '/:routeKey', name: currentPage, component: Page }
-  ];
-};
-
-export const getAllMembers = () => {
-  return [
+    { path: '/:routeKey', name: currentPage, component: Page },
     {
-      path: '/datamanager/bb_loyal2_members/add',
+      path: '/datamanager/bb_loyal2_members',
       exact: true,
-      name: 'Add Member',
-      component: AddMember
+      name: currentPage,
+      component: MembersPage
     },
     {
-      path: '/datamanager/bb_loyal2_members/history',
+      path: '/datamanager/bb_loyal2_members/:routeKey/:id',
       exact: true,
-      name: 'History',
-      component: HistoryMember
+      name: currentPage,
+      component: MembersPage
     },
     {
-      path: '/datamanager/bb_loyal2_members/settings',
+      path: '/datamanager/bb_loyal2_members/:routeKey',
       exact: true,
-      name: 'Settings',
-      component: SettingsMember
+      name: currentPage,
+      component: MembersPage
     },
     {
-      path: '/datamanager/bb_loyal2_members/list',
+      path: '/members_subscription',
       exact: true,
-      name: 'List',
-      component: ListMember
+      name: currentPage,
+      component: MemberSubscription
     },
     {
-      path: '/datamanager/bb_loyal2_members/search',
+      path: '/members_datacleaner',
       exact: true,
-      name: 'Search',
-      component: SearchMember
+      name: currentPage,
+      component: MembersDatacleaner
     },
     {
-      path: '/datamanager/bb_loyal2_members/csv',
+      path: '/transactions',
       exact: true,
-      name: 'Csv',
-      component: CsvMember
-    }
-  ];
-};
-export const getAllTransactions = () => {
-  return [
-    {
-      path: '/transactions/add',
-      exact: true,
-      name: 'Add Transaction',
-      component: AddTransaction
+      name: currentPage,
+      component: TransactionPage
     },
     {
-      path: '/transactions/history',
+      path: '/transactions/:routekey/:id',
       exact: true,
-      name: 'History Transaction',
-      component: HistoryTransaction
+      name: currentPage,
+      component: TransactionPage
     },
     {
-      path: '/transactions/view',
+      path: '/transactions/:routekey',
       exact: true,
-      name: 'View',
-      component: ViewTransaction
+      name: currentPage,
+      component: TransactionPage
     },
     {
-      path: '/transactions/list',
+      path: '/members_groups',
       exact: true,
-      name: 'List Transaction',
-      component: ListTransaction
+      name: currentPage,
+      component: GroupsPage
     },
     {
-      path: '/transactions/search',
+      path: '/members_groups/:routeKey/:id',
       exact: true,
-      name: 'Search Transaction',
-      component: SearchTransaction
+      name: currentPage,
+      component: GroupsPage
     },
     {
-      path: '/transactions/import',
+      path: '/members_groups/:routeKey',
       exact: true,
-      name: 'Import Transaction',
-      component: ImportTransaction
-    }
-  ];
-};
-export const getAllVouchers = () => {
-  return [
-    {
-      path: '/all_vouchers/add',
-      exact: true,
-      name: 'Add Vouchers',
-      component: AddVouchers
-    },
-
-    {
-      path: '/all_vouchers/view',
-      exact: true,
-      name: 'View Vouchers',
-      component: ViewVouchers
+      name: currentPage,
+      component: GroupsPage
     },
     {
-      path: '/all_vouchers/list',
+      path: '/datamanager/bb_loyal2_points',
       exact: true,
-      name: 'List Vouchers',
-      component: ListVouchers
+      name: currentPage,
+      component: PointsPage
     },
     {
-      path: '/all_vouchers/search',
+      path: '/datamanager/bb_loyal2_points/:routeKey/:id',
       exact: true,
-      name: 'Search Vouchers',
-      component: SearchVouchers
+      name: currentPage,
+      component: PointsPage
     },
     {
-      path: '/all_vouchers/import',
+      path: '/datamanager/bb_loyal2_points/:routeKey',
       exact: true,
-      name: 'Import Vouchers',
-      component: ImportVouchers
-    }
-  ];
-};
-export const getMembersGroups = () => {
-  return [
-    {
-      path: '/members_groups/add',
-      exact: true,
-      name: 'Add Groups',
-      component: AddGroups
-    },
-    {
-      path: '/members_groups/list',
-      exact: true,
-      name: 'List Groups',
-      component: ListGroups
-    },
-    {
-      path: '/members_groups/search',
-      exact: true,
-      name: 'Search Groups',
-      component: SearchGroups
-    },
-    {
-      path: '/members_groups/csv',
-      exact: true,
-      name: 'CsvGroups',
-      component: CsvGroups
+      name: currentPage,
+      component: PointsPage
     }
   ];
 };

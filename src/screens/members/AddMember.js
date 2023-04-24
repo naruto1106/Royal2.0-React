@@ -500,10 +500,7 @@ function AddMember() {
             <br />
             <br />
             <div style={{ width: '100%', textAlign: 'center' }}>
-              <Button
-                className="btn-active-command rounded-pill"
-                htmlType="submit"
-              >
+              <Button className="btn-active-command rounded-pill" type="submit">
                 Save
               </Button>
             </div>

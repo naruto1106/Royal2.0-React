@@ -7,7 +7,10 @@ const initialState = {
   fieldPluginTable: null,
   fieldPluginTableLoading: true,
   editFormSaved: true,
-  lookupFieldAdditionalOptions: {} // { fieldKey: [{Option1}, {Option2},...], ...}
+  lookupFieldAdditionalOptions: {}, // { fieldKey: [{Option1}, {Option2},...], ...}
+  currentMemberMenuSchema: {}, //member menu schema {"menu":{},....}
+  currentPointMenuSchema: {}, //member menu schema {"menu":{},....}
+  currentTransactionMenuSchema: {} //transaction menu schema {"menu":{},....}
 };
 
 /* Store overall app current(In view) data */
@@ -17,10 +20,24 @@ const currentDataSlice = createSlice({
   reducers: {
     setCurrentData(currentData, { payload }) {
       return { ...currentData, ...payload };
+    },
+    setMemberMenuData(currentData, { payload }) {
+      return { ...currentData, ...payload };
+    },
+    setTransactionMenuData(currentData, { payload }) {
+      return { ...currentData, ...payload };
+    },
+    setPointMenuData(currentData, { payload }) {
+      return { ...currentData, ...payload };
     }
   }
 });
 
-export const { setCurrentData } = currentDataSlice.actions;
+export const {
+  setCurrentData,
+  setMemberMenuData,
+  setTransactionMenuData,
+  setPointMenuData
+} = currentDataSlice.actions;
 
 export default currentDataSlice.reducer;

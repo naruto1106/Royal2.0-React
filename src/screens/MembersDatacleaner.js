@@ -28,13 +28,13 @@ const btn_duplicate = {
 };
 const btn_back = {
   boxSizing: 'border-box',
-//   height: '38px',
+  //   height: '38px',
   // border: '1px solid #359dd9',
   borderRadius: '50rem',
   padding: '0.3825rem 22px',
-//   lineHeight: '12px',
-//   fontSize: '13px',
-//   fontWeight: '700',
+  //   lineHeight: '12px',
+  //   fontSize: '13px',
+  //   fontWeight: '700',
   marginLeft: '10px'
 };
 
