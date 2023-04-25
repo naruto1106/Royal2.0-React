@@ -1,11 +1,10 @@
 import React from 'react';
-import { Typography, Row, Col, Select, InputNumber } from 'antd';
+import { Typography, Row, Col, InputNumber } from 'antd';
 // import { PlusOutlined } from '@ant-design/icons';
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 const { Title, Paragraph } = Typography;
-const { Option } = Select;
 
 function TabGroups() {
   return (
@@ -23,11 +22,7 @@ function TabGroups() {
       <Row className="mx-4">
         <Col span={24}>
           <Tabs defaultActiveKey="action" id="group_settings" fill>
-            <Tab
-              eventKey="action"
-              title="Action"
-              className="border-bottom border-x p-5"
-            >
+            <Tab eventKey="action" title="Action" className="border-0 p-5">
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
@@ -43,32 +38,44 @@ function TabGroups() {
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
                 <Col
@@ -90,11 +97,12 @@ function TabGroups() {
             <Tab
               eventKey="member_number_code"
               title="Member number/code"
-              className="border-bottom border-x p-5"
+              className="border-0 p-5"
             >
               <Row className="mt-3">
                 <Col
-                  sm={{ span: 14, offset: 0 }}
+                  xs={{ span: 20 }}
+                  sm={{ span: 17 }}
                   md={{ span: 12, offset: 1 }}
                   lg={{ span: 12, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
@@ -104,7 +112,8 @@ function TabGroups() {
                   </Row>
                 </Col>
                 <Col
-                  sm={{ span: 10, offset: 0 }}
+                  xs={{ span: 4 }}
+                  sm={{ span: 7 }}
                   md={{ span: 6, offset: 1 }}
                   lg={{ span: 6, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
@@ -116,79 +125,94 @@ function TabGroups() {
               </Row>
               <Row className="mt-3">
                 <Col
-                  sm={18}
+                  xs={20}
+                  sm={17}
                   md={{ span: 12, offset: 1 }}
                   lg={{ span: 12, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                     <span className="mx-3">to</span>
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col
-                  sm={6}
+                  xs={4}
+                  sm={7}
                   md={{ span: 6, offset: 1 }}
                   lg={{ span: 6, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col
-                  sm={18}
+                  xs={20}
+                  sm={17}
                   md={{ span: 12, offset: 1 }}
                   lg={{ span: 12, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                     <span className="mx-3">to</span>
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col
-                  sm={6}
+                  xs={4}
+                  sm={7}
                   md={{ span: 6, offset: 1 }}
                   lg={{ span: 6, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col
-                  sm={18}
+                  xs={20}
+                  sm={17}
                   md={{ span: 12, offset: 1 }}
                   lg={{ span: 12, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                     <span className="mx-3">to</span>
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col
-                  sm={6}
+                  xs={4}
+                  sm={7}
                   md={{ span: 6, offset: 1 }}
                   lg={{ span: 6, offset: 1 }}
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
                 <Col
@@ -217,7 +241,7 @@ function TabGroups() {
             <Tab
               eventKey="points_balance"
               title="Points balance"
-              className="border-bottom border-x p-5"
+              className="border-0 p-5"
             >
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
@@ -234,70 +258,85 @@ function TabGroups() {
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
-                  </Row>
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <InputNumber />
-                  </Row>
-                </Col>
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
-                  </Row>
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <InputNumber />
-                  </Row>
-                </Col>
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="mt-3">
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <InputNumber style={{ borderRadius: '10px' }} />
+                  </Row>
+                </Col>
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="mt-3">
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <InputNumber style={{ borderRadius: '10px' }} />
+                  </Row>
+                </Col>
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
                 <Col
@@ -319,7 +358,7 @@ function TabGroups() {
             <Tab
               eventKey="points_issued"
               title="Points issued"
-              className="border-bottom border-x p-5"
+              className="border-0 p-5"
             >
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
@@ -332,70 +371,85 @@ function TabGroups() {
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
-                  </Row>
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <InputNumber />
-                  </Row>
-                </Col>
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
-                  </Row>
-                </Col>
-              </Row>
-              <Row className="mt-3">
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <InputNumber />
-                  </Row>
-                </Col>
-                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <InputNumber />
+                    <InputNumber style={{ borderRadius: '10px' }} />
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Select placeholder="Select" style={{ width: '80%' }}>
-                      <Option value="group1">group1</Option>
-                    </Select>
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="mt-3">
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <InputNumber style={{ borderRadius: '10px' }} />
+                  </Row>
+                </Col>
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="mt-3">
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <InputNumber style={{ borderRadius: '10px' }} />
+                  </Row>
+                </Col>
+                <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
+                  <Row justify="center">
+                    <Form.Select
+                      placeholder="Select"
+                      style={{ width: '80%', borderRadius: '10px' }}
+                    >
+                      <option value="group1">group1</option>
+                    </Form.Select>
                   </Row>
                 </Col>
                 <Col

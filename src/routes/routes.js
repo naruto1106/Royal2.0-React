@@ -134,13 +134,13 @@ export const getRoutes = (
       component: GroupsPage
     },
     {
-      path: '/members_groups/:routeKey/:id',
+      path: '/datamanager/bb_loyal2_groups/:routeKey/:id',
       exact: true,
       name: currentPage,
       component: GroupsPage
     },
     {
-      path: '/members_groups/:routeKey',
+      path: '/datamanager/bb_loyal2_groups/:routeKey',
       exact: true,
       name: currentPage,
       component: GroupsPage

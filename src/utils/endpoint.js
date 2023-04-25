@@ -31,6 +31,8 @@ export default {
   getPageSchemaEndpoint: routeKey => `${API_ENDPOINT_PREFIX}/pages/${routeKey}`,
   getDataManagerSchemaEndpoint: routeKey =>
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_members/${routeKey}`,
+  getDataManagerGroupSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_groups/${routeKey}`,
   getDataTransactionSchemaEndpoint: routeKey =>
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_transactions/${routeKey}`,
   getDataModuleSchemaEndpoint: (mn, action, id) =>

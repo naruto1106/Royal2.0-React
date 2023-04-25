@@ -53,7 +53,7 @@ function ListGroups() {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerSchemaEndpoint('list');
+      const ep = endpoint.getDataManagerGroupSchemaEndpoint('list');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
@@ -228,36 +228,36 @@ function ListGroups() {
           All group/tier records
         </Title>
       </Row>
-      <div className="mx-2">
-        <AdvanceTableWrapper
-          columns={columns}
-          data={memberLists}
-          sortable
-          // pagination
-          // selection
-          perPage={resultsPerPage}
-        >
-          <AdvanceTable
+
+      <AdvanceTableWrapper
+        columns={columns}
+        data={memberLists}
+        sortable
+        // pagination
+        // selection
+        perPage={resultsPerPage}
+      >
+        <AdvanceTable
+          table
+          headerClassName="bg-200 text-900 text-nowrap align-middle"
+          rowClassName="align-middle white-space-nowrap"
+          tableProps={{
+            bordered: true,
+            striped: true,
+            className: 'fs--1 mb-0 overflow-hidden'
+          }}
+        />
+        <div className="mt-3">
+          <AdvanceTableFooter
+            rowCount={memberLists.length}
             table
-            headerClassName="bg-200 text-900 text-nowrap align-middle"
-            rowClassName="align-middle white-space-nowrap"
-            tableProps={{
-              bordered: true,
-              striped: true,
-              className: 'fs--1 mb-0 overflow-hidden'
-            }}
+            rowInfo
+            navButtons
+            // rowsPerPageSelection
           />
-          <div className="mt-3">
-            <AdvanceTableFooter
-              rowCount={memberLists.length}
-              table
-              rowInfo
-              navButtons
-              // rowsPerPageSelection
-            />
-          </div>
-        </AdvanceTableWrapper>
-      </div>
+        </div>
+      </AdvanceTableWrapper>
+
       <TabGroups />
     </>
   );

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, Tooltip, Form, Input, Row, Col } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
@@ -27,16 +27,14 @@ const inputBorderRadius = { borderRadius: '15px' };
 function AddGroups() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
-  let { routeKey } = useParams();
+  // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const initPageModule = async () => {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerSchemaEndpoint(
-        routeKey.replace('/', '')
-      );
+      const ep = endpoint.getDataManagerGroupSchemaEndpoint('add');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
@@ -130,7 +128,10 @@ function AddGroups() {
               </Col>
               <Col sm={3} lg={1}>
                 <Tooltip placement="right" title="Code" color="#359dd9">
-                  <QuestionCircleOutlined style={btnQuestion} />
+                  <QuestionCircleOutlined
+                    className="mt-1"
+                    style={btnQuestion}
+                  />
                 </Tooltip>
               </Col>
             </Row>

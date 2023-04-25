@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Typography, DatePicker, Input, Row, Col } from 'antd';
 import { Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
@@ -20,16 +20,14 @@ const inputStyle = {
 function SearchGroups() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
-  let { routeKey } = useParams();
+  // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const initPageModule = async () => {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerSchemaEndpoint(
-        routeKey.replace('/', '')
-      );
+      const ep = endpoint.getDataManagerGroupSchemaEndpoint('search');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
