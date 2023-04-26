@@ -11,11 +11,9 @@ function PointMenu() {
   const { currentPointMenuSchema } = useSelector(state => state.currentData);
   return (
     <>
-      <Row>
+      <Row className="mx-4">
         <Col xs={23} sm={23} md={8} lg={8} xl={8} xxl={8}>
-          <Title level={3} style={{ marginLeft: '20px' }}>
-            Points
-          </Title>
+          <Title level={3}>Points</Title>
         </Col>
         <Col
           xs={23}
@@ -31,14 +29,14 @@ function PointMenu() {
               return index <= 5 ? (
                 <Button
                   key={index}
-                  icon={row[0] == 'Add' ? <PlusOutlined /> : null}
-                  // type={row[1].active ? "primary" : null}
                   className={
                     row[1].active ? 'btn-active-menu' : 'btn-inactive-menu'
                   }
-                  // style={row[1].active ? SelButtonStyle : buttonStyle}
                   onClick={() => navigate(row[1].route)}
                 >
+                  {row[0] == 'Add' ? (
+                    <PlusOutlined style={{ marginTop: '-2px' }} />
+                  ) : null}
                   {row[0]}
                 </Button>
               ) : null;

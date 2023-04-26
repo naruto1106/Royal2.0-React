@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, Tooltip, Switch, Typography } from 'antd';
+import { Row, Col, InputNumber, Typography, Tooltip } from 'antd';
 import { Button } from 'react-bootstrap';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
@@ -10,9 +10,8 @@ import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
-import { setPointMenuData } from 'redux/slices/currentDataSlice';
+import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 const { Text } = Typography;
-
 const settingStyle = {
   marginTop: '82px',
   fontFamilly: 'Inter',
@@ -22,7 +21,7 @@ const settingStyle = {
   color: '#000000',
   letterSpacing: '-0.019em'
 };
-function SettingsSetting() {
+function SettingsManageUsers() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
   let { routeKey } = useParams();
@@ -32,15 +31,13 @@ function SettingsSetting() {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getPointDataManagerSchemaEndpoint(
-        routeKey.replace('/', '')
-      );
+      const ep = endpoint.getDataManagerSchemaEndpoint(`${routeKey}`);
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
-      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
+      dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -57,10 +54,12 @@ function SettingsSetting() {
       _isMounted.current = false;
     };
   }, []);
-  // const onChange = value => {
-  //   console.log('changed', value);
-  // };
+  const onChange = value => {
+    console.log('changed', value);
+  };
 
+  // const [prefix_num, setPrefix_num] = useState(1);
+  // const [start_num, setStart_num] = useState(0);
   const updateSetting = () => {
     console.log('updated');
   };
@@ -72,57 +71,49 @@ function SettingsSetting() {
 
   return (
     <>
-      <Row className="mx-4 py-5" style={settingStyle} lg={20} xl={20} xxl={20}>
-        <Col
-          className=" my-2 me-3"
-          xs={23}
-          sm={23}
-          md={10}
-          lg={8}
-          xl={8}
-          xxl={8}
-        >
-          <Text strong style={{ color: '#444444' }}>
-            {' '}
-            For multi-branch:apply points globally{' '}
+      <Row style={settingStyle}>
+        <Col span={5} style={{ textAlign: 'end' }}>
+          <Text strong className="py-1" style={{ color: '#444444' }}>
+            Membership Number Prefix
           </Text>
         </Col>
-        <Col className="my-2" xs={23} sm={23} md={4} lg={4} xl={4} xxl={4}>
-          <Switch
-            defaultChecked
-            style={{
-              scale: '1.9',
-              backgroundColor: 'rgb(86, 204, 242)'
-            }}
+
+        <Col span={4} style={{ textAlign: 'end' }}>
+          <InputNumber
+            min={0}
+            defaultValue={0}
+            onChange={onChange}
+            style={{ borderRadius: '10px', marginRight: '10px' }}
           />
-        </Col>
-        <Col
-          style={{ textAlign: 'end' }}
-          xs={23}
-          sm={23}
-          md={6}
-          lg={9}
-          xl={9}
-          xxl={9}
-        >
-          <Button
-            className="rounded-pill py-2 px-4"
-            variant="outline-primary"
-            onClick={() => updateSetting()}
+          <Tooltip
+            placement="right"
+            color="#359dd9"
+            title=" Membership Number Prefix"
           >
-            Update settings
-          </Button>
+            <QuestionCircleOutlined
+              style={{
+                backgroundColor: '#359DD9',
+                borderRadius: '50%',
+                border: 'none',
+                color: 'white',
+                fontSize: '21px'
+              }}
+            />
+          </Tooltip>
         </Col>
-        <Col
-          xs={23}
-          sm={23}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: 'end' }}
-          className="my-1"
-        >
+
+        <Col span={6} style={{ textAlign: 'end' }}>
+          <Text strong className="py-1" style={{ color: '#444444' }}>
+            Membership Number Starting Point
+          </Text>
+        </Col>
+        <Col span={4} style={{ textAlign: 'end' }}>
+          <InputNumber
+            min={0}
+            defaultValue={0}
+            onChange={onChange}
+            style={{ borderRadius: '10px', marginRight: '10px' }}
+          />
           <Tooltip
             placement="right"
             color="#359dd9"
@@ -134,14 +125,29 @@ function SettingsSetting() {
                 borderRadius: '50%',
                 border: 'none',
                 color: 'white',
-                fontSize: '21px',
-                textAlign: 'end'
+                fontSize: '21px'
               }}
             />
           </Tooltip>
         </Col>
       </Row>
+      <br />
+      <br />
+      <br />
+      <Row>
+        <Col span={12}></Col>
+        <Col span={7} style={{ textAlign: 'end' }}>
+          <Button
+            variant="outline-primary"
+            className="rounded-pill me-1 mb-1"
+            style={{ padding: '8px 20px' }}
+            onClick={() => updateSetting()}
+          >
+            Update settings
+          </Button>
+        </Col>
+      </Row>
     </>
   );
 }
-export default SettingsSetting;
+export default SettingsManageUsers;

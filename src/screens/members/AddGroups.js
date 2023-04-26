@@ -13,7 +13,7 @@ import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { Button } from 'react-bootstrap';
 import TabGroups from './TabGroups';
 
-const { Title, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const btnQuestion = {
   backgroundColor: '#359DD9',
   borderRadius: '50%',
@@ -22,7 +22,7 @@ const btnQuestion = {
   fontSize: '21px',
   float: 'right'
 };
-const inputBorderRadius = { borderRadius: '15px' };
+const inputBorderRadius = { borderRadius: '10px' };
 
 function AddGroups() {
   const dispatch = useDispatch();
@@ -71,14 +71,14 @@ function AddGroups() {
   };
   return (
     <>
-      <Row className="mx-4">
+      <Row className="mx-4 mt-3">
         <Col span={24}>
-          <Title level={4} className="mb-3">
+          <Title style={{ color: '#444444' }} level={4} className="mb-3">
             Add a group tier
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4">
+      <Row className="mx-4 mt-3">
         <Col span={24}>
           <Form
             name="basic"
@@ -95,9 +95,11 @@ function AddGroups() {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-            <Paragraph className="mb-2">Name</Paragraph>
-            <Row>
-              <Col xs={21} lg={23}>
+            <Text strong style={{ color: '#444444' }}>
+              Name
+            </Text>
+            <Row className="mt-1">
+              <Col xs={21} lg={20}>
                 <Form.Item
                   name="name"
                   rules={[
@@ -111,9 +113,11 @@ function AddGroups() {
                 </Form.Item>
               </Col>
             </Row>
-            <Paragraph className="mb-2">Code</Paragraph>
-            <Row>
-              <Col xs={21} lg={23}>
+            <Text strong style={{ color: '#444444' }}>
+              Code
+            </Text>
+            <Row className="mt-1">
+              <Col xs={21} lg={20}>
                 <Form.Item
                   name="code"
                   rules={[
@@ -138,7 +142,7 @@ function AddGroups() {
 
             <Button
               variant="outline-primary"
-              className="rounded-pill mt-2 px-5"
+              className="rounded-pill mt-5 px-5"
               type="submit"
             >
               Add

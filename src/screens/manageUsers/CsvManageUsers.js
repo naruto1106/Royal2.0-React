@@ -2,9 +2,9 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Row, Col, Radio, Tooltip, Upload } from 'antd';
+import { Typography, Row, Radio, Col, Tooltip, Upload } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
@@ -19,16 +19,13 @@ const ToolTip = {
   scale: '1.5'
   // marginLeft: '39em'
 };
-const titleStyle = {
-  marginBottom: '50px',
-  color: '#444444'
-};
+
 const { Title } = Typography;
 
-function CsvMember() {
+function CsvManageUsers() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
-  let { routeKey } = useParams();
+  // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [btncolor, setBtncolor] = useState('outline-secondary');
@@ -37,9 +34,7 @@ function CsvMember() {
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerSchemaEndpoint(
-        routeKey.replace('/', '')
-      );
+      const ep = endpoint.getDataManagerSchemaEndpoint('csv');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
@@ -81,26 +76,24 @@ function CsvMember() {
 
   return (
     <>
-      <Row className="mx-4">
-        <Col span={16}>
-          <Title level={3} style={titleStyle}>
-            Import data from CSV/Excel file
-          </Title>
+      <Row className="mx-4 mt-5">
+        <Col xs={23} lg={20}>
+          <Title level={4}>Import data from CSV/Excel file</Title>
         </Col>
-        <Col span={8} style={{ textAlign: 'end' }}>
+        <Col xs={1} lg={4} style={{ textAlign: 'end' }}>
           <Tooltip title="Import data from CSV/Excel file" placement="right">
             <QuestionCircleOutlined style={ToolTip}>?</QuestionCircleOutlined>
           </Tooltip>
         </Col>
       </Row>
-      <Row>
-        <Col className="mx-4" xs={12} sm={12} md={8} lg={8} xl={8} xxl={8}>
+      <Row className="mx-4 mt-3" gutter={[0, 24]}>
+        <Col xs={24} sm={24} md={10} lg={10} xl={10} xxl={10}>
           <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
           >
             <Button
-              className="rounded-pill py-2 px-4"
+              className="rounded-pill px-4"
               lavel="Get sample CSV"
               variant="outline-primary"
             >
@@ -108,20 +101,22 @@ function CsvMember() {
             </Button>
           </Upload>
         </Col>
-        <Col xs={6} sm={6} md={6} lg={8} xl={3} xxl={3}>
+        <Col xs={12} sm={12} md={6} lg={6} xl={6} xxl={6}>
           <Upload
             colorBorder="blue"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
             onChange={handleChange}
           >
-            <Button variant="light">Select file</Button>
+            <Button variant="light" className="rounded-pill px-4">
+              Select file
+            </Button>
           </Upload>
         </Col>
-        <Col xs={6} sm={6} md={6} lg={8} xl={4} xxl={4}>
+        <Col xs={12} sm={12} md={8} lg={8} xl={8} xxl={8}>
           <Button
             lavel="Upload CSV"
-            className="rounded-pill py-2 px-4"
+            className="rounded-pill px-4"
             disabled={btndisable}
             variant={btncolor}
           >
@@ -129,6 +124,7 @@ function CsvMember() {
           </Button>
         </Col>
       </Row>
+
       <Row className="mx-4 my-3">
         <Col span={20}>
           <Radio ghost className="mt-5 mb-3">
@@ -158,18 +154,15 @@ function CsvMember() {
         </Col>
       </Row>
 
-      <Row className="mx-4 ">
-        <Col span={20}>
-          <Title level={3} style={{ color: '#444444' }}>
-            Export data to CSV/Excel file
-          </Title>
+      <Row className="mx-4 my-3">
+        <Col span={24}>
+          <Title level={4}>Export data to CSV/Excel file</Title>
         </Col>
       </Row>
-      <br />
-      <Row>
-        <Col className="mx-4">
-          <Button className="rounded-pill py-2 px-4" variant="outline-primary">
-            Export Data
+      <Row className="mx-4 my-3">
+        <Col span={24}>
+          <Button className="rounded-pill px-4" variant="outline-primary">
+            Get sample CSV
           </Button>
         </Col>
       </Row>
@@ -177,4 +170,4 @@ function CsvMember() {
   );
 }
 
-export default CsvMember;
+export default CsvManageUsers;

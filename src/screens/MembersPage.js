@@ -119,7 +119,7 @@ function PageComponent() {
         <Card.Body className="p-0">
           <Row>
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
-              <MemberMenu></MemberMenu>
+              {/* <MemberMenu></MemberMenu> */}
               <UpdateMember></UpdateMember>
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}

@@ -9,15 +9,14 @@ import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
-import { setMemberMenuData } from 'redux/slices/currentDataSlice';
-import TabGroups from './TabGroups';
+import { setPointMenuData } from 'redux/slices/currentDataSlice';
 const { Title, Text } = Typography;
 const inputStyle = {
   borderRadius: '10px',
   width: '100%'
 };
 
-function SearchGroups() {
+function SettingsSearch() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
   // let { routeKey } = useParams();
@@ -27,13 +26,13 @@ function SearchGroups() {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerGroupSchemaEndpoint('search');
+      const ep = endpoint.getPointDataManagerSchemaEndpoint('search');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
-      dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -58,52 +57,61 @@ function SearchGroups() {
 
   return (
     <>
-      <Row className="mx-4 mt-3">
-        <Col span={24}>
+      <Row className="mx-4 mb-4">
+        <Col span={20}>
           <Title level={4} className="mb-3">
-            Search branches/stores
+            Search points records
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3">
+      <Row className="mx-4 mb-4">
         <Col span={20}>
-          {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
           <Input placeholder="Free text search" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-7" align="middle" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={6}>
-          <Text style={{ color: '#444444' }} strong>
-            Date Added/Imported between
-          </Text>
+      <Row className="mx-4">
+        <Col span={20}>
+          <Input placeholder="Member" style={inputStyle} />
+        </Col>
+      </Row>
+      <Row className="mx-4 mt-4" gutter={[16, 16]}>
+        <Col xs={24} md={24} lg={11} xl={8}>
+          <Text strong>Transaction Date between</Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
         <Col xs={4} md={4} lg={2} xl={2}>
-          <Text strong style={{ textAlign: 'center', color: '#444444' }}>
+          <Text strong style={{ textAlign: 'center' }}>
             and
           </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
-        <Col xs={24} md={6} lg={4} xl={4}>
-          <Row>
-            <Col span={24}>
-              <Button
-                variant="outline-primary"
-                style={{ float: 'right' }}
-                className="rounded-pill px-4"
-              >
-                Search
-              </Button>
-            </Col>
-          </Row>
+      </Row>
+      <Row className="mx-4 mt-4 mb-4" gutter={[16, 16]}>
+        <Col xs={24} md={24} lg={11} xl={8}>
+          <Text strong>Transaction Date between</Text>
+        </Col>
+        <Col xs={10} md={7} lg={3} xl={4}>
+          <DatePicker placeholder="from" style={inputStyle} />
+        </Col>
+        <Col xs={4} md={4} lg={2} xl={2}>
+          <Text strong style={{ textAlign: 'center' }}>
+            and
+          </Text>
+        </Col>
+        <Col xs={10} md={7} lg={3} xl={4}>
+          <DatePicker placeholder="to" style={inputStyle} />
+        </Col>
+        <Col xs={24} md={6} lg={5} xl={6}>
+          <Button variant="outline-primary" className="rounded-pill py-2 px-4">
+            Search
+          </Button>
         </Col>
       </Row>
-      <TabGroups />
     </>
   );
 }
-export default SearchGroups;
+export default SettingsSearch;

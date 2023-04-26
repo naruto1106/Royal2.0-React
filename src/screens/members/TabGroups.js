@@ -4,7 +4,7 @@ import { Typography, Row, Col, InputNumber } from 'antd';
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import { Button, Form } from 'react-bootstrap';
-const { Title, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
 function TabGroups() {
   return (
@@ -16,22 +16,29 @@ function TabGroups() {
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3">
-        <Paragraph> Automate based on</Paragraph>
+      <Row className="mx-4 mt-4">
+        <Text style={{ color: '#444444' }} strong>
+          {' '}
+          Automate based on
+        </Text>
       </Row>
-      <Row className="mx-4">
+      <Row className="mx-4 mt-3">
         <Col span={24}>
           <Tabs defaultActiveKey="action" id="group_settings" fill>
             <Tab eventKey="action" title="Action" className="border-0 p-5">
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Action</Paragraph>
+                    <Text style={{ color: '#444444' }} strong>
+                      Action
+                    </Text>
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Applied group</Paragraph>
+                    <Text style={{ color: '#444444' }} strong>
+                      Applied group
+                    </Text>
                   </Row>
                 </Col>
               </Row>
@@ -108,7 +115,9 @@ function TabGroups() {
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Paragraph>Code range</Paragraph>
+                    <Text style={{ color: '#444444' }} strong>
+                      Code range
+                    </Text>
                   </Row>
                 </Col>
                 <Col
@@ -119,7 +128,9 @@ function TabGroups() {
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Paragraph>Group to apply</Paragraph>
+                    <Text style={{ color: '#444444' }} strong>
+                      Group to apply
+                    </Text>
                   </Row>
                 </Col>
               </Row>
@@ -246,12 +257,16 @@ function TabGroups() {
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Maximum of points</Paragraph>
+                    <Text style={{ color: '#444444' }} strong>
+                      Maximum of points
+                    </Text>
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Applied group</Paragraph>
+                    <Text style={{ color: '#444444' }} strong>
+                      Applied group
+                    </Text>
                   </Row>
                 </Col>
               </Row>
@@ -362,10 +377,18 @@ function TabGroups() {
             >
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">Maximum of points</Row>
+                  <Row justify="center">
+                    <Text style={{ color: '#444444' }} strong>
+                      Maximum of points
+                    </Text>
+                  </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">Applied group</Row>
+                  <Row justify="center">
+                    <Text style={{ color: '#444444' }} strong>
+                      Applied group
+                    </Text>
+                  </Row>
                 </Col>
               </Row>
               <Row className="mt-3">

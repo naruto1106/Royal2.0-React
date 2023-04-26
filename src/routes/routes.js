@@ -8,6 +8,7 @@ const Page = React.lazy(() => import('../screens/Page'));
 const MembersPage = React.lazy(() => import('../screens/MembersPage'));
 const GroupsPage = React.lazy(() => import('../screens/GroupsPage'));
 const PointsPage = React.lazy(() => import('../screens/PointsPage'));
+const ManageUsersPage = React.lazy(() => import('../screens/ManageUsersPage'));
 
 const MemberSubscription = React.lazy(() =>
   import('../screens/MemberSubscription')
@@ -162,6 +163,24 @@ export const getRoutes = (
       exact: true,
       name: currentPage,
       component: PointsPage
+    },
+    {
+      path: '/manage_users',
+      exact: true,
+      name: currentPage,
+      component: ManageUsersPage
+    },
+    {
+      path: '/app/users/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: ManageUsersPage
+    },
+    {
+      path: '/app/users/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: ManageUsersPage
     }
   ];
 };

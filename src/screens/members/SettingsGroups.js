@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, InputNumber, Tooltip } from 'antd';
+import { Row, Col, InputNumber, Typography, Tooltip } from 'antd';
 import { Button } from 'react-bootstrap';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
+const { Text } = Typography;
 const settingStyle = {
   marginTop: '82px',
   fontFamilly: 'Inter',
@@ -74,7 +75,9 @@ function SettingsGroups() {
     <>
       <Row style={settingStyle}>
         <Col span={5} style={{ textAlign: 'end' }}>
-          Membership Number Prefix
+          <Text strong className="py-1" style={{ color: '#444444' }}>
+            Membership Number Prefix
+          </Text>
         </Col>
 
         <Col span={4} style={{ textAlign: 'end' }}>
@@ -102,7 +105,9 @@ function SettingsGroups() {
         </Col>
 
         <Col span={6} style={{ textAlign: 'end' }}>
-          Membership Number Starting Point
+          <Text strong className="py-1" style={{ color: '#444444' }}>
+            Membership Number Starting Point
+          </Text>
         </Col>
         <Col span={4} style={{ textAlign: 'end' }}>
           <InputNumber
