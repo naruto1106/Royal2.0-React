@@ -67,7 +67,7 @@ function SettingsView() {
 
   const editUser = id => {
     console.log(id, 'aaaaaaaaaaaaaaaaaaaaa');
-    navigate(`/app/users/edit/${id}`);
+    navigate(`/datamanager/bb_loyal2_points/edit/${id}`);
   };
   const showDeleteConfirm = id => {
     confirm({

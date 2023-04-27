@@ -91,7 +91,7 @@ function ListMember() {
     index++;
     _array = [];
     console.log(index % 2);
-    index % 2 == 1
+    index % 2 == '1'
       ? memberLists.map(id => {
           console.log(id._id);
           _array.push(id._id);

@@ -10,6 +10,9 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
+import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
+import AdvanceTable from 'components/common/advance-table/AdvanceTable';
+import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 const { Title, Text } = Typography;
 const inputStyle = {
   borderRadius: '10px',
@@ -22,6 +25,10 @@ function SettingsSearch() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const [searchtext, setSearchtext] = useState('');
+  const [memberLists, setMemeberLists] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [resultsPerPage, SetresultsPerPage] = useState(999);
   const initPageModule = async () => {
     try {
       // default part
@@ -48,8 +55,72 @@ function SettingsSearch() {
     return () => {
       _isMounted.current = false;
     };
-  }, []);
+  }, []); 
+  const row_select = row => {
+    console.log('success', row);
+    // navigate('/datamanager/bb_loyal2_members/view/' + row._id);
+  };
+  useEffect(() => {
+    console.log(layoutData, 'this is layoutdata------');
+    if (layoutData) {
+      // console.log(layoutData.options.columns);
+      let objectData = layoutData.post_results.options.columns;
+      SetresultsPerPage(
+        layoutData.post_results.options.pagination.results_per_page
+          ? layoutData.post_results.options.pagination.results_per_page
+          : 999
+      );
+      let tempArray = [
+        {
+          accessor: 'row',
+          Header: 'Row',
+          Cell: rowData => {
+            return <>{rowData.row.index + 1}</>;
+          }
+        }
+      ];
+      for (const key in objectData) {
+        let tempElement = {};
+        tempElement.accessor = key;
+        tempElement.Header = objectData[key];
+        tempElement.Cell = function (rowData) {
+          //  const { code } = rowData.row.original;
+          const value = rowData.row.original[key];
+          const divTag = (
+            <div
+              onClick={() => {
+                row_select(rowData.row.original);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {value}
+            </div>
+          );
+          return divTag;
+        };
+        tempArray.push(tempElement);
+      }
+      
+      setColumns(tempArray);
+    }
+  }, [layoutData]);
+  const search = async () => {
+    console.log('searchtext', searchtext);
+    try {
+      _isMounted.current && setLoadingSchema(true);
 
+      const searchData = await Axios.get(
+        endpoint.appUsers('/module/bb_loyal2_points/search/') +
+          `?text_search=${searchtext}`
+      );
+      console.log(searchData.data,"ppppp");
+      setMemeberLists(searchData.data);
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+    }
+  };
   if (loadingSchema) {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
@@ -66,7 +137,10 @@ function SettingsSearch() {
       </Row>
       <Row className="mx-4 mb-4">
         <Col span={20}>
-          <Input placeholder="Free text search" style={inputStyle} />
+          <Input placeholder="Free text search" style={inputStyle} onChange={e => {
+              setSearchtext(e.target.value);
+            }}
+            value={searchtext} />
         </Col>
       </Row>
       <Row className="mx-4">
@@ -106,11 +180,41 @@ function SettingsSearch() {
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
         <Col xs={24} md={6} lg={5} xl={6}>
-          <Button variant="outline-primary" className="rounded-pill py-2 px-4">
+          <Button variant="outline-primary" className="rounded-pill py-2 px-4" onClick={() => search()}>
             Search
           </Button>
         </Col>
       </Row>
+      {memberLists.length > 0 && (
+        <AdvanceTableWrapper
+          columns={columns}
+          data={memberLists}
+          sortable
+          // pagination
+          // selection
+          perPage={resultsPerPage}
+        >
+          <AdvanceTable
+            table
+            headerClassName="bg-200 text-900 text-nowrap align-middle"
+            rowClassName="align-middle white-space-nowrap"
+            tableProps={{
+              bordered: true,
+              striped: true,
+              className: 'fs--1 mb-0 overflow-hidden'
+            }}
+          />
+          <div className="mt-3">
+            <AdvanceTableFooter
+              rowCount={memberLists.length}
+              table
+              rowInfo
+              navButtons
+              // rowsPerPageSelection
+            />
+          </div>
+        </AdvanceTableWrapper>
+      )}
     </>
   );
 }

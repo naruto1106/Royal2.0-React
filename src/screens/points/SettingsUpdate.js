@@ -14,7 +14,7 @@ import {
   message,
   Modal,
   InputNumber,
-  DatePicker,
+  DatePicker
 } from 'antd';
 // import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -25,17 +25,11 @@ import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 import { Button, Form as BootstrapForm } from 'react-bootstrap';
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import dayjs from 'dayjs';
+import moment from 'moment';
+
 const { confirm } = Modal;
 const { Title, Text } = Typography;
-// const btnQuestion = {
-//   backgroundColor: '#359DD9',
-//   borderRadius: '50%',
-//   border: 'none',
-//   color: 'white',
-//   fontSize: '21px',
-//   float: 'right'
-// };
+
 const inputBorderRadius = { borderRadius: '10px' };
 
 function SettingsUpdate() {
@@ -46,11 +40,21 @@ function SettingsUpdate() {
   let { routeKey, id } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const dateFormat = 'YYYY-MM-DD HH:mm:ss';
+  const [branch_val, setBranch_val] = useState("");
+
+  const selectchange = e => {
+    console.log('selectchange', e.target.value);
+    setBranch_val(e.target.value)
+  };
+
   const initPageModule = async () => {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getPointDataManagerSchemaEndpoint(`${routeKey}/${id}`);
+      const ep = endpoint.getPointDataManagerSchemaEndpoint(
+        `${routeKey}/${id}`
+      );
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
@@ -85,22 +89,35 @@ function SettingsUpdate() {
     console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
-      const { _id, first_name, last_name, email } = values;
-
+      const {
+        _id,
+        ownerISbb_usersID,
+        memberISbb_usersID,
+        pointsNUM,
+        code,
+        
+      } = values;
+      const transaction_date=values['transaction_date'].format('YYYY-MM-DD HH:mm:ss');
+      const branchISbb_loyal2_branchesID=branch_val;
       const updateMember = await Axios.patch(
-        endpoint.appUsers(`/app/users/${_id}`),
+        endpoint.appUsers(`/module/bb_loyal2_points/${_id}`),
         {
           _id,
-          first_name,
-          last_name,
-          email,
-          user_type: 3
+          ownerISbb_usersID,
+          memberISbb_usersID,
+          code,
+          transaction_date,
+          internal_notesISsmallplaintextbox:12,
+          pointsNUM,
+          branchISbb_loyal2_branchesID
         }
       );
       const user = updateMember.data;
+      console.log(user,"userusfjdlksjfdlksjlk")
       if (user.error) return message.error(user.error);
       message.success('Updated successful!');
-      initPageModule();
+      navigate('/datamanager/bb_loyal2_points/list');
+      // initPageModule();
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -135,7 +152,7 @@ function SettingsUpdate() {
       _isMounted.current && setLoadingSchema(true);
 
       const deleteMember = await Axios.delete(
-        endpoint.appUsers(`/app/users/${id}`)
+        endpoint.appUsers(`/module/bb_loyal2_points/${id}`)
       );
       const user = deleteMember.data;
       if (user.error) return message.error(user.error);
@@ -144,331 +161,173 @@ function SettingsUpdate() {
       handleError(error, true);
     } finally {
       _isMounted.current && setLoadingSchema(false);
-      navigate('/manage_users');
+      navigate('/datamanager/bb_loyal2_points/list');
     }
   };
 
   let FieldsData = layoutData.data;
+  console.log(FieldsData,"FieldData")
+  const selectedStartDate = moment(
+    FieldsData[0][0].transaction_date,
+    dateFormat
+  );
+  const initValues = {
+    transaction_date: selectedStartDate
+  };
+  // console.log("transaction_date",FieldsData[0][0].transaction_date)
   form.setFieldsValue({
     ownerISbb_usersID: FieldsData[0][0].ownerISbb_usersID,
     memberISbb_usersID: FieldsData[0][0].memberISbb_usersID,
     pointsNUM: FieldsData[0][0].pointsNUM,
-    transaction_date: FieldsData[0][0].transaction_date,
     code: FieldsData[0][0].code,
-    branchISbb_loyal2_branchesID: FieldsData[0][0].branchISbb_loyal2_branchesID,
     _id: FieldsData[0][0]._id
   });
-  const dateFormat = 'YYYY/MM/DD';
-  const dateChange = (date, dateString) => {
-    console.log(date, dateString);
+  const config = {
+    rules: [
+      {
+        type: 'object',
+        required: true,
+        message: 'Please select time!'
+      }
+    ]
   };
+
   return (
     <>
-     <Form
-            name="basic"
-            labelCol={{
-              span: 0
-            }}
-            wrapperCol={{
-              span: 24
-            }}
-            initialValues={{
-              remember: true
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            form={form}
-            autoComplete="off"
-          >
-            <Form.Item name="_id" hidden="hidden">
-              <Input />
-            </Form.Item>
-      <Row className="mx-4">
-        <Col>
-          <Title strong className="my-6" level={4} style={{ color: '#444444' }}>
-            Update this point
-          </Title>
-        </Col>
-      </Row>
-      <Row className="mx-4">
-        <Col span={20}>
-          <Text strong style={{ color: '#444444' }}>
-            Member*
-          </Text>
-          <Form.Item
-                      name="memberISbb_usersID"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input Owner!'
-                        }
-                      ]}
-                    >
-                    <Input style={{ borderRadius: '10px' }} type="text"  />
-                    </Form.Item>
-          
-        </Col>
-      </Row>
-      <Row className="my-7 mx-4">
-        <Col span={9}>
-          <Text strong style={{ color: '#444444' }}>
-            Points*
-          </Text>
-          <Form.Item
-                      name="pointsNUM"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input Owner!'
-                        }
-                      ]}
-                    >
-                        
-          <InputNumber style={{ width: '100%', borderRadius: '10px' }} />
-                    </Form.Item>
-        </Col>
-        <Col span={2}></Col>
-        <Col span={9}>
-          <Text strong style={{ color: '#444444' }}>
-            Code
-          </Text>
-          <Form.Item
-                      name="code"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input Owner!'
-                        }
-                      ]}
-                    >
-
-          <Input type="text" style={{ borderRadius: '10px' }} />
-                    </Form.Item>
-        </Col>
-      </Row>
-      <Row className="my-5 mx-4">
-        <Col xs={23} sm={23} md={4} lg={7} xl={7} xxl={7}>
-        {/* <Form.Item
-                      name="transaction_date"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input Owner!'
-                        }
-                      ]}
-                    > */}
-                        <DatePicker defaultValue={dayjs(FieldsData[0][0].transaction_date, dateFormat)} format={dateFormat} onChange={dateChange}
-            style={{ width: '100%', borderRadius: '10px', color: '#444444' }} 
-          />
-                        {/* </Form.Item> */}
-          
-        </Col>
-        <Col xs={23} sm={23} md={4} lg={3} xl={3} xxl={3}>
-          <Text
-            strong
-            className="me-2 my-1"
-            style={{ float: 'right', color: '#444444' }}
-          >
-            Branch
-          </Text>
-        </Col>
-        <Col xs={23} sm={23} md={4} lg={8} xl={8} xxl={8}>
-          <BootstrapForm.Select
-            defaultValue="lucy"
-            style={{ width: '100%', borderRadius: '10px' }}
-            // onChange={handleChange}
-          >
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-          </BootstrapForm.Select>
-        </Col>
-        <Col className="mx-3">
-          <Button variant="outline-primary" className="rounded-pill py-2 px-4">
-            Add
-          </Button>
-        </Col>
-      </Row>
-      {/* <Row className="mx-4 mt-3">
-        <Col span={24}>
-          <Form
-            name="basic"
-            labelCol={{
-              span: 0
-            }}
-            wrapperCol={{
-              span: 24
-            }}
-            initialValues={{
-              remember: true
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            form={form}
-            autoComplete="off"
-          >
-            <Form.Item name="_id" hidden="hidden">
-              <Input />
-            </Form.Item>
-            <Row gutter={[24, 16]}>
-              <Col xs={12} lg={10}>
-                <Text strong style={{ color: '#444444' }}>
-                  First Name
-                </Text>
-                <Row className="mt-1">
-                  <Col span={24}>
-                    <Form.Item
-                      name="first_name"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input First name!'
-                        }
-                      ]}
-                    >
-                      <Input style={inputBorderRadius} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs={12} lg={10}>
-                <Text strong style={{ color: '#444444' }}>
-                  Last Name
-                </Text>
-                <Row className="mt-1">
-                  <Col span={24}>
-                    <Form.Item
-                      name="last_name"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Please input Last name!'
-                        }
-                      ]}
-                    >
-                      <Input style={inputBorderRadius} />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+      <Form
+        name="basic"
+        labelCol={{
+          span: 0
+        }}
+        wrapperCol={{
+          span: 24
+        }}
+        initialValues={initValues}
+        // initialValues={{
+        //   remember: true
+        // }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        form={form}
+        autoComplete="off"
+      >
+        <Form.Item name="_id" hidden="hidden">
+          <Input />
+        </Form.Item>
+        <Form.Item name="ownerISbb_usersID" hidden="hidden">
+          <Input />
+        </Form.Item>
+        <Row className="mx-4">
+          <Col>
+            <Title
+              strong
+              className="my-6"
+              level={4}
+              style={{ color: '#444444' }}
+            >
+              Update this point
+            </Title>
+          </Col>
+        </Row>
+        <Row className="mx-4">
+          <Col span={20}>
             <Text strong style={{ color: '#444444' }}>
-              Email
+              Member*
             </Text>
-            <Row className="mt-1">
-              <Col xs={21} lg={20}>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      type: 'email',
-                      required: true,
-                      message: 'Please input Email!'
-                    }
-                  ]}
-                >
-                  <Input style={inputBorderRadius} />
-                </Form.Item>
-              </Col>
-            </Row>
+            <Form.Item
+              name="memberISbb_usersID"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input Owner!'
+                }
+              ]}
+            >
+              <Input style={{ borderRadius: '10px' }} type="text" />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className="my-7 mx-4">
+          <Col span={9}>
+            <Text strong style={{ color: '#444444' }}>
+              Points*
+            </Text>
+            <Form.Item
+              name="pointsNUM"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input Owner!'
+                }
+              ]}
+            >
+              <InputNumber style={{ width: '100%', borderRadius: '10px' }} />
+            </Form.Item>
+          </Col>
+          <Col span={2}></Col>
+          <Col span={9}>
             <Text strong style={{ color: '#444444' }}>
               Code
             </Text>
-            <Row className="mt-1">
-              <Col xs={21} lg={20}>
-                <Form.Item
-                  name="code"
-                  rules={[
-                    {
-                      required: false,
-                      message: 'Please input Code!'
-                    }
-                  ]}
-                >
-                  <Input style={inputBorderRadius} />
-                </Form.Item>
-              </Col> */}
-              {/* <Col sm={3} lg={1}>
-                <Tooltip placement="right" title="Code" color="#359dd9">
-                  <QuestionCircleOutlined
-                    className="mt-1"
-                    style={btnQuestion}
-                  />
-                </Tooltip>
-              </Col> */}
-            {/* </Row>
-            <Row className="mt-3" align="middle" gutter={[24, 24]}>
-              <Col xs={12} lg={10}>
-                <Row align="middle">
-                  <Col span={18}>
-                    <Text style={{ color: '#444444' }} strong>
-                      Disable Backoffice Access
-                    </Text>
-                  </Col>
-                  <Col span={6}>
-                    <Switch onChange={onChange} />
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs={12} lg={10}>
-                <Row align="middle">
-                  <Col span={8}>
-                    <Text style={{ color: '#444444' }} strong>
-                      Branch
-                    </Text>
-                  </Col>
-                  <Col span={16}>
-                    <BootstrapForm.Select
-                      placeholder="Select"
-                      style={{ borderRadius: '10px' }}
-                    >
-                      <option value="option1">option1</option>
-                    </BootstrapForm.Select>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-            <Row className="mt-5">
-              <Col xs={12} lg={10}>
-                <Row align="middle">
-                  <Col span={6}>
-                    <Text style={{ color: '#444444' }} strong>
-                      Set password
-                    </Text>
-                  </Col>
-                  <Col span={18}>
-                    <Input style={inputBorderRadius} />
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-            <Row className="mt-5">
-              <Col xs={12} lg={10}>
-                <Button
-                  className="btn-active-command rounded-pill px-4"
-                  type="submit"
-                >
-                  Save
-                </Button>
-              </Col>
-              <Col xs={12} lg={10}>
-                <Button
-                  variant="outline-primary"
-                  className="rounded-pill px-4"
-                  style={{ float: 'right' }}
-                  onClick={() => showDeleteConfirm(id)}
-                >
-                  Delete
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Col>
-      </Row> */}
+            <Form.Item
+              name="code"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input Owner!'
+                }
+              ]}
+            >
+              <Input type="text" style={{ borderRadius: '10px' }} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row className="my-5 mx-4">
+          <Col xs={23} sm={23} md={4} lg={7} xl={7} xxl={7}>
+            <Form.Item name={'transaction_date'}>
+              <DatePicker
+                value={selectedStartDate}
+                style={{
+                  width: '100%',
+                  borderRadius: '10px',
+                  color: '#444444'
+                }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={23} sm={23} md={4} lg={3} xl={3} xxl={3}>
+            <Text
+              strong
+              className="me-2 my-1"
+              style={{ float: 'right', color: '#444444' }}
+            >
+              Branch
+            </Text>
+          </Col>
+          <Col xs={23} sm={23} md={4} lg={8} xl={8} xxl={8}>
+            <BootstrapForm.Select
+              defaultValue={branch_val}
+              onChange={(e) => selectchange(e)}
+              style={{ width: '100%', borderRadius: '10px' }}
+              // onChange={handleChange}
+            >
+              <option value=""></option>
+              <option value="branch1">Branch1</option>
+              <option value="branch2">Branch2</option>
+              <option value="branch3">Branch3</option>
+            </BootstrapForm.Select>
+          </Col>
+          <Col className="mx-3">
+            <Button
+              variant="outline-primary"
+              className="rounded-pill py-2 px-4"
+              type="submit"
+            >
+              Update
+            </Button>
+          </Col>
+        </Row>
+        
       </Form>
     </>
   );

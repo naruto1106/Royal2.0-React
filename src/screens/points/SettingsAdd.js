@@ -26,6 +26,27 @@ function SettingsAdd() {
   const _isMounted = useRef(false);
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  // const ownerISbb_usersID="";
+  // const _id="";
+  // const internal_notesISsmallplaintextbox="";
+  const [memberISbb_usersID, setMemberISbb_usersID] = useState('');
+  const [code, setCode] = useState('');
+  const [transaction_date, setTransaction_date] = useState('');
+  const [pointsNUM, setPointsNUM] = useState('');
+  const [branchISbb_loyal2_branchesID, setBranchISbb_loyal2_branchesID] =
+    useState('');
+  const datechange = (a, b) => {
+    console.log(a, 'aaa');
+    console.log(b, 'bbb');
+    setTransaction_date(b);
+  };
+  const handleChange = e => {
+    console.log(e.target.value);
+    setBranchISbb_loyal2_branchesID(e.target.value);
+  };
+  const pointChange = e =>{
+    setPointsNUM(e);
+  }
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -54,22 +75,33 @@ function SettingsAdd() {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
-  async values => {
-    console.log('Success:', values);
+  const Add= async () =>{
     try {
       _isMounted.current && setLoadingSchema(true);
-      const { first_name, last_name, email } = values;
+
+      
       console.log(endpoint.appUsers(layoutData.options.post_endpoint));
-      const addPoint = await Axios.post(
+      console.log(memberISbb_usersID,"memberISbb_usersID")
+      console.log(code,"code")
+      console.log(transaction_date,"transaction_date")
+      console.log(pointsNUM,"pointsNUM")
+      console.log(branchISbb_loyal2_branchesID,"branchISbb_loyal2_branchesID")
+      console.log(endpoint.appUsers(layoutData.options.post_endpoint));
+
+      const addMember = await Axios.post(
         endpoint.appUsers(layoutData.options.post_endpoint),
         {
-          first_name,
-          last_name,
-          email,
-          user_type: 3
+          memberISbb_usersID,
+          code,
+          transaction_date,
+          pointsNUM,
+          branchISbb_loyal2_branchesID,
+          ownerISbb_usersID:145,
+          internal_notesISsmallplaintextbox:11
+
         }
       );
-      const user = addPoint.data;
+      const user = addMember.data;
       if (user.error) return message.error(user.error);
       message.success('Added successful!');
       console.log(`${endpoint.appUsers} response -> `, user);
@@ -78,13 +110,13 @@ function SettingsAdd() {
     } finally {
       _isMounted.current && setLoadingSchema(false);
     }
-  };
+  }
   return (
     <>
       <Row className="mx-4">
         <Col>
           <Title strong className="my-6" level={4} style={{ color: '#444444' }}>
-            Add a new points reacord
+            Add a new points record
           </Title>
         </Col>
       </Row>
@@ -93,7 +125,12 @@ function SettingsAdd() {
           <Text strong style={{ color: '#444444' }}>
             Member*
           </Text>
-          <Input style={{ borderRadius: '10px' }} type="text" />
+          <Input
+            style={{ borderRadius: '10px' }}
+            type="text"
+            value={memberISbb_usersID}
+            onChange={e => setMemberISbb_usersID(e.target.value)}
+          />
         </Col>
       </Row>
       <Row className="my-7 mx-4">
@@ -101,19 +138,29 @@ function SettingsAdd() {
           <Text strong style={{ color: '#444444' }}>
             Points*
           </Text>
-          <InputNumber style={{ width: '100%', borderRadius: '10px' }} />
+          <InputNumber
+            style={{ width: '100%', borderRadius: '10px' }}
+            value={pointsNUM}
+            onChange={pointChange}
+          />
         </Col>
         <Col span={2}></Col>
         <Col span={9}>
           <Text strong style={{ color: '#444444' }}>
             Code
           </Text>
-          <Input type="text" style={{ borderRadius: '10px' }} />
+          <Input
+            type="text"
+            style={{ borderRadius: '10px' }}
+            value={code}
+            onChange={e=>setCode(e.target.value)}
+          />
         </Col>
       </Row>
       <Row className="my-5 mx-4">
         <Col xs={23} sm={23} md={4} lg={7} xl={7} xxl={7}>
           <DatePicker
+            onChange={datechange} format="YYYY-MM-DD HH:mm:ss"
             style={{ width: '100%', borderRadius: '10px', color: '#444444' }}
           />
         </Col>
@@ -128,21 +175,17 @@ function SettingsAdd() {
         </Col>
         <Col xs={23} sm={23} md={4} lg={8} xl={8} xxl={8}>
           <Form.Select
-            defaultValue="lucy"
             style={{ width: '100%', borderRadius: '10px' }}
-            // onChange={handleChange}
+            onChange={e => handleChange(e)}
           >
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
-            <option>123345</option>
+            <option value=""></option>
+            <option value="branch1">Branch1</option>
+            <option value="branch2">Branch2</option>
+            <option value="branch3">Branch3</option>
           </Form.Select>
         </Col>
         <Col className="mx-3">
-          <Button variant="outline-primary" className="rounded-pill py-2 px-4">
+          <Button variant="outline-primary" className="rounded-pill py-2 px-4" onClick={()=>Add()}>
             Add
           </Button>
         </Col>
