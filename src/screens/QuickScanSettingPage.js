@@ -483,29 +483,28 @@ function QuickScanSettingPage() {
                     </Col>
                   </Row>
                   <Row className=" mt-5">
-                    <Col span={9} style={{textAlign:"center"}}>
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Text className="text-label" strong>
                         QuickScan URL QR code
                       </Text>
                     </Col>
-                    
                   </Row>
                   <Row className=" mt-4">
-                    <Col span={9} style={{textAlign:"center"}}>
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Image width={200} height={200} src="/img/QR_1.svg" />
                     </Col>
                   </Row>
-                  <Row className='mt-3'>
-                    <Col span={9} style={{textAlign:"center"}}>
+                  <Row className="mt-3">
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Text style={{ color: '#359DD9' }} strong>
                         Print QR code
                       </Text>
                     </Col>
                   </Row>
-                  <Row className='mt-2'>
-                    <Col span={9} style={{textAlign:"center"}}>
+                  <Row className="mt-2">
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Text style={{ color: '#359DD9' }} strong>
-                      Print member card
+                        Print member card
                       </Text>
                     </Col>
                   </Row>
@@ -517,50 +516,49 @@ function QuickScanSettingPage() {
                     </Col>
                   </Row>
                   <Row className=" mt-5">
-                    <Col span={9} style={{textAlign:"center"}}>
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Text className="text-label" strong>
-                      QR code
+                        QR code
                       </Text>
                     </Col>
-                    <Col span={12} style={{textAlign:"center"}}>
+                    <Col span={12} style={{ textAlign: 'center' }}>
                       <Text className="text-label" strong>
-                      2D barcode
+                        2D barcode
                       </Text>
                     </Col>
                   </Row>
                   <Row className=" mt-4">
-                    <Col span={9} style={{textAlign:"center"}}>
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Image width={200} height={200} src="/img/QR_2.svg" />
                     </Col>
-                    <Col span={12} style={{textAlign:"center"}}>
+                    <Col span={12} style={{ textAlign: 'center' }}>
                       <Image width={200} height={200} src="/img/QR_3.svg" />
                     </Col>
                   </Row>
-                  <Row className='mt-3'>
-                    <Col span={9} style={{textAlign:"center"}}>
+                  <Row className="mt-3">
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Text style={{ color: '#359DD9' }} strong>
                         Print QR code
                       </Text>
                     </Col>
-                    <Col span={12} style={{textAlign:"center"}}>
+                    <Col span={12} style={{ textAlign: 'center' }}>
                       <Text style={{ color: '#359DD9' }} strong>
                         Print QR code
                       </Text>
                     </Col>
                   </Row>
-                  <Row className='mt-2'>
-                    <Col span={9} style={{textAlign:"center"}}>
+                  <Row className="mt-2">
+                    <Col span={9} style={{ textAlign: 'center' }}>
                       <Text style={{ color: '#359DD9' }} strong>
-                      Print member card
+                        Print member card
                       </Text>
                     </Col>
-                    <Col span={12} style={{textAlign:"center"}}>
+                    <Col span={12} style={{ textAlign: 'center' }}>
                       <Text style={{ color: '#359DD9' }} strong>
-                      Print member card
+                        Print member card
                       </Text>
                     </Col>
                   </Row>
-                   
                 </Tab>
               </Tabs>
             </Col>
@@ -571,5 +569,3 @@ function QuickScanSettingPage() {
   );
 }
 export default QuickScanSettingPage;
-
- 

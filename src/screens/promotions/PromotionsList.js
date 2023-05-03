@@ -90,13 +90,14 @@ function PromotionsList() {
     console.log(_array, 'delete=> selected item');
   };
   let index = 0;
-  const AllChange = () => {
+
+  const AllChange = memberData => {
+    // console.log(row);
     index++;
     _array = [];
-    console.log(promotionsLists.length, 'aaaaa');
     console.log(index % 2);
-    index % 2
-      ? promotionsLists.map(id => {
+    index % 2 == '1'
+      ? memberData.data.map(id => {
           console.log(id._id);
           _array.push(id._id);
         })
@@ -133,7 +134,9 @@ function PromotionsList() {
     let i = item.length;
     setLoadingSchema(true);
     await item.map(async id => {
-      await Axios.delete(endpoint.appUsers(`/app/users/${id}`));
+      await Axios.delete(
+        endpoint.appUsers(`/module/bb_loyal2_promotions/${id}`)
+      );
       i--;
       console.log('counter', i);
       if (i == 0) {
@@ -217,16 +220,14 @@ function PromotionsList() {
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox
             {...getToggleAllRowsSelectedProps()}
-            onClick={getToggleAllRowsSelectedProps =>
-              AllChange(getToggleAllRowsSelectedProps)
-            }
+            onClick={() => AllChange(layoutData)}
           />
         ),
         Cell: ({ row }) => (
           <div>
             <IndeterminateCheckbox
               {...row.getToggleRowSelectedProps()}
-              onClick={() => onChange(...row)}
+              onClick={() => onChange(row)}
             />
           </div>
         )

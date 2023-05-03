@@ -18,7 +18,9 @@ const BranchesPage = React.lazy(() => import('../screens/BranchesPage'));
 const QuickScanReasonPage = React.lazy(() =>
   import('../screens/QuickScanReasonPage')
 );
-const QuickScanSettingPage=React.lazy(()=>import('../screens/QuickScanSettingPage'))
+const QuickScanSettingPage = React.lazy(() =>
+  import('../screens/QuickScanSettingPage')
+);
 
 const MemberSubscription = React.lazy(() =>
   import('../screens/MemberSubscription')
