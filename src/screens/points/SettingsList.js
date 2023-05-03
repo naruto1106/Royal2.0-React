@@ -9,14 +9,14 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Modal,message } from 'antd';
+import { Modal, message, Typography } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../utils/endpoint';
 const { confirm } = Modal;
-
+const { Title } = Typography;
 function SettingsList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,11 +24,10 @@ function SettingsList() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [pointLists, setPointLists] = useState([]);
+  const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
   let _array = [];
-
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -54,15 +53,16 @@ function SettingsList() {
       const ep = endpoint.getPointDataManagerSchemaEndpoint('list');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
-      console.log('menuSchema:->', pointLists);
+      console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
-      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
+      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current member menu
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
-      const pointRes = await Axios.get(
-        endpoint.getPointDataManagerSchemaEndpoint('list')
+      const memberRes = await Axios.get(
+        endpoint.appUsers('/module/bb_loyal2_points/')
       );
-      setPointLists(pointRes.data);
+      setMemeberLists(memberRes.data.list);
+      // console.log(memberRes.data,"memberRes.daata")
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -85,9 +85,7 @@ function SettingsList() {
       ? showDeleteConfirm(_array)
       : message.error('Please select item!');
     console.log(_array, 'delete=> selected item');
-    // showDeleteConfirm();
   };
-
   let index = 0;
   const AllChange = () => {
     // console.log(row);
@@ -101,12 +99,12 @@ function SettingsList() {
         })
       : (_array = []);
   };
+
   const onChange = row => {
     let index;
     index = _array.indexOf(row.original._id);
     index > -1 ? _array.splice(index, 1) : _array.push(row.original._id);
     _array.sort();
-    // console.log('check_box_click', row); // isSelected: true, false
   };
 
   const row_select = row => {
@@ -120,12 +118,12 @@ function SettingsList() {
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        onDelete(item);
-        // console.log('OK');
-      },
       onCancel() {
-        console.log('Cancel');
+        console.log(item, 'deleted item');
+      },
+      onOk() {
+        // console.log(item.length);
+        onDelete(item);
       }
     });
   };
@@ -167,7 +165,6 @@ function SettingsList() {
         tempElement.accessor = key;
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {
-          //  const { code } = rowData.row.original;
           const value = rowData.row.original[key];
           const divTag = (
             <div
@@ -245,9 +242,12 @@ function SettingsList() {
   // end Loading part
   return (
     <>
+      <Title className="mx-4" level={4}>
+        All points record
+      </Title>
       <AdvanceTableWrapper
         columns={columns}
-        data={layoutData.data}
+        data={memberLists}
         sortable
         // pagination
         // selection
@@ -265,7 +265,7 @@ function SettingsList() {
         />
         <div className="mt-3">
           <AdvanceTableFooter
-            rowCount={layoutData.data.length}
+            rowCount={memberLists.length}
             table
             rowInfo
             navButtons

@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Row, Col, Divider, message, Modal } from 'antd';
+import { Typography, Row, Col, message, Modal } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
@@ -11,7 +11,6 @@ import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 // import { Link } from 'react-router-dom';
 import { Table, Button } from 'react-bootstrap';
-// import { DownOutlined, RightOutlined } from '@ant-design/icons';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -40,7 +39,9 @@ function SettingsView() {
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
 
-      const memberRes = await Axios.get(endpoint.appUsers(`/module/bb_loyal2_points/${id}`));
+      const memberRes = await Axios.get(
+        endpoint.appUsers(`/module/bb_loyal2_points/${id}`)
+      );
       setMemberData(memberRes.data);
       console.log(memberRes, 'memberres');
       _isMounted.current && setLayoutData(layoutSchema);
@@ -124,16 +125,16 @@ function SettingsView() {
                 <tr>
                   <td style={tdpadding}>{layoutFields.ownerISbb_usersID}</td>
                   <td style={tdright}>
-                    {memberData
-                      ? memberData.ownerISbb_usersID 
-                      : ''}
+                    {memberData ? memberData.ownerISbb_usersID : ''}
                   </td>
                 </tr>
               ) : null}
               {layoutFields.memberISbb_usersID ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.memberISbb_usersID}</td>
-                  <td style={tdright}>{memberData ? memberData.memberISbb_usersID : ''}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.memberISbb_usersID : ''}
+                  </td>
                 </tr>
               ) : null}
               {layoutFields.code ? (
@@ -145,28 +146,41 @@ function SettingsView() {
               {layoutFields.transaction_date ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.transaction_date}</td>
-                  <td style={tdright}>{memberData ? memberData.transaction_date : ''}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.transaction_date : ''}
+                  </td>
                 </tr>
               ) : null}
               {layoutFields.pointsNUM ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.pointsNUM}</td>
-                  <td style={tdright}>{memberData ? memberData.pointsNUM : ''}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.pointsNUM : ''}
+                  </td>
                 </tr>
               ) : null}
               {layoutFields.internal_notesISsmallplaintextbox ? (
                 <tr>
-                  <td style={tdpadding}>{layoutFields.internal_notesISsmallplaintextbox}</td>
-                  <td style={tdright}>{memberData ? memberData.internal_notesISsmallplaintextbox : ''}</td>
+                  <td style={tdpadding}>
+                    {layoutFields.internal_notesISsmallplaintextbox}
+                  </td>
+                  <td style={tdright}>
+                    {memberData
+                      ? memberData.internal_notesISsmallplaintextbox
+                      : ''}
+                  </td>
                 </tr>
               ) : null}
               {layoutFields.branchISbb_loyal2_branchesID ? (
                 <tr>
-                  <td style={tdpadding}>{layoutFields.branchISbb_loyal2_branchesID}</td>
-                  <td style={tdright}>{memberData ? memberData.branchISbb_loyal2_branchesID : ''}</td>
+                  <td style={tdpadding}>
+                    {layoutFields.branchISbb_loyal2_branchesID}
+                  </td>
+                  <td style={tdright}>
+                    {memberData ? memberData.branchISbb_loyal2_branchesID : ''}
+                  </td>
                 </tr>
               ) : null}
-              
             </tbody>
           </Table>
         </Col>

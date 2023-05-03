@@ -26,7 +26,7 @@ function SettingsSearch() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [searchtext, setSearchtext] = useState('');
-  const [memberLists, setMemeberLists] = useState([]);
+  const [memberLists, setMemberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
   const initPageModule = async () => {
@@ -55,7 +55,7 @@ function SettingsSearch() {
     return () => {
       _isMounted.current = false;
     };
-  }, []); 
+  }, []);
   const row_select = row => {
     console.log('success', row);
     // navigate('/datamanager/bb_loyal2_members/view/' + row._id);
@@ -100,11 +100,11 @@ function SettingsSearch() {
         };
         tempArray.push(tempElement);
       }
-      
+
       setColumns(tempArray);
     }
   }, [layoutData]);
-  const search = async () => {
+  async () => {
     console.log('searchtext', searchtext);
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -113,8 +113,8 @@ function SettingsSearch() {
         endpoint.appUsers('/module/bb_loyal2_points/search/') +
           `?text_search=${searchtext}`
       );
-      console.log(searchData.data,"ppppp");
-      setMemeberLists(searchData.data);
+      console.log(searchData.data, 'ppppp');
+      setMemberLists(searchData.data);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -129,34 +129,40 @@ function SettingsSearch() {
   return (
     <>
       <Row className="mx-4 mb-4">
-        <Col span={20}>
+        <Col span={23}>
           <Title level={4} className="mb-3">
             Search points records
           </Title>
         </Col>
       </Row>
       <Row className="mx-4 mb-4">
-        <Col span={20}>
-          <Input placeholder="Free text search" style={inputStyle} onChange={e => {
+        <Col span={23}>
+          <Input
+            placeholder="Free text search"
+            style={inputStyle}
+            onChange={e => {
               setSearchtext(e.target.value);
             }}
-            value={searchtext} />
+            value={searchtext}
+          />
         </Col>
       </Row>
       <Row className="mx-4">
-        <Col span={20}>
+        <Col span={23}>
           <Input placeholder="Member" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-4" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={8}>
-          <Text strong>Transaction Date between</Text>
+      <Row className="mx-4 mt-5" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
+            Transaction Date between
+          </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-        <Col xs={4} md={4} lg={2} xl={2}>
-          <Text strong style={{ textAlign: 'center' }}>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
             and
           </Text>
         </Col>
@@ -164,25 +170,35 @@ function SettingsSearch() {
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-4 mb-4" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={8}>
-          <Text strong>Transaction Date between</Text>
+      <Row className="mx-4 mt-5" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
+            Date Added/Imported between
+          </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-        <Col xs={4} md={4} lg={2} xl={2}>
-          <Text strong style={{ textAlign: 'center' }}>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
             and
           </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
-        <Col xs={24} md={6} lg={5} xl={6}>
-          <Button variant="outline-primary" className="rounded-pill py-2 px-4" onClick={() => search()}>
-            Search
-          </Button>
+        <Col xs={24} md={6} lg={4} xl={4}>
+          <Row>
+            <Col span={24}>
+              <Button
+                variant="outline-primary"
+                style={{ float: 'right' }}
+                className="rounded-pill px-4 py-2"
+              >
+                Search
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
       {memberLists.length > 0 && (

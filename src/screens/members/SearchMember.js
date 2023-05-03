@@ -245,14 +245,12 @@ function SearchMember() {
   return (
     <>
       <Row className="mb-4 mx-4">
-        <Col lg={10} lx={10}>
-          <Title level={4} style={{ color: '#444444' }}>
-            Search Members
-          </Title>
+        <Col lg={23} xl={23}>
+          <Title level={4}>Search Members</Title>
         </Col>
       </Row>
       <Row className="my-5 mx-4">
-        <Col lg={20} lx={20}>
+        <Col lg={24} xl={22}>
           <Input
             placeholder="Free text search"
             onChange={e => {
@@ -263,64 +261,87 @@ function SearchMember() {
           />
         </Col>
       </Row>
-      <Row className="mb-5 mx-4">
-        <Col lg={5} className="py-1">
-          <Text strong>Points balance between</Text>
+      <Row className="mb-5 mx-4" align="middle">
+        <Col lg={13} xl={12}>
+          <Row align="middle">
+            <Col span={12}>
+              <Text strong className="text-label">
+                Points balance between
+              </Text>
+            </Col>
+            <Col span={4}>
+              <InputNumber
+                min={1}
+                max={1000}
+                defaultValue={1}
+                style={inputStyle}
+              />
+            </Col>
+            <Col span={4} style={{ textAlign: 'center' }}>
+              <Text className="text-label" strong>
+                and
+              </Text>
+            </Col>
+            <Col span={4}>
+              <InputNumber
+                min={1}
+                max={1000}
+                defaultValue={1}
+                style={inputStyle}
+              />
+            </Col>
+          </Row>
         </Col>
-        <Col lg={7}>
-          <InputNumber
-            min={1}
-            max={1000}
-            defaultValue={1}
-            style={{ borderRadius: '10px', width: '70px' }}
-          />
-          <Text className="mx-2 text-label " strong>
-            and
-          </Text>
-          <InputNumber
-            min={1}
-            max={1000}
-            defaultValue={1}
-            style={{ borderRadius: '10px', width: '70px' }}
-          />
-        </Col>
-        <Col md={8} lg={2} className="py-1">
-          <Text strong>Group</Text>
-        </Col>
-        <Col lg={6} xl={6}>
-          <Form.Select
-            defaultValue="select"
-            placeholder="Select"
-            style={{ width: '100%', borderRadius: '10px' }}
-          >
-            <option>Default select</option>
-            <option>Group1</option>
-            <option>Group2</option>
-          </Form.Select>
+        <Col lg={10} xl={10}>
+          <Row align="middle" gutter={[16, 16]}>
+            <Col span={12} style={{ textAlign: 'end' }}>
+              <Text strong className="text-label">
+                Group
+              </Text>
+            </Col>
+            <Col span={12}>
+              <Form.Select
+                defaultValue="select"
+                placeholder="Select"
+                style={{ borderRadius: '10px' }}
+              >
+                <option>Default select</option>
+                <option>Group1</option>
+                <option>Group2</option>
+              </Form.Select>
+            </Col>
+          </Row>
         </Col>
       </Row>
-      <Row className="mb-5 mx-4">
-        <Col lg={2} xl={2} className="py-1 ">
-          <Text strong> Activity</Text>
+      <Row className="mb-5 mx-4" align="middle">
+        <Col lg={13} xl={12}>
+          <Row align="middle">
+            <Col span={6}>
+              <Text strong className="text-label">
+                Activity
+              </Text>
+            </Col>
+            <Col span={6}>
+              <Form.Select
+                defaultValue="select"
+                placeholder="Select"
+                style={{ borderRadius: '10px' }}
+              >
+                <option value="1">Activity</option>
+                <option value="0">Inactive</option>
+              </Form.Select>
+            </Col>
+            <Col span={6} style={{ textAlign: 'center' }}>
+              <Text strong className="text-label">
+                Since
+              </Text>
+            </Col>
+            <Col span={6}>
+              <DatePicker style={inputStyle} />
+            </Col>
+          </Row>
         </Col>
-        <Col lg={4} xl={4}>
-          <Form.Select
-            defaultValue="select"
-            placeholder="Select"
-            style={{ width: '100%', borderRadius: '10px' }}
-          >
-            <option value="1">Activity</option>
-            <option value="0">Inactive</option>
-          </Form.Select>
-        </Col>
-        <Col lg={2} xl={2}></Col>
-        <Col lg={2} xl={2} className="py-1 mx-4">
-          <Text strong> Since</Text>
-        </Col>
-        <Col lg={4} xl={4}>
-          <DatePicker style={{ borderRadius: '10px' }} />
-        </Col>
-        <Col lg={5} xl={5} style={{ textAlign: 'end' }}>
+        <Col lg={10} xl={10} style={{ textAlign: 'end' }}>
           <Button
             variant="outline-primary"
             className="rounded-pill py-2 px-4"

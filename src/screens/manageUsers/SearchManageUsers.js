@@ -136,7 +136,7 @@ function SearchManageUsers() {
         </Col>
       </Row>
       <Row className="mx-4 mt-3">
-        <Col xs={22} md={22} lg={20} xl={20}>
+        <Col xs={24} md={24} lg={23}>
           {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
           <Input
             onChange={e => setSearchtext(e.target.value)}
@@ -145,17 +145,17 @@ function SearchManageUsers() {
           />
         </Col>
       </Row>
-      <Row className="mx-4 mt-7 mb-3" align="middle" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={6}>
-          <Text style={{ color: '#444444' }} strong>
+      <Row className="mx-4 mt-7 mb-3" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
             Date Added/Imported between
           </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-        <Col xs={4} md={4} lg={2} xl={2}>
-          <Text strong style={{ textAlign: 'center', color: '#444444' }}>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
             and
           </Text>
         </Col>
@@ -163,16 +163,21 @@ function SearchManageUsers() {
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
         <Col xs={24} md={6} lg={4} xl={4}>
-          <Button
-            style={{ float: 'right' }}
-            variant="outline-primary"
-            className="rounded-pill px-4"
-            onClick={() => search()}
-          >
-            Search
-          </Button>
+          <Row>
+            <Col span={24}>
+              <Button
+                variant="outline-primary"
+                style={{ float: 'right' }}
+                className="rounded-pill px-4 py-2"
+                onClick={() => search()}
+              >
+                Search
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
+
       {memberLists.length > 0 && (
         <AdvanceTableWrapper
           columns={columns}

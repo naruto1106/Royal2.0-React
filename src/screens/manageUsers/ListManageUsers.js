@@ -9,14 +9,14 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form, Badge } from 'react-bootstrap';
-import { Modal, Typography, Row } from 'antd';
+import { Modal, Typography, Row, message } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../utils/endpoint';
 const { confirm } = Modal;
-
+let _array = [];
 const { Title, Paragraph } = Typography;
 const badgeStyle = {
   float: 'left',
@@ -87,19 +87,36 @@ function ListManageUsers() {
     navigate('/app/users/edit/' + row._id);
   };
   const deleteRow = () => {
-    showDeleteConfirm();
+    _array.length > 0
+      ? showDeleteConfirm(_array)
+      : message.error('Please select item!');
+    console.log(_array, 'delete=> selected item');
   };
-  const AllChange = row => {
-    console.log('checkbox_alldddd', row);
+  let index = 0;
+  const AllChange = memberData => {
+    // console.log(row);
+    index++;
+    _array = [];
+    console.log(index % 2);
+    index % 2 == 1
+      ? memberData.data.map(id => {
+          console.log(id._id);
+          _array.push(id._id);
+        })
+      : (_array = []);
   };
+
   const onChange = row => {
-    console.log('check_box_click', row); // isSelected: true, false
+    let index;
+    index = _array.indexOf(row.original._id);
+    index > -1 ? _array.splice(index, 1) : _array.push(row.original._id);
+    _array.sort();
   };
 
   const row_select = row => {
     navigate('/app/users/view/' + row._id);
   };
-  const showDeleteConfirm = () => {
+  const showDeleteConfirm = item => {
     confirm({
       title: 'Are you sure delete?',
       icon: <ExclamationCircleFilled />,
@@ -108,10 +125,24 @@ function ListManageUsers() {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        console.log('OK');
+        onDelete(item);
       },
       onCancel() {
-        console.log('Cancel');
+        console.log('canceled');
+      }
+    });
+  };
+  const onDelete = async item => {
+    let i = item.length;
+    setLoadingSchema(true);
+    await item.map(async id => {
+      await Axios.delete(endpoint.appUsers(`/app/users/${id}`));
+      i--;
+      console.log('counter', i);
+      if (i == 0) {
+        initPageModule();
+        message.success('Deleted successful!');
+        _array = [];
       }
     });
   };
@@ -199,9 +230,7 @@ function ListManageUsers() {
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox
             {...getToggleAllRowsSelectedProps()}
-            onClick={getToggleAllRowsSelectedProps =>
-              AllChange(getToggleAllRowsSelectedProps)
-            }
+            onClick={() => AllChange(layoutData)}
           />
         ),
         Cell: ({ row }) => (

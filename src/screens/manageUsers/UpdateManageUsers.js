@@ -185,9 +185,9 @@ function UpdateManageUsers() {
             <Form.Item name="_id" hidden="hidden">
               <Input />
             </Form.Item>
-            <Row gutter={[24, 16]}>
+            <Row gutter={[16, 16]}>
               <Col xs={12} lg={10}>
-                <Text strong style={{ color: '#444444' }}>
+                <Text strong className="text-label">
                   First Name
                 </Text>
                 <Row className="mt-1">
@@ -207,7 +207,7 @@ function UpdateManageUsers() {
                 </Row>
               </Col>
               <Col xs={12} lg={10}>
-                <Text strong style={{ color: '#444444' }}>
+                <Text strong className="text-label">
                   Last Name
                 </Text>
                 <Row className="mt-1">
@@ -227,11 +227,11 @@ function UpdateManageUsers() {
                 </Row>
               </Col>
             </Row>
-            <Text strong style={{ color: '#444444' }}>
+            <Text strong className="text-label">
               Email
             </Text>
             <Row className="mt-1">
-              <Col xs={21} lg={20}>
+              <Col xs={24} lg={20}>
                 <Form.Item
                   name="email"
                   rules={[
@@ -246,11 +246,11 @@ function UpdateManageUsers() {
                 </Form.Item>
               </Col>
             </Row>
-            <Text strong style={{ color: '#444444' }}>
+            <Text strong className="text-label">
               Code
             </Text>
             <Row className="mt-1">
-              <Col xs={21} lg={20}>
+              <Col xs={24} lg={20}>
                 <Form.Item
                   name="code"
                   rules={[
@@ -276,7 +276,7 @@ function UpdateManageUsers() {
               <Col xs={12} lg={10}>
                 <Row align="middle">
                   <Col span={18}>
-                    <Text style={{ color: '#444444' }} strong>
+                    <Text className="text-label" strong>
                       Disable Backoffice Access
                     </Text>
                   </Col>
@@ -288,7 +288,7 @@ function UpdateManageUsers() {
               <Col xs={12} lg={10}>
                 <Row align="middle">
                   <Col span={8}>
-                    <Text style={{ color: '#444444' }} strong>
+                    <Text className="text-label" strong>
                       Branch
                     </Text>
                   </Col>
@@ -303,11 +303,11 @@ function UpdateManageUsers() {
                 </Row>
               </Col>
             </Row>
-            <Row className="mt-5">
+            <Row className="mt-5" gutter={[16, 16]}>
               <Col xs={12} lg={10}>
                 <Row align="middle">
                   <Col span={6}>
-                    <Text style={{ color: '#444444' }} strong>
+                    <Text className="text-label" strong>
                       Set password
                     </Text>
                   </Col>
@@ -320,7 +320,7 @@ function UpdateManageUsers() {
             <Row className="mt-5">
               <Col xs={12} lg={10}>
                 <Button
-                  className="btn-active-command rounded-pill px-4"
+                  className="btn-active-command rounded-pill px-4 py-2"
                   type="submit"
                 >
                   Save
@@ -329,7 +329,7 @@ function UpdateManageUsers() {
               <Col xs={12} lg={10}>
                 <Button
                   variant="outline-primary"
-                  className="rounded-pill px-4"
+                  className="rounded-pill px-4 py-2"
                   style={{ float: 'right' }}
                   onClick={() => showDeleteConfirm(id)}
                 >

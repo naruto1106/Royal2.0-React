@@ -86,13 +86,13 @@ function ListMember() {
     console.log(_array, 'delete=> selected item');
   };
   let index = 0;
-  const AllChange = () => {
+  const AllChange = memberData => {
     // console.log(row);
     index++;
     _array = [];
     console.log(index % 2);
     index % 2 == '1'
-      ? memberLists.map(id => {
+      ? memberData.data.map(id => {
           console.log(id._id);
           _array.push(id._id);
         })
@@ -121,7 +121,6 @@ function ListMember() {
         console.log(item, 'deleted item');
       },
       onOk() {
-        // console.log(item.length);
         onDelete(item);
       }
     });
@@ -214,9 +213,7 @@ function ListMember() {
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox
             {...getToggleAllRowsSelectedProps()}
-            onClick={getToggleAllRowsSelectedProps =>
-              AllChange(getToggleAllRowsSelectedProps)
-            }
+            onClick={() => AllChange(layoutData)}
           />
         ),
         Cell: ({ row }) => (

@@ -159,7 +159,7 @@ function ViewManageUsers() {
       <Row className="mx-4 mt-5" span={20}>
         <Col span={10}>
           <Button
-            className="btn-active-command rounded-pill px-4"
+            className="btn-active-command rounded-pill px-4 py-2"
             onClick={() => editUser(id)}
           >
             Edit
@@ -168,7 +168,7 @@ function ViewManageUsers() {
         <Col span={10}>
           <Button
             variant="outline-primary"
-            className="rounded-pill px-4"
+            className="rounded-pill px-4 py-2"
             style={{ float: 'right' }}
             onClick={() => showDeleteConfirm(id)}
           >

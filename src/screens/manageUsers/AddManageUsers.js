@@ -122,7 +122,7 @@ function AddManageUsers() {
           >
             <Row gutter={[24, 16]}>
               <Col xs={12} lg={10}>
-                <Text strong style={{ color: '#444444' }}>
+                <Text strong className="text-label">
                   First Name
                 </Text>
                 <Row className="mt-1">
@@ -142,7 +142,7 @@ function AddManageUsers() {
                 </Row>
               </Col>
               <Col xs={12} lg={10}>
-                <Text strong style={{ color: '#444444' }}>
+                <Text strong className="text-label">
                   Last Name
                 </Text>
                 <Row className="mt-1">
@@ -162,7 +162,7 @@ function AddManageUsers() {
                 </Row>
               </Col>
             </Row>
-            <Text strong style={{ color: '#444444' }}>
+            <Text strong className="text-label">
               Email
             </Text>
             <Row className="mt-1">
@@ -181,7 +181,7 @@ function AddManageUsers() {
                 </Form.Item>
               </Col>
             </Row>
-            <Text strong style={{ color: '#444444' }}>
+            <Text strong className="text-label">
               Code
             </Text>
             <Row className="mt-1">
@@ -214,7 +214,13 @@ function AddManageUsers() {
                     <Text strong>Disable Backoffice Access</Text>
                   </Col>
                   <Col span={6}>
-                    <Switch onChange={onChange} />
+                    <Switch
+                      onChange={onChange}
+                      style={{
+                        scale: '1.3',
+                        backgroundColor: '#359DD9'
+                      }}
+                    />
                   </Col>
                 </Row>
               </Col>
@@ -236,7 +242,7 @@ function AddManageUsers() {
             </Row>
 
             <Button
-              className="btn-active-command rounded-pill mt-5 px-5"
+              className="btn-active-command rounded-pill mt-5 px-4 py-2"
               type="submit"
             >
               Add

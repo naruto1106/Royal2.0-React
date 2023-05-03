@@ -44,9 +44,10 @@ function SettingsAdd() {
     console.log(e.target.value);
     setBranchISbb_loyal2_branchesID(e.target.value);
   };
-  const pointChange = e =>{
+  const pointChange = e => {
+    console.log(e, 'pointnum');
     setPointsNUM(e);
-  }
+  };
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -75,30 +76,28 @@ function SettingsAdd() {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
-  const Add= async () =>{
+  const Add = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
 
-      
       console.log(endpoint.appUsers(layoutData.options.post_endpoint));
-      console.log(memberISbb_usersID,"memberISbb_usersID")
-      console.log(code,"code")
-      console.log(transaction_date,"transaction_date")
-      console.log(pointsNUM,"pointsNUM")
-      console.log(branchISbb_loyal2_branchesID,"branchISbb_loyal2_branchesID")
+      console.log(memberISbb_usersID, 'memberISbb_usersID');
+      console.log(code, 'code');
+      console.log(transaction_date, 'transaction_date');
+      console.log(pointsNUM, 'pointsNUM');
+      console.log(branchISbb_loyal2_branchesID, 'branchISbb_loyal2_branchesID');
       console.log(endpoint.appUsers(layoutData.options.post_endpoint));
 
       const addMember = await Axios.post(
-        endpoint.appUsers(layoutData.options.post_endpoint),
+        endpoint.appUsers('/module/bb_loyal2_points'),
         {
           memberISbb_usersID,
           code,
           transaction_date,
           pointsNUM,
-          branchISbb_loyal2_branchesID,
-          ownerISbb_usersID:145,
-          internal_notesISsmallplaintextbox:11
-
+          branchISbb_loyal2_branchesID
+          // ownerISbb_usersID:145,
+          // internal_notesISsmallplaintextbox:11
         }
       );
       const user = addMember.data;
@@ -109,85 +108,123 @@ function SettingsAdd() {
       handleError(error, true);
     } finally {
       _isMounted.current && setLoadingSchema(false);
+      setMemberISbb_usersID('');
+      setCode('');
+      setPointsNUM('');
     }
-  }
+  };
   return (
     <>
-      <Row className="mx-4">
+      <Row className="mx-4 mt-3">
         <Col>
-          <Title strong className="my-6" level={4} style={{ color: '#444444' }}>
+          <Title strong className="mb-3" level={4}>
             Add a new points record
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4">
+      <Row className="mx-4 mt-3">
         <Col span={20}>
-          <Text strong style={{ color: '#444444' }}>
+          <Text strong className="text-label">
             Member*
           </Text>
           <Input
             style={{ borderRadius: '10px' }}
             type="text"
+            className="mt-1"
             value={memberISbb_usersID}
             onChange={e => setMemberISbb_usersID(e.target.value)}
           />
         </Col>
       </Row>
-      <Row className="my-7 mx-4">
-        <Col span={9}>
-          <Text strong style={{ color: '#444444' }}>
-            Points*
-          </Text>
-          <InputNumber
-            style={{ width: '100%', borderRadius: '10px' }}
-            value={pointsNUM}
-            onChange={pointChange}
-          />
-        </Col>
-        <Col span={2}></Col>
-        <Col span={9}>
-          <Text strong style={{ color: '#444444' }}>
-            Code
-          </Text>
-          <Input
-            type="text"
-            style={{ borderRadius: '10px' }}
-            value={code}
-            onChange={e=>setCode(e.target.value)}
-          />
+      <Row className="mt-4 mx-4">
+        <Col span={20}>
+          <Row gutter={[16, 16]}>
+            <Col span={12}>
+              <Text strong className="text-label">
+                Points*
+              </Text>
+              <InputNumber
+                style={{ width: '100%', borderRadius: '10px' }}
+                value={pointsNUM}
+                className="mt-1"
+                onChange={pointChange}
+              />
+            </Col>
+            <Col span={12}>
+              <Text strong className="text-label">
+                Code
+              </Text>
+              <Input
+                type="text"
+                style={{ borderRadius: '10px' }}
+                value={code}
+                className="mt-1"
+                onChange={e => setCode(e.target.value)}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
-      <Row className="my-5 mx-4">
-        <Col xs={23} sm={23} md={4} lg={7} xl={7} xxl={7}>
-          <DatePicker
-            onChange={datechange} format="YYYY-MM-DD HH:mm:ss"
-            style={{ width: '100%', borderRadius: '10px', color: '#444444' }}
-          />
-        </Col>
-        <Col xs={23} sm={23} md={4} lg={3} xl={3} xxl={3}>
-          <Text
-            strong
-            className="me-2 my-1"
-            style={{ float: 'right', color: '#444444' }}
+      <Row className=" mx-4">
+        <Col span={20}>
+          <Row
+            className="mt-5"
+            gutter={[16, 16]}
+            justify="center"
+            align="middle"
           >
-            Branch
-          </Text>
-        </Col>
-        <Col xs={23} sm={23} md={4} lg={8} xl={8} xxl={8}>
-          <Form.Select
-            style={{ width: '100%', borderRadius: '10px' }}
-            onChange={e => handleChange(e)}
-          >
-            <option value=""></option>
-            <option value="branch1">Branch1</option>
-            <option value="branch2">Branch2</option>
-            <option value="branch3">Branch3</option>
-          </Form.Select>
-        </Col>
-        <Col className="mx-3">
-          <Button variant="outline-primary" className="rounded-pill py-2 px-4" onClick={()=>Add()}>
-            Add
-          </Button>
+            <Col span={9}>
+              <Row align="middle">
+                <Col span={12}>
+                  <Text strong className="text-label">
+                    Transaction Date
+                  </Text>
+                </Col>
+                <Col span={12}>
+                  <DatePicker
+                    onChange={datechange}
+                    format="YYYY-MM-DD HH:mm:ss"
+                    style={{
+                      width: '100%',
+                      borderRadius: '10px',
+                      color: '#444444'
+                    }}
+                  />
+                </Col>
+              </Row>
+            </Col>
+
+            <Col span={9}>
+              <Row align="middle">
+                <Col span={12} style={{ textAlign: 'center' }}>
+                  {' '}
+                  <Text strong className="me-2 my-1 text-label">
+                    Branch
+                  </Text>
+                </Col>
+                <Col span={12}>
+                  <Form.Select
+                    style={{ width: '100%', borderRadius: '10px' }}
+                    onChange={e => handleChange(e)}
+                  >
+                    <option value=""></option>
+                    <option value="1">Branch1</option>
+                    <option value="2">Branch2</option>
+                    <option value="3">Branch3</option>
+                  </Form.Select>
+                </Col>
+              </Row>
+            </Col>
+            <Col span={6} style={{ textAlign: 'end' }}>
+              <Button
+                variant="outline-primary"
+                className="rounded-pill py-2 px-4"
+                onClick={() => Add()}
+              >
+                Add
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>

@@ -566,7 +566,7 @@ function UpdateMember() {
             <br />
             <div style={{ width: '100%', textAlign: 'center' }}>
               <Button
-                className="btn-active-command rounded-pill "
+                className="btn-active-command rounded-pill px-4 py-2"
                 type="submit"
               >
                 Save
@@ -575,7 +575,7 @@ function UpdateMember() {
             <div style={{ width: '100%', textAlign: 'center' }}>
               <Button
                 variant="outline-primary"
-                className="rounded-pill mt-2"
+                className="rounded-pill mt-2 px-4 py-2"
                 onClick={() => showDeleteConfirm(FieldsData[0]._id)}
               >
                 Delete

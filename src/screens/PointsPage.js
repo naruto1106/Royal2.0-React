@@ -113,8 +113,7 @@ function PageComponent() {
         </Card.Body>
       </Card>
     );
-  } 
-  else {
+  } else {
     return (
       <Card className="overflow-hidden z-index-1 card-main_layout">
         <Card.Body className="p-0">

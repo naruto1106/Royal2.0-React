@@ -10,11 +10,7 @@ import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 import { Button } from 'react-bootstrap';
 
-const titleStyle = {
-  marginBottom: '50px'
-};
-
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 function SettingsCSV() {
   const dispatch = useDispatch();
@@ -67,62 +63,59 @@ function SettingsCSV() {
   };
   return (
     <>
-      <Row className="mx-4 pt-5">
-        <Col>
-          <Title level={4} style={titleStyle}>
-            Import data from CSV/Excel file
-          </Title>
+      <Row className="mx-4 mt-5">
+        <Col xs={23} lg={20}>
+          <Title level={4}>Import data from CSV/Excel file</Title>
         </Col>
       </Row>
-      <Row>
-        <Col className="mx-4" xs={12} sm={12} md={6} lg={8} xl={8} xxl={8}>
+      <Row className="mx-4 mt-3">
+        <Col xs={24} sm={24} md={10} lg={10} xl={12} xxl={12} gutter={[16, 16]}>
           <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
           >
             <Button
+              className="rounded-pill px-4 py-2"
+              lavel="Get sample CSV"
               variant="outline-primary"
-              className="rounded-pill py-2 px-4"
             >
               Get sample CSV
             </Button>
           </Upload>
         </Col>
-        <Col xs={6} sm={6} md={8} lg={6} xl={4} xxl={4}>
+        <Col xs={12} sm={12} md={5} lg={5} xl={4} xxl={3}>
           <Upload
             colorBorder="blue"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
             onChange={handleChange}
           >
-            <Button variant="right" className="rounded-pill py-2 px-4">
+            <Button variant="light" className="rounded-pill px-4 py-2">
               Select file
             </Button>
           </Upload>
         </Col>
-        <Col xs={6} sm={6} md={5} lg={8} xl={6} xxl={6}>
+        <Col xs={12} sm={12} md={9} lg={9} xl={8} xxl={8}>
           <Button
-            variant={btncolor}
-            className="rounded-pill py-2 px-5"
+            lavel="Upload CSV"
+            className="rounded-pill px-4 py-2"
             disabled={btndisable}
+            variant={btncolor}
           >
             Upload CSV
           </Button>
         </Col>
       </Row>
 
-      <Row>
-        <Col className="mx-4 pt-5">
-          <Text strong style={{ color: '#444444' }}>
-            Export data to CSV/Excel file
-          </Text>
+      <Row className="mx-4 mt-7">
+        <Col span={24}>
+          <Title level={4}>Export data to CSV/Excel file</Title>
         </Col>
       </Row>
-      <br />
-      <Row>
-        <Col className="mx-4 my-3">
-          <Button variant="outline-primary" className="rounded-pill py-2 px-5">
-            Export Data
+      <Row className="mx-4 mt-3">
+        <Col span={24}>
+          <Button className="rounded-pill px-4 py-2" variant="outline-primary">
+            Get sample CSV
           </Button>
         </Col>
       </Row>

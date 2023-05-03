@@ -64,9 +64,9 @@ function SettingsMember() {
 
   return (
     <>
-      <Row className="mx-4 mt-5">
+      <Row className="mx-4 mt-5" align="middle">
         <Col span={6}>
-          <Text className="py-1 text-label" strong>
+          <Text className="text-label" strong>
             {' '}
             Membership Number Prefix
           </Text>
@@ -97,7 +97,7 @@ function SettingsMember() {
         </Col>
 
         <Col span={8} style={{ textAlign: 'end' }}>
-          <Text className="py-1 text-label" strong>
+          <Text className="text-label" strong>
             Membership Number Starting Point
           </Text>
         </Col>

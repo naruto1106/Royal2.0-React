@@ -8,7 +8,17 @@ const Page = React.lazy(() => import('../screens/Page'));
 const MembersPage = React.lazy(() => import('../screens/MembersPage'));
 const GroupsPage = React.lazy(() => import('../screens/GroupsPage'));
 const PointsPage = React.lazy(() => import('../screens/PointsPage'));
+const PromotionsPage = React.lazy(() => import('../screens/PromotionsPage'));
+const TransactionPromotionsPage = React.lazy(() =>
+  import('../screens/TransactionPromotionsPage')
+);
+const Expiration = React.lazy(() => import('../screens/points/Expiration'));
 const ManageUsersPage = React.lazy(() => import('../screens/ManageUsersPage'));
+const BranchesPage = React.lazy(() => import('../screens/BranchesPage'));
+const QuickScanReasonPage = React.lazy(() =>
+  import('../screens/QuickScanReasonPage')
+);
+const QuickScanSettingPage=React.lazy(()=>import('../screens/QuickScanSettingPage'))
 
 const MemberSubscription = React.lazy(() =>
   import('../screens/MemberSubscription')
@@ -17,6 +27,9 @@ const MembersDatacleaner = React.lazy(() =>
   import('../screens/MembersDatacleaner')
 );
 const TransactionPage = React.lazy(() => import('../screens/TransactionPage'));
+const VouchersAll = React.lazy(() => import('../screens/VouchersAll'));
+const VouchersIssued = React.lazy(() => import('../screens/VouchersIssued'));
+const VouchersPreload = React.lazy(() => import('../screens/VouchersPreload'));
 const RedirectToViewList = () => {
   let { module_name } = useParams();
 
@@ -111,19 +124,62 @@ export const getRoutes = (
       component: MembersDatacleaner
     },
     {
+      path: '/points_expiration',
+      exact: true,
+      name: currentPage,
+      component: Expiration
+    },
+    {
+      path: '/non-transactional_promotions',
+      exact: true,
+      name: currentPage,
+      component: PromotionsPage
+    },
+    {
+      path: '/datamanager/bb_loyal2_promotions/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: PromotionsPage
+    },
+    {
+      path: '/datamanager/bb_loyal2_promotions/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: PromotionsPage
+    },
+    {
+      path: '/transactional_promotions',
+      exact: true,
+      name: currentPage,
+      component: TransactionPromotionsPage
+    },
+    {
+      path: '/transactional_promotions/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: TransactionPromotionsPage
+    },
+    {
+      path: '/transactional_promotions/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: TransactionPromotionsPage
+    },
+    {
       path: '/transactions',
       exact: true,
       name: currentPage,
       component: TransactionPage
     },
+
     {
-      path: '/transactions/:routekey/:id',
+      path: '/datamanager/bb_loyal2_transactions/:routeKey',
       exact: true,
       name: currentPage,
       component: TransactionPage
     },
     {
-      path: '/transactions/:routekey',
+      path: '/datamanager/bb_loyal2_transactions/:routeKey/:id',
       exact: true,
       name: currentPage,
       component: TransactionPage
@@ -145,6 +201,31 @@ export const getRoutes = (
       exact: true,
       name: currentPage,
       component: GroupsPage
+    },
+    {
+      path: '/QuickScan_settings',
+      exact: true,
+      name: currentPage,
+      component: QuickScanSettingPage
+    },
+    {
+      path: '/QuickScan_reasons',
+      exact: true,
+      name: currentPage,
+      component: QuickScanReasonPage
+    },
+
+    {
+      path: '/datamanager/bb_loyal2_quickscan_reasons/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: QuickScanReasonPage
+    },
+    {
+      path: '/datamanager/bb_loyal2_quickscan_reasons/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: QuickScanReasonPage
     },
     {
       path: '/datamanager/bb_loyal2_points',
@@ -181,6 +262,78 @@ export const getRoutes = (
       exact: true,
       name: currentPage,
       component: ManageUsersPage
+    },
+    {
+      path: '/all_vouchers',
+      exact: true,
+      name: currentPage,
+      component: VouchersAll
+    },
+    {
+      path: '/datamanager/bb_loyal2_vouchers/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: VouchersAll
+    },
+    {
+      path: '/datamanager/bb_loyal2_vouchers/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: VouchersAll
+    },
+    {
+      path: '/vouchers_issued',
+      exact: true,
+      name: currentPage,
+      component: VouchersIssued
+    },
+    {
+      path: '/datamanager/bb_loyal2_vouchers_issued/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: VouchersIssued
+    },
+    {
+      path: '/datamanager/bb_loyal2_vouchers_issued/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: VouchersIssued
+    },
+    {
+      path: '/pre_loaded_voucher_codes',
+      exact: true,
+      name: currentPage,
+      component: VouchersPreload
+    },
+    {
+      path: '/datamanager/bb_loyal2_vouchers_precodes/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: VouchersPreload
+    },
+    {
+      path: '/datamanager/bb_loyal2_vouchers_precodes/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: VouchersPreload
+    },
+    {
+      path: '/branches',
+      exact: true,
+      name: currentPage,
+      component: BranchesPage
+    },
+    {
+      path: '/datamanager/bb_loyal2_branches/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: BranchesPage
+    },
+    {
+      path: '/datamanager/bb_loyal2_branches/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: BranchesPage
     }
   ];
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Tooltip, Form, Input, Row, Col } from 'antd';
+import { Typography, Tooltip, Form, Input, Row, Col, message } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 // import { useParams } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
@@ -11,7 +11,6 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { Button } from 'react-bootstrap';
-import TabGroups from './TabGroups';
 
 const { Title, Text } = Typography;
 const btnQuestion = {
@@ -63,8 +62,26 @@ function AddGroups() {
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
 
-  const onFinish = values => {
+  const onFinish = async values => {
     console.log('Success:', values);
+    try {
+      _isMounted.current && setLoadingSchema(true);
+      const { name } = values;
+      const addMember = await Axios.post(
+        endpoint.getDataAddEndpoint('bb_loyal2_groups'),
+        {
+          name
+        }
+      );
+      const user = addMember.data;
+      if (user.error) return message.error(user.error);
+      message.success('Added successful!');
+      console.log(`${endpoint.appUsers} response -> `, user);
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+    }
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
@@ -73,7 +90,7 @@ function AddGroups() {
     <>
       <Row className="mx-4 mt-3">
         <Col span={24}>
-          <Title style={{ color: '#444444' }} level={4} className="mb-3">
+          <Title level={4} className="mb-3">
             Add a group tier
           </Title>
         </Col>
@@ -95,7 +112,7 @@ function AddGroups() {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-            <Text strong style={{ color: '#444444' }}>
+            <Text strong className="text-label">
               Name
             </Text>
             <Row className="mt-1">
@@ -113,7 +130,7 @@ function AddGroups() {
                 </Form.Item>
               </Col>
             </Row>
-            <Text strong style={{ color: '#444444' }}>
+            <Text strong className="text-label">
               Code
             </Text>
             <Row className="mt-1">
@@ -122,7 +139,7 @@ function AddGroups() {
                   name="code"
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please input Code!'
                     }
                   ]}
@@ -141,8 +158,7 @@ function AddGroups() {
             </Row>
 
             <Button
-              variant="outline-primary"
-              className="rounded-pill mt-5 px-5"
+              className="btn-active-command rounded-pill mt-5 px-4 py-2"
               type="submit"
             >
               Add
@@ -150,7 +166,6 @@ function AddGroups() {
           </Form>
         </Col>
       </Row>
-      <TabGroups />
     </>
   );
 }

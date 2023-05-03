@@ -86,14 +86,14 @@ function CsvManageUsers() {
           </Tooltip>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3" gutter={[0, 24]}>
-        <Col xs={24} sm={24} md={10} lg={10} xl={10} xxl={10}>
+      <Row className="mx-4 mt-3">
+        <Col xs={24} sm={24} md={10} lg={10} xl={12} xxl={12} gutter={[16, 16]}>
           <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
           >
             <Button
-              className="rounded-pill px-4"
+              className="rounded-pill px-4 py-2"
               lavel="Get sample CSV"
               variant="outline-primary"
             >
@@ -101,22 +101,22 @@ function CsvManageUsers() {
             </Button>
           </Upload>
         </Col>
-        <Col xs={12} sm={12} md={6} lg={6} xl={6} xxl={6}>
+        <Col xs={12} sm={12} md={5} lg={5} xl={4} xxl={3}>
           <Upload
             colorBorder="blue"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
             onChange={handleChange}
           >
-            <Button variant="light" className="rounded-pill px-4">
+            <Button variant="light" className="rounded-pill px-4 py-2">
               Select file
             </Button>
           </Upload>
         </Col>
-        <Col xs={12} sm={12} md={8} lg={8} xl={8} xxl={8}>
+        <Col xs={12} sm={12} md={9} lg={9} xl={8} xxl={8}>
           <Button
             lavel="Upload CSV"
-            className="rounded-pill px-4"
+            className="rounded-pill px-4 py-2"
             disabled={btndisable}
             variant={btncolor}
           >
@@ -161,7 +161,7 @@ function CsvManageUsers() {
       </Row>
       <Row className="mx-4 my-3">
         <Col span={24}>
-          <Button className="rounded-pill px-4" variant="outline-primary">
+          <Button className="rounded-pill px-4 py-2" variant="outline-primary">
             Get sample CSV
           </Button>
         </Col>

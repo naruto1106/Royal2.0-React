@@ -111,7 +111,7 @@ function SettingsHistory() {
     <>
       <Row>
         <Col offset={2}>
-          <Title level={4} style={{ color: '#444444' }}>
+          <Title level={4} className="text-label">
             Points Awarded Per Month
           </Title>
         </Col>

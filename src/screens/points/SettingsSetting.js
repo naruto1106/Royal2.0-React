@@ -72,7 +72,7 @@ function SettingsSetting() {
 
   return (
     <>
-      <Row className="mx-4 py-5" style={settingStyle} lg={20} xl={20} xxl={20}>
+      <Row className="mx-4 py-3" style={settingStyle} lg={20} xl={20} xxl={20}>
         <Col
           className=" my-2 me-3"
           xs={23}
@@ -91,8 +91,8 @@ function SettingsSetting() {
           <Switch
             defaultChecked
             style={{
-              scale: '1.9',
-              backgroundColor: 'rgb(86, 204, 242)'
+              scale: '1.3',
+              backgroundColor: '#359DD9'
             }}
           />
         </Col>

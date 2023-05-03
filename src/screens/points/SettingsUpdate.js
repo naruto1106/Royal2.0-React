@@ -4,19 +4,14 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Typography,
-  //   Tooltip,
   Form,
-  Divider,
   Input,
-  Switch,
   Row,
   Col,
   message,
-  Modal,
   InputNumber,
   DatePicker
 } from 'antd';
-// import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
@@ -24,13 +19,9 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 import { Button, Form as BootstrapForm } from 'react-bootstrap';
-import { ExclamationCircleFilled } from '@ant-design/icons';
 import moment from 'moment';
 
-const { confirm } = Modal;
 const { Title, Text } = Typography;
-
-const inputBorderRadius = { borderRadius: '10px' };
 
 function SettingsUpdate() {
   const [form] = Form.useForm();
@@ -41,11 +32,11 @@ function SettingsUpdate() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-  const [branch_val, setBranch_val] = useState("");
+  const [branch_val, setBranch_val] = useState('');
 
   const selectchange = e => {
     console.log('selectchange', e.target.value);
-    setBranch_val(e.target.value)
+    setBranch_val(e.target.value);
   };
 
   const initPageModule = async () => {
@@ -59,6 +50,8 @@ function SettingsUpdate() {
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
+      _isMounted.current &&
+        setBranch_val(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
 
@@ -70,7 +63,11 @@ function SettingsUpdate() {
       _isMounted.current && setLoadingSchema(false);
     }
   };
-
+  // let FieldsData = layoutData.data;
+  // useEffect(() => {
+  //   if (layoutData.data!==null)
+  //     setBranch_val(layoutData.data[0][0].branchISbb_loyal2_branchesID);
+  // }, [layoutData.data]);
   useEffect(() => {
     _isMounted.current = true;
     initPageModule();
@@ -89,16 +86,12 @@ function SettingsUpdate() {
     console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
-      const {
-        _id,
-        ownerISbb_usersID,
-        memberISbb_usersID,
-        pointsNUM,
-        code,
-        
-      } = values;
-      const transaction_date=values['transaction_date'].format('YYYY-MM-DD HH:mm:ss');
-      const branchISbb_loyal2_branchesID=branch_val;
+      const { _id, ownerISbb_usersID, memberISbb_usersID, pointsNUM, code } =
+        values;
+      const transaction_date = values['transaction_date'].format(
+        'YYYY-MM-DD HH:mm:ss'
+      );
+      const branchISbb_loyal2_branchesID = branch_val;
       const updateMember = await Axios.patch(
         endpoint.appUsers(`/module/bb_loyal2_points/${_id}`),
         {
@@ -107,13 +100,13 @@ function SettingsUpdate() {
           memberISbb_usersID,
           code,
           transaction_date,
-          internal_notesISsmallplaintextbox:12,
+          internal_notesISsmallplaintextbox: 12,
           pointsNUM,
           branchISbb_loyal2_branchesID
         }
       );
       const user = updateMember.data;
-      console.log(user,"userusfjdlksjfdlksjlk")
+      console.log(user, 'userusfjdlksjfdlksjlk');
       if (user.error) return message.error(user.error);
       message.success('Updated successful!');
       navigate('/datamanager/bb_loyal2_points/list');
@@ -127,53 +120,20 @@ function SettingsUpdate() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-  const onChange = checked => {
-    console.log(`switch to ${checked}`);
-  };
-  const showDeleteConfirm = id => {
-    confirm({
-      title: 'Are you sure delete?',
-      icon: <ExclamationCircleFilled />,
-      content: '',
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
-      onOk() {
-        onDelete(id);
-        console.log('OK');
-      },
-      onCancel() {
-        console.log('Cancel');
-      }
-    });
-  };
-  const onDelete = async id => {
-    try {
-      _isMounted.current && setLoadingSchema(true);
 
-      const deleteMember = await Axios.delete(
-        endpoint.appUsers(`/module/bb_loyal2_points/${id}`)
-      );
-      const user = deleteMember.data;
-      if (user.error) return message.error(user.error);
-      message.success('Deleted successful!');
-    } catch (error) {
-      handleError(error, true);
-    } finally {
-      _isMounted.current && setLoadingSchema(false);
-      navigate('/datamanager/bb_loyal2_points/list');
-    }
-  };
-
+  // setBranch_val(FieldsData[0][0].branchISbb_loyal2_branchesID)
   let FieldsData = layoutData.data;
-  console.log(FieldsData,"FieldData")
+
+  // console.log(FieldsData[0][0].branchISbb_loyal2_branchesID, 'FieldData');
   const selectedStartDate = moment(
     FieldsData[0][0].transaction_date,
     dateFormat
   );
+
   const initValues = {
     transaction_date: selectedStartDate
   };
+
   // console.log("transaction_date",FieldsData[0][0].transaction_date)
   form.setFieldsValue({
     ownerISbb_usersID: FieldsData[0][0].ownerISbb_usersID,
@@ -182,15 +142,6 @@ function SettingsUpdate() {
     code: FieldsData[0][0].code,
     _id: FieldsData[0][0]._id
   });
-  const config = {
-    rules: [
-      {
-        type: 'object',
-        required: true,
-        message: 'Please select time!'
-      }
-    ]
-  };
 
   return (
     <>
@@ -306,15 +257,16 @@ function SettingsUpdate() {
           </Col>
           <Col xs={23} sm={23} md={4} lg={8} xl={8} xxl={8}>
             <BootstrapForm.Select
-              defaultValue={branch_val}
-              onChange={(e) => selectchange(e)}
+              defaultValue={FieldsData[0][0].branchISbb_loyal2_branchesID}
+              name="branch"
+              onChange={e => selectchange(e)}
               style={{ width: '100%', borderRadius: '10px' }}
               // onChange={handleChange}
             >
               <option value=""></option>
-              <option value="branch1">Branch1</option>
-              <option value="branch2">Branch2</option>
-              <option value="branch3">Branch3</option>
+              <option value="1">Branch1</option>
+              <option value="2">Branch2</option>
+              <option value="3">Branch3</option>
             </BootstrapForm.Select>
           </Col>
           <Col className="mx-3">
@@ -327,7 +279,6 @@ function SettingsUpdate() {
             </Button>
           </Col>
         </Row>
-        
       </Form>
     </>
   );
