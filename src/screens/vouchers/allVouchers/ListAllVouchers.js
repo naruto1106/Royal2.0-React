@@ -9,13 +9,14 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Modal, message } from 'antd';
+import { Modal, message, Typography, Row } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../../utils/endpoint';
 const { confirm } = Modal;
+const { Title } = Typography;
 
 function ListAllVouchers() {
   let _array = [];
@@ -250,6 +251,9 @@ function ListAllVouchers() {
 
   return (
     <>
+      <Row className="mx-4">
+        <Title level={4}>All vouchers</Title>
+      </Row>
       <AdvanceTableWrapper
         columns={columns}
         data={memberLists}
@@ -265,7 +269,7 @@ function ListAllVouchers() {
           tableProps={{
             bordered: true,
             striped: true,
-            className: 'fs--1 mb-0 overflow-hidden mt-5'
+            className: 'fs--1 mb-0 overflow-hidden mt-3'
           }}
         />
         <div className="mt-3">

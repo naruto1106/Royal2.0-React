@@ -24,7 +24,7 @@ import { Button, Form as BootstrapForm } from 'react-bootstrap';
 import moment from 'moment';
 
 const { Title, Text } = Typography;
-const inputStyle = { width: '100%' };
+// const inputStyle = { width: '100%' };
 const inputBorderRadius = { borderRadius: '10px', width: '100%' };
 
 function PromotionsUpdate() {
@@ -44,12 +44,12 @@ function PromotionsUpdate() {
   const [date_to, setDate_to] = useState('');
   const dateFormat = 'YYYY-MM-DD';
   //   console.log(routeKey, id, '12311111111111111');
-  const onDate_from=(a)=>{
+  const onDate_from = a => {
     setDate_from(a.format('YYYY-MM-DD HH:mm:ss'));
-  }
-  const onDate_to=(a)=>{
+  };
+  const onDate_to = a => {
     setDate_to(a.format('YYYY-MM-DD HH:mm:ss'));
-  }
+  };
   const handleChange1 = e => {
     console.log(e.target.value);
     setBranch(e.target.value);
@@ -72,13 +72,13 @@ function PromotionsUpdate() {
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
-      if(layoutSchema.data[0][0].date_from){
+      if (layoutSchema.data[0][0].date_from) {
         _isMounted.current &&
-        setDate_from(moment(layoutSchema.data[0][0].date_from, dateFormat));
+          setDate_from(moment(layoutSchema.data[0][0].date_from, dateFormat));
       }
-      if(layoutSchema.data[0][0].date_to){
+      if (layoutSchema.data[0][0].date_to) {
         _isMounted.current &&
-        setDate_to(moment(layoutSchema.data[0][0].date_to, dateFormat));
+          setDate_to(moment(layoutSchema.data[0][0].date_to, dateFormat));
       }
       _isMounted.current &&
         setBranch(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
@@ -115,7 +115,7 @@ function PromotionsUpdate() {
       _isMounted.current && setLoadingSchema(true);
       const { _id, name, points_to_awardNUM, code, quickscan_function } =
         values;
-      
+
       const addPromotions = await Axios.patch(
         endpoint.getDataAddEndpoint(`bb_loyal2_promotions/${_id}`),
         {
@@ -286,7 +286,7 @@ function PromotionsUpdate() {
                 ) : null}
               </Col>
             </Row>
-            <Row gutter={[16, 16]} className='mt-3'>
+            <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
                 {layoutFields.date_from ? (
                   <>
@@ -296,8 +296,8 @@ function PromotionsUpdate() {
                           {layoutFields.date_from}
                         </Text>
                       </Col>
-                      <Col span={16} >
-                        <Form.Item name="date_from"className='m-0' >
+                      <Col span={16}>
+                        <Form.Item name="date_from" className="m-0">
                           <DatePicker
                             placeholder={layoutFields.date_from}
                             style={inputBorderRadius}
@@ -346,7 +346,7 @@ function PromotionsUpdate() {
               </Col>
             </Row>
 
-            <Row gutter={[16, 16]} className='mt-4'>
+            <Row gutter={[16, 16]} className="mt-4">
               <Col span={12}>
                 {layoutFields.date_to ? (
                   <>
@@ -357,7 +357,7 @@ function PromotionsUpdate() {
                         </Text>
                       </Col>
                       <Col span={16}>
-                        <Form.Item name="date_to" className='m-0'>
+                        <Form.Item name="date_to" className="m-0">
                           <DatePicker
                             placeholder={layoutFields.date_to}
                             style={inputBorderRadius}

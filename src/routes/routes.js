@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import keys from 'utils/keys';
-
+const DashboardPage = React.lazy(() => import('../screens/DashboardPage'));
 const Data = React.lazy(() => import('../screens/Data'));
 const Page = React.lazy(() => import('../screens/Page'));
 const MembersPage = React.lazy(() => import('../screens/MembersPage'));
@@ -21,7 +21,6 @@ const QuickScanReasonPage = React.lazy(() =>
 const QuickScanSettingPage = React.lazy(() =>
   import('../screens/QuickScanSettingPage')
 );
-
 const MemberSubscription = React.lazy(() =>
   import('../screens/MemberSubscription')
 );
@@ -32,6 +31,14 @@ const TransactionPage = React.lazy(() => import('../screens/TransactionPage'));
 const VouchersAll = React.lazy(() => import('../screens/VouchersAll'));
 const VouchersIssued = React.lazy(() => import('../screens/VouchersIssued'));
 const VouchersPreload = React.lazy(() => import('../screens/VouchersPreload'));
+const ManageTemplates = React.lazy(() => import('../screens/ManageTemplates'));
+const CommunicationLogPage = React.lazy(() =>
+  import('../screens/CommunicationLogPage')
+);
+const EmailAutoRespondersPage = React.lazy(() =>
+  import('../screens/EmailAutoRespondersPage')
+);
+const MicroSite = React.lazy(() => import('../screens/MicroSite'));
 const RedirectToViewList = () => {
   let { module_name } = useParams();
 
@@ -95,6 +102,7 @@ export const getRoutes = (
       component: Data
     },
     { path: '/:routeKey', name: currentPage, component: Page },
+    { path: '/dashboard', name: currentPage, component: DashboardPage },
     {
       path: '/datamanager/bb_loyal2_members',
       exact: true,
@@ -205,16 +213,16 @@ export const getRoutes = (
       component: GroupsPage
     },
     {
-      path: '/QuickScan_settings',
-      exact: true,
-      name: currentPage,
-      component: QuickScanSettingPage
-    },
-    {
       path: '/QuickScan_reasons',
       exact: true,
       name: currentPage,
       component: QuickScanReasonPage
+    },
+    {
+      path: '/QuickScan_settings',
+      exact: true,
+      name: currentPage,
+      component: QuickScanSettingPage
     },
 
     {
@@ -336,6 +344,42 @@ export const getRoutes = (
       exact: true,
       name: currentPage,
       component: BranchesPage
+    },
+    {
+      path: '/manage_templates',
+      exact: true,
+      name: currentPage,
+      component: ManageTemplates
+    },
+    {
+      path: '/datamanager/bb_loyal2_templates/:routeKey/:id',
+      exact: true,
+      name: currentPage,
+      component: ManageTemplates
+    },
+    {
+      path: '/datamanager/bb_loyal2_templates/:routeKey',
+      exact: true,
+      name: currentPage,
+      component: ManageTemplates
+    },
+    {
+      path: '/email_autoresponders',
+      exact: true,
+      name: currentPage,
+      component: EmailAutoRespondersPage
+    },
+    {
+      path: '/communication_log',
+      exact: true,
+      name: currentPage,
+      component: CommunicationLogPage
+    },
+    {
+      path: '/your_micro-site',
+      exact: true,
+      name: currentPage,
+      component: MicroSite
     }
   ];
 };

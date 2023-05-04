@@ -49,7 +49,7 @@ function QuickScanSettingPage() {
     }
   };
   const handleChange = info => {
-    console.log('uploading');
+    console.log(info, 'uploading');
   };
   return (
     <>

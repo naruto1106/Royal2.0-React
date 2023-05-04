@@ -10,7 +10,7 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 // import { Link } from 'react-router-dom';
-import { Button, Dropdown, ButtonGroup, Table } from 'react-bootstrap';
+import { Dropdown, ButtonGroup, Table } from 'react-bootstrap';
 // import { DownOutlined, RightOutlined } from '@ant-design/icons';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 const { Title, Text } = Typography;
@@ -21,7 +21,7 @@ const tdpadding = {
 };
 const tdright = { textAlign: 'right', color: '#444444' };
 // const tdright = { textAlign: 'right', color: '#444444' };
-function ViewIssuedVouchers() {
+function ViewManageTemplates() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const _isMounted = useRef(false);
@@ -32,7 +32,7 @@ function ViewIssuedVouchers() {
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataIssuedVoucherSchemaEndpoint(`view/${id}`);
+      const ep = endpoint.getDataManageTemplateSchemaEndpoint(`view/${id}`);
       console.log(ep, 'ep');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
@@ -42,7 +42,7 @@ function ViewIssuedVouchers() {
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
 
       const memberRes = await Axios.get(
-        endpoint.getModuleDataEndpoint(`bb_loyal2_vouchers_issued/${id}`)
+        endpoint.getModuleDataEndpoint(`bb_loyal2_templates/${id}`)
       );
       setMemberData(memberRes.data);
       console.log(memberRes, 'memberres');
@@ -69,7 +69,7 @@ function ViewIssuedVouchers() {
   // let layoutFields = layoutData.options.fields;
   let layoutFields = layoutData.options.fields;
   const editUser = id => {
-    navigate(`/bb_loyal2_vouchers_issued/edit/${id}`);
+    navigate(`/bb_loyal2_templates/edit/${id}`);
   };
   const showDeleteConfirm = id => {
     confirm({
@@ -93,7 +93,7 @@ function ViewIssuedVouchers() {
       _isMounted.current && setLoadingSchema(true);
 
       const deleteMember = await Axios.delete(
-        endpoint.getDataAddEndpoint(`bb_loyal2_vouchers_issued/${id}`)
+        endpoint.getDataAddEndpoint(`bb_loyal2_templates/${id}`)
       );
       const user = deleteMember.data;
       if (user.error) return message.error(user.error);
@@ -102,20 +102,20 @@ function ViewIssuedVouchers() {
       handleError(error, true);
     } finally {
       _isMounted.current && setLoadingSchema(false);
-      navigate('/datamanager/bb_loyal2_vouchers_issued/list');
+      navigate('/datamanager/bb_loyal2_templates/list');
     }
   };
   return (
     <>
       <Row className="mx-4 mt-3">
         <Col span={24}>
-          <Title level={3}>Vouchers Issued</Title>
+          <Title level={3}>Template Manager</Title>
         </Col>
       </Row>
       <Divider />
       <Row className="mx-4" align="middle">
         <Col span={10}>
-          <Title level={4}>Viewing voucher issued record</Title>
+          <Title level={4}>Viewing custom template</Title>
         </Col>
         <Col span={13} style={{ textAlign: 'end' }}>
           <Dropdown as={ButtonGroup}>
@@ -129,7 +129,12 @@ function ViewIssuedVouchers() {
             <Dropdown.Menu className="super-colors">
               <Dropdown.Item>
                 <Text strong className="text-label">
-                  Verify code
+                  Test template
+                </Text>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Text strong className="text-label">
+                  Send to member
                 </Text>
               </Dropdown.Item>
               <Dropdown.Item onClick={() => editUser(id)}>
@@ -150,103 +155,47 @@ function ViewIssuedVouchers() {
         <Col span={20}>
           <Table responsive style={{ marginTop: '60px', width: '100%' }}>
             <tbody style={tdpadding}>
-              {layoutFields.voucherISbb_loyal2_vouchersID ? (
+              {layoutFields.typeISbb_loyal2_templates_typesID ? (
                 <tr>
                   <td style={tdpadding}>
                     <Text strong className="text-label">
-                      {layoutFields.voucherISbb_loyal2_vouchersID}
+                      {layoutFields.typeISbb_loyal2_templates_typesID}
                     </Text>
                   </td>
                   <td style={tdright}>
                     <Text strong className="text-label">
                       {memberData
-                        ? memberData.voucherISbb_loyal2_vouchersID
+                        ? memberData.typeISbb_loyal2_templates_typesID
                         : ''}
                     </Text>
                   </td>
                 </tr>
               ) : null}
-              {layoutFields.ownerISbb_usersID ? (
+              {layoutFields.name ? (
                 <tr>
                   <td style={tdpadding}>
                     <Text strong className="text-label">
-                      Qty
+                      {layoutFields.name}
                     </Text>
                   </td>
                   <td style={tdright}>
                     <Text strong className="text-label">
-                      {memberData ? memberData.ownerISbb_usersID : ''}
+                      {memberData ? memberData.name : ''}
                     </Text>
                   </td>
                 </tr>
               ) : null}
-              {layoutFields.memberISbb_usersID ? (
+              {layoutFields.message_templateISsmallplaintextbox ? (
                 <tr>
                   <td style={tdpadding}>
                     <Text strong className="text-label">
-                      {layoutFields.memberISbb_usersID}
+                      {layoutFields.message_templateISsmallplaintextbox}
                     </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.memberISbb_usersID : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.transaction_date ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.transaction_date}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.transaction_date : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.code ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.code}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.code : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.points_usedNUM ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.points_usedNUM}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.points_usedNUM : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.branchISbb_loyal2_branchesID ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.branchISbb_loyal2_branchesID}
-                    </Text>{' '}
                   </td>
                   <td style={tdright}>
                     <Text strong className="text-label">
                       {memberData
-                        ? memberData.branchISbb_loyal2_branchesID
+                        ? memberData.message_templateISsmallplaintextbox
                         : ''}
                     </Text>
                   </td>
@@ -257,7 +206,7 @@ function ViewIssuedVouchers() {
                   <td style={tdpadding}>
                     <Text strong className="text-label">
                       {layoutFields.branchISbb_loyal2_branchesID}
-                    </Text>{' '}
+                    </Text>
                   </td>
                   <td style={tdright}>
                     <Text strong className="text-label">
@@ -268,50 +217,6 @@ function ViewIssuedVouchers() {
                   </td>
                 </tr>
               ) : null}
-              <tr>
-                <td style={tdpadding}>
-                  <Text strong className="text-label">
-                    Voucher Value
-                  </Text>
-                </td>
-                <td style={tdright}>
-                  <Text strong className="text-label">
-                    0.00
-                  </Text>
-                </td>
-              </tr>
-              <tr>
-                <td style={tdpadding}>
-                  <Text strong className="text-label">
-                    Voucher Code/s
-                  </Text>
-                </td>
-                <td style={tdright}>
-                  {' '}
-                  <Row align="middle">
-                    <Col
-                      sm={20}
-                      lg={20}
-                      xl={20}
-                      xxl={20}
-                      style={{ textAlign: 'end' }}
-                    >
-                      <Text strong className="text-label">
-                        VQ29AMPZSGB Valid for use
-                      </Text>
-                    </Col>
-                    <Col sm={4} lg={4} xl={4} xxl={4}>
-                      <Button variant="light" className="px-0">
-                        <img
-                          alt="printer"
-                          style={{ width: '50px' }}
-                          src="/img/printer.PNG"
-                        />
-                      </Button>
-                    </Col>
-                  </Row>
-                </td>
-              </tr>
             </tbody>
           </Table>
         </Col>
@@ -424,4 +329,4 @@ function ViewIssuedVouchers() {
     </>
   );
 }
-export default ViewIssuedVouchers;
+export default ViewManageTemplates;

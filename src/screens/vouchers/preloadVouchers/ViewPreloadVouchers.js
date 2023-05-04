@@ -149,7 +149,7 @@ function ViewPreloadVouchers() {
         <Col span={20}>
           <Table responsive style={{ marginTop: '60px', width: '100%' }}>
             <tbody style={tdpadding}>
-              {layoutFields.name ? (
+              {layoutFields.code ? (
                 <tr>
                   <td style={tdpadding}>
                     {' '}
@@ -164,7 +164,7 @@ function ViewPreloadVouchers() {
                   </td>
                 </tr>
               ) : null}
-              {layoutFields.ownerISbb_usersID ? (
+              {layoutFields.voucherISbb_loyal2_vouchersID ? (
                 <tr>
                   <td style={tdpadding}>
                     <Text strong className="text-label">
@@ -174,6 +174,20 @@ function ViewPreloadVouchers() {
                   <td style={tdright}>
                     <Text strong className="text-label">
                       {memberData.voucherISbb_loyal2_vouchersID}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.ownerISbb_usersID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.ownerISbb_usersID}
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData.ownerISbb_usersID}
                     </Text>
                   </td>
                 </tr>

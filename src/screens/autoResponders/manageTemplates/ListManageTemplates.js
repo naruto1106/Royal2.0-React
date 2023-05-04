@@ -17,7 +17,7 @@ import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../../utils/endpoint';
 const { confirm } = Modal;
 const { Title } = Typography;
-function ListPreloadVouchers() {
+function ListManageTemplates() {
   let _array = [];
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ function ListPreloadVouchers() {
     try {
       // default part
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataPreloadVoucherSchemaEndpoint('list');
+      const ep = endpoint.getDataManageTemplateSchemaEndpoint('list');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
@@ -59,7 +59,7 @@ function ListPreloadVouchers() {
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
       const memberRes = await Axios.get(
-        endpoint.getModuleDataEndpoint('bb_loyal2_vouchers_precodes')
+        endpoint.getModuleDataEndpoint('bb_loyal2_templates')
       );
       setMemeberLists(memberRes.data.list);
     } catch (error) {
@@ -77,7 +77,7 @@ function ListPreloadVouchers() {
   }, []);
 
   const editRow = row => {
-    navigate('/datamanager/bb_loyal2_vouchers_precodes/view/' + row._id);
+    navigate('/datamanager/bb_loyal2_templates/view/' + row._id);
   };
   const deleteRow = () => {
     _array.length > 0
@@ -106,7 +106,7 @@ function ListPreloadVouchers() {
   };
 
   const row_select = row => {
-    navigate('/datamanager/bb_loyal2_vouchers_precodes/view/' + row._id);
+    navigate('/datamanager/bb_loyal2_templates/view/' + row._id);
   };
   const showDeleteConfirm = item => {
     confirm({
@@ -129,7 +129,7 @@ function ListPreloadVouchers() {
     setLoadingSchema(true);
     await item.map(async id => {
       await Axios.delete(
-        endpoint.getDataAddEndpoint(`bb_loyal2_vouchers_precodes/${id}`)
+        endpoint.getDataAddEndpoint(`bb_loyal2_templates/${id}`)
       );
       i--;
       console.log('counter', i);
@@ -251,7 +251,7 @@ function ListPreloadVouchers() {
   return (
     <>
       <Row className="mx-4">
-        <Title level={4}>All voucher pre-loaded voucher codes</Title>
+        <Title level={4}>All custom templates</Title>
       </Row>
       <AdvanceTableWrapper
         columns={columns}
@@ -284,4 +284,4 @@ function ListPreloadVouchers() {
     </>
   );
 }
-export default ListPreloadVouchers;
+export default ListManageTemplates;

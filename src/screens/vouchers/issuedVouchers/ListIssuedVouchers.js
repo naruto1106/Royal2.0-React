@@ -268,7 +268,7 @@ function ListIssuedVouchers() {
           tableProps={{
             bordered: true,
             striped: true,
-            className: 'fs--1 mb-0 overflow-hidden mt-5'
+            className: 'fs--1 mb-0 overflow-hidden mt-3'
           }}
         />
         <div className="mt-3">

@@ -65,29 +65,27 @@ function SearchTransaction() {
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3">
-        <Col span={20}>
-          {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
+      <Row className="mx-4 mt-3 mb-4">
+        <Col span={23}>
           <Input placeholder="Free text search" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-4">
-        <Col span={20}>
-          {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
+      <Row className="mx-4">
+        <Col span={23}>
           <Input placeholder="Member" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-7" align="middle" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={6}>
-          <Text style={{ color: '#444444' }} strong>
-            Transactino Date between
+      <Row className="mx-4 mt-5" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
+            Transaction Date between
           </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-        <Col xs={4} md={4} lg={2} xl={2}>
-          <Text strong style={{ textAlign: 'center', color: '#444444' }}>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
             and
           </Text>
         </Col>
@@ -95,17 +93,17 @@ function SearchTransaction() {
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-5" align="middle" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={6}>
-          <Text style={{ color: '#444444' }} strong>
+      <Row className="mx-4 mt-5" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
             Date Added/Imported between
           </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-        <Col xs={4} md={4} lg={2} xl={2}>
-          <Text strong style={{ textAlign: 'center', color: '#444444' }}>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
             and
           </Text>
         </Col>

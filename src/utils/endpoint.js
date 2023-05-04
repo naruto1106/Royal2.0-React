@@ -49,6 +49,8 @@ export default {
     `${API_ENDPOINT_PREFIX}/schemas/${mn}/${action}${id ? `?id=${id}` : ''}`,
   getPromotionsDataManagerSchemaEndpoint: routeKey =>
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_promotions/${routeKey}`,
+  getDataManageTemplateSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_templates/${routeKey}`,
 
   getTransactionPromotionsDataManagerSchemaEndpoint: routeKey =>
     `/transactional_promotions/${routeKey}`,
