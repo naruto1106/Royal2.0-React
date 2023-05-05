@@ -82,12 +82,12 @@ function HistoryMember() {
   return (
     <>
       <Row className="mx-4">
-        <Col span={10}>
+        <Col>
           <Title level={4} style={{ color: '#444444' }}>
             Viewing member record
           </Title>
         </Col>
-        <Col span={13} style={{ textAlign: 'end' }}>
+        <Col offset={12}>
           <Dropdown>
             <Dropdown.Toggle
               bsPrefix="toggle"
@@ -135,7 +135,7 @@ function HistoryMember() {
         </Col>
       </Row>
       <Row className="mx-4">
-        <Col span={20}>
+        <Col span={12}>
           <Table responsive style={{ marginTop: '60px', width: '100%' }}>
             <tbody style={tdpadding}>
               {layoutFields.first_name ? (

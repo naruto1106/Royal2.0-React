@@ -21,17 +21,17 @@ import {
   InputNumber
 } from 'antd';
 import { Button, Form as BootstrapForm } from 'react-bootstrap';
-// import { ConsoleSqlOutlined } from '@ant-design/icons';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
-// const inputStyle = { width: '93%' };
-const inputBorderRadius = { borderRadius: '10px', width: '100%' };
+const inputStyle = { width: '93%' };
+const inputBorderRadius = { borderRadius: '10px', width:"100%" };
 
-// const inputQuestion = {
-//   display: 'inline-block',
-//   width: '93%',
-//   borderRadius: '15px'
-// };
+const inputQuestion = {
+  display: 'inline-block',
+  width: '93%',
+  borderRadius: '15px'
+};
 
 function PromotionsAdd() {
   const dispatch = useDispatch();
@@ -45,12 +45,12 @@ function PromotionsAdd() {
   const [eventISbb_loyal2_eventsID, setAuto] = useState('');
   const [date_from, setDate_from] = useState('');
   const [date_to, setDate_to] = useState('');
-  const onDate_from = a => {
+  const onDate_from=(a)=>{
     setDate_from(a.format('YYYY-MM-DD HH:mm:ss'));
-  };
-  const onDate_to = a => {
+  }
+  const onDate_to=(a)=>{
     setDate_to(a.format('YYYY-MM-DD HH:mm:ss'));
-  };
+  }
   const handleChange1 = e => {
     console.log(e.target.value);
     setBranch(e.target.value);
@@ -101,7 +101,7 @@ function PromotionsAdd() {
     try {
       _isMounted.current && setLoadingSchema(true);
       const { name, points_to_awardNUM, code, quickscan_function } = values;
-
+     
       // console.log(date_test_success,"date_test_success");
       const addPromotions = await Axios.post(
         endpoint.getDataAddEndpoint('bb_loyal2_promotions'),
@@ -157,7 +157,7 @@ function PromotionsAdd() {
                 Add a new non-transactional promotion record
               </Title>
             </Row>
-            <Row gutter={[16, 16]}>
+            <Row gutter={[16,16]}>
               <Col span={12}>
                 {layoutFields.name ? (
                   <>
@@ -172,6 +172,7 @@ function PromotionsAdd() {
                           message: 'Please input your Name!'
                         }
                       ]}
+                      
                     >
                       <Input
                         className="mt-1"
@@ -196,6 +197,7 @@ function PromotionsAdd() {
                           message: 'Please input your Points to awardNUM!'
                         }
                       ]}
+                      
                     >
                       <InputNumber
                         className="mt-1"
@@ -208,7 +210,7 @@ function PromotionsAdd() {
               </Col>
             </Row>
 
-            <Row gutter={[16, 16]}>
+            <Row gutter={[16,16]}>
               <Col span={12}>
                 {layoutFields.code ? (
                   <>
@@ -223,6 +225,7 @@ function PromotionsAdd() {
                           message: 'Please input your Code!'
                         }
                       ]}
+                      
                     >
                       <Input
                         className="mt-1"
@@ -239,7 +242,7 @@ function PromotionsAdd() {
                     <Text strong className="text-label">
                       {layoutFields.quickscan_function}
                     </Text>
-                    <Form.Item name="quickscan_function">
+                    <Form.Item name="quickscan_function" >
                       <Input
                         className="mt-1"
                         placeholder={layoutFields.quickscan_function}
@@ -250,39 +253,40 @@ function PromotionsAdd() {
                 ) : null}
               </Col>
             </Row>
-            <Row gutter={[16, 16]} className="mt-3">
+            <Row gutter={[16,16]} className='mt-3'>
               <Col span={12}>
                 {layoutFields.date_from ? (
                   <>
-                    <Row align="middle">
-                      <Col span={10}>
-                        <Text strong className="text-label">
-                          {layoutFields.date_from}
-                        </Text>
-                      </Col>
-                      <Col span={14}>
-                        <Form.Item name="date_from" className="m-0">
+                    
+                      <Row align="middle">
+                        <Col span={10}>
+                          <Text strong className="text-label">
+                            {layoutFields.date_from}
+                          </Text>
+                        </Col>
+                        <Col span={14}>
+                        <Form.Item name="date_from" className='m-0' >
                           <DatePicker
                             placeholder={layoutFields.date_from}
                             style={inputBorderRadius}
                             onChange={onDate_from}
                           />
-                        </Form.Item>
-                      </Col>
-                    </Row>
+                           </Form.Item>
+                        </Col>
+                      </Row>
+                   
                   </>
                 ) : null}
               </Col>
               <Col span={12}>
                 {layoutFields.branchISbb_loyal2_branchesID ? (
-                  <Form.Item name="branchISbb_loyal2_branchesID">
+                  <Form.Item
+                    name="branchISbb_loyal2_branchesID"
+                     
+                  >
                     <Row align="middle">
                       <Col span={8}>
-                        <Text
-                          strong
-                          className="text-label"
-                          style={{ padding: '0px 3px' }}
-                        >
+                        <Text strong className="text-label" style={{ padding: '0px 3px' }}>
                           {layoutFields.branchISbb_loyal2_branchesID}
                         </Text>
                       </Col>
@@ -306,39 +310,40 @@ function PromotionsAdd() {
               </Col>
             </Row>
 
-            <Row gutter={[16, 16]} className="mt-3">
+            <Row gutter={[16,16]} className='mt-3'>
               <Col span={12}>
                 {layoutFields.date_to ? (
                   <>
-                    <Row align="middle">
-                      <Col span={10}>
-                        <Text strong className="text-label">
-                          {layoutFields.date_to}
-                        </Text>
-                      </Col>
-                      <Col span={14}>
-                        <Form.Item name="date_to" className="m-0">
+                    
+                      <Row align="middle">
+                        <Col span={10}>
+                          <Text strong className="text-label">
+                            {layoutFields.date_to}
+                          </Text>
+                        </Col>
+                        <Col span={14}>
+                        <Form.Item name="date_to" className='m-0' >
                           <DatePicker
                             placeholder={layoutFields.date_to}
                             style={inputBorderRadius}
                             onChange={onDate_to}
                           />
-                        </Form.Item>
-                      </Col>
-                    </Row>
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                    
                   </>
                 ) : null}
               </Col>
               <Col span={12}>
                 {layoutFields.groupISbb_loyal2_groupsID ? (
-                  <Form.Item name="groupISbb_loyal2_groupsID">
+                  <Form.Item
+                    name="groupISbb_loyal2_groupsID"
+                     
+                  >
                     <Row align="middle">
                       <Col span={8}>
-                        <Text
-                          strong
-                          className="text-label"
-                          style={{ padding: '0px 3px' }}
-                        >
+                        <Text strong className="text-label" style={{ padding: '0px 3px' }}>
                           {layoutFields.groupISbb_loyal2_groupsID}
                         </Text>
                       </Col>
@@ -359,7 +364,7 @@ function PromotionsAdd() {
                 ) : null}
               </Col>
             </Row>
-            <Row gutter={[16, 16]} className="mt-3">
+            <Row gutter={[16,16]} className='mt-3'>
               <Col span={19}>
                 {layoutFields.eventISbb_loyal2_eventsID ? (
                   <>
@@ -374,16 +379,16 @@ function PromotionsAdd() {
                           name="eventISbb_loyal2_eventsID"
                           style={inputQuestion}
                         > */}
-                        <BootstrapForm.Select
-                          placeholder={layoutFields.eventISbb_loyal2_eventsID}
-                          style={inputBorderRadius}
-                          onChange={e => handleChange3(e)}
-                        >
-                          <option value=""></option>
-                          <option value="1">Auto1</option>
-                          <option value="2">Auto2</option>
-                          <option value="3">Auto3</option>
-                        </BootstrapForm.Select>
+                          <BootstrapForm.Select
+                            placeholder={layoutFields.eventISbb_loyal2_eventsID}
+                            style={inputBorderRadius}
+                            onChange={e => handleChange3(e)}
+                          >
+                            <option value=""></option>
+                            <option value="1">Auto1</option>
+                            <option value="2">Auto2</option>
+                            <option value="3">Auto3</option>
+                          </BootstrapForm.Select>
                         {/* </Form.Item> */}
                       </Col>
                     </Row>

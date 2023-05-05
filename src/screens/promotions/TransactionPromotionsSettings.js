@@ -3,8 +3,8 @@ import React from 'react';
 // import { useEffect, useRef } from 'react';
 // import { useState, useEffect, useRef } from 'react';
 // import { useDispatch } from 'react-redux';
-import { Row, Col, Typography, InputNumber } from 'antd';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Typography } from 'antd';
+import { Button, Form } from 'react-bootstrap';
 // import { useParams } from 'react-router-dom';
 // import endpoint from '../../utils/endpoint';
 // import { getErrorAlert } from 'helpers/utils';
@@ -87,7 +87,12 @@ function TransactionPromotionsSearch() {
               </Text>
             </Col>
             <Col span={4}>
-              <InputNumber style={inputStyle} />
+              <Form.Select style={inputStyle}>
+                <option>10</option>
+                <option>10</option>
+                <option>10</option>
+                <option>10</option>
+              </Form.Select>
             </Col>
 
             <Col span={7} style={{ textAlign: 'center' }}>
@@ -124,7 +129,12 @@ function TransactionPromotionsSearch() {
               </Text>
             </Col>
             <Col span={4}>
-              <InputNumber style={inputStyle} />
+              <Form.Select style={inputStyle}>
+                <option>10</option>
+                <option>10</option>
+                <option>10</option>
+                <option>10</option>
+              </Form.Select>
             </Col>
             <Col span={7}>
               <Button

@@ -78,9 +78,7 @@ function CsvGroup() {
     <>
       <Row className="mx-4 mt-5">
         <Col xs={23} lg={20}>
-          <Title level={4} style={{ color: '#444444' }}>
-            Import data from CSV/Excel file
-          </Title>
+          <Title level={4}>Import data from CSV/Excel file</Title>
         </Col>
         <Col xs={1} lg={4} style={{ textAlign: 'end' }}>
           <Tooltip title="Import data from CSV/Excel file" placement="right">
@@ -129,9 +127,7 @@ function CsvGroup() {
 
       <Row className="mx-4 mt-7">
         <Col span={24}>
-          <Title level={4} style={{ color: '#444444' }}>
-            Export data to CSV/Excel file
-          </Title>
+          <Title level={4}>Export data to CSV/Excel file</Title>
         </Col>
       </Row>
       <Row className="mx-4 mt-3">

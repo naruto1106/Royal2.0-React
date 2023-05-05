@@ -10,17 +10,13 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 // import { Link } from 'react-router-dom';
-import { Dropdown, ButtonGroup, Table } from 'react-bootstrap';
+import { Dropdown, ButtonGroup } from 'react-bootstrap';
 // import { DownOutlined, RightOutlined } from '@ant-design/icons';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
 const { confirm } = Modal;
-const tdpadding = {
-  paddingLeft: '0px',
-  color: '#444444'
-};
-const tdright = { textAlign: 'right', color: '#444444' };
+
 // const tdright = { textAlign: 'right', color: '#444444' };
 function ViewAllVouchers() {
   const dispatch = useDispatch();
@@ -117,10 +113,10 @@ function ViewAllVouchers() {
       </Row>
       <Divider />
       <Row className="mx-4" align="middle">
-        <Col span={10}>
+        <Col span={11}>
           <Title level={4}>Viewing voucher</Title>
         </Col>
-        <Col span={13} style={{ textAlign: 'end' }}>
+        <Col span={10} style={{ textAlign: 'end' }}>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
               id="dropdown-custom-1"
@@ -154,98 +150,7 @@ function ViewAllVouchers() {
           </Dropdown>
         </Col>
       </Row>
-      <Row className="mx-4">
-        <Col span={20}>
-          <Table responsive style={{ marginTop: '60px', width: '100%' }}>
-            <tbody style={tdpadding}>
-              {layoutFields.name ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.name}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.name : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.points_requiredNUM ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.points_requiredNUM}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.points_requiredNUM : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.code ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.code}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData ? memberData.code : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.imageISfile ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.imageISfile}
-                    </Text>
-                  </td>
-                  <td style={tdright}>
-                    {memberData ? (
-                      <Image.PreviewGroup
-                        preview={{
-                          onChange: (current, prev) =>
-                            console.log(
-                              `current index: ${current}, prev index: ${prev}`
-                            )
-                        }}
-                      >
-                        <Image width={150} src="/img/coffee.png" />
-                      </Image.PreviewGroup>
-                    ) : (
-                      ''
-                    )}
-                  </td>
-                </tr>
-              ) : null}
-              {layoutFields.available_for_self_selectionYN ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.available_for_self_selectionYN}
-                    </Text>{' '}
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData
-                        ? memberData.available_for_self_selectionYN
-                        : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-      {/* <Row className="mx-4 mt-7" align="middle" justify="start">
+      <Row className="mx-4 mt-7" align="middle" justify="start">
         <Col span={11}>
           <Text strong className="text-label">
             {layoutFields.name}
@@ -309,7 +214,7 @@ function ViewAllVouchers() {
             {memberData.available_for_self_selectionYN}
           </Text>
         </Col>
-      </Row> */}
+      </Row>
     </>
   );
 }

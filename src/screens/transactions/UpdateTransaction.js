@@ -191,7 +191,6 @@ function UpdateTransaction() {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
-        form={form}
       >
         <Row className="mx-4 mt-3">
           <Col span={24}>
