@@ -32,7 +32,12 @@ const TransactionPage = React.lazy(() => import('../screens/TransactionPage'));
 const VouchersAll = React.lazy(() => import('../screens/VouchersAll'));
 const VouchersIssued = React.lazy(() => import('../screens/VouchersIssued'));
 const VouchersPreload = React.lazy(() => import('../screens/VouchersPreload'));
-const Communication_settings = React.lazy(() => import('../screens/Communication_settings'));
+const Communication_settings = React.lazy(() =>
+  import('../screens/Communication_settings')
+);
+const Communication_scheduled = React.lazy(() =>
+  import('../screens/Communication_scheduled')
+);
 const RedirectToViewList = () => {
   let { module_name } = useParams();
 
@@ -210,6 +215,12 @@ export const getRoutes = (
       exact: true,
       name: currentPage,
       component: Communication_settings
+    },
+    {
+      path: '/scheduled_communication',
+      exact: true,
+      name: currentPage,
+      component: Communication_scheduled
     },
     {
       path: '/QuickScan_settings',

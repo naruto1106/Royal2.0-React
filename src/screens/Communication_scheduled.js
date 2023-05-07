@@ -8,8 +8,8 @@ import handleError from 'utils/handleError';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
-import { Modal, message,Row, Col,Typography } from 'antd';
+import { Form, Card } from 'react-bootstrap';
+import { Modal, message, Row, Col, Typography } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
@@ -17,7 +17,10 @@ import ActionButton from 'components/common/ActionButton';
 import endpoint from '../utils/endpoint';
 const { confirm } = Modal;
 const { Title } = Typography;
-
+const cardStyle = {
+  backgroundColor: '#F8F8F8',
+  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'
+};
 function Communication_scheduled() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -239,39 +242,47 @@ function Communication_scheduled() {
   // end Loading part
   return (
     <>
-    <Row className="mt-4 mx-4">
-        <Col>
-            <Title level={3}>Scheduled Communications</Title>
-        </Col>
-    </Row>
-      <AdvanceTableWrapper
-        columns={columns}
-        data={memberLists}
-        sortable
-        // pagination
-        // selection
-        perPage={resultsPerPage}
-      >
-        <AdvanceTable
-          table
-          headerClassName="bg-200 text-900 text-nowrap align-middle"
-          rowClassName="align-middle white-space-nowrap"
-          tableProps={{
-            bordered: true,
-            striped: true,
-            className: 'fs--1 mb-0 overflow-hidden'
-          }}
-        />
-        <div className="mt-3">
-          <AdvanceTableFooter
-            rowCount={memberLists.length}
-            table
-            rowInfo
-            navButtons
-            // rowsPerPageSelection
-          />
-        </div>
-      </AdvanceTableWrapper>
+      <Card className="overflow-hidden z-index-1 card-main_layout">
+        <Card.Body className="p-0">
+          <Row className="mt-4 mx-4 mb-5">
+            <Col>
+              <Title level={3}>Scheduled Communications</Title>
+            </Col>
+          </Row>
+          {/* <Card className="overflow-hidden z-index-1 card-main_layout">
+            <Card.Body className="p-0" style={cardStyle}> */}
+              <AdvanceTableWrapper
+                columns={columns}
+                data={memberLists}
+                sortable
+                // pagination
+                // selection
+                perPage={resultsPerPage}
+              >
+                <AdvanceTable
+                  table
+                  headerClassName="bg-200 text-900 text-nowrap align-middle"
+                  rowClassName="align-middle white-space-nowrap"
+                  tableProps={{
+                    bordered: true,
+                    striped: true,
+                    className: 'fs--1 mb-0 overflow-hidden'
+                  }}
+                />
+                <div className="mt-3">
+                  <AdvanceTableFooter
+                    rowCount={memberLists.length}
+                    table
+                    rowInfo
+                    navButtons
+                    // rowsPerPageSelection
+                  />
+                </div>
+              </AdvanceTableWrapper>
+            </Card.Body>
+          </Card>
+        {/* </Card.Body>
+      </Card> */}
     </>
   );
 }
