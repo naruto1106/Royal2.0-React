@@ -19,10 +19,9 @@ const ToolTip = {
   scale: '1.5'
   // marginLeft: '39em'
 };
-// const titleStyle = {
-//   marginBottom: '50px',
-//   color: '#444444'
-// };
+const titleStyle = {
+  marginBottom: '50px'
+};
 const { Title } = Typography;
 
 function CsvMember() {
@@ -81,47 +80,57 @@ function CsvMember() {
 
   return (
     <>
-      <Row className="mx-4 mt-5">
-        <Col xs={23} lg={20}>
-          <Title level={4}>Import data from CSV/Excel file</Title>
+      <Row className="mx-4">
+        <Col span={16}>
+          <Title level={3} style={titleStyle}>
+            Import data from CSV/Excel file
+          </Title>
         </Col>
-        <Col xs={1} lg={4} style={{ textAlign: 'end' }}>
+        <Col span={8} style={{ textAlign: 'end' }}>
           <Tooltip title="Import data from CSV/Excel file" placement="right">
             <QuestionCircleOutlined style={ToolTip}>?</QuestionCircleOutlined>
           </Tooltip>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3">
-        <Col xs={24} sm={24} md={10} lg={10} xl={12} xxl={12}>
+      <Row>
+        <Col className="mx-4" xs={12} sm={12} md={8} lg={8} xl={8} xxl={8}>
           <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
           >
             <Button
-              className="rounded-pill px-4 py-2"
+              className="me-3"
               lavel="Get sample CSV"
               variant="outline-primary"
+              style={{ borderRadius: '15px', padding: '8px 20px' }}
             >
               Get sample CSV
             </Button>
           </Upload>
         </Col>
-        <Col xs={12} sm={12} md={5} lg={5} xl={4} xxl={3}>
+        <Col xs={6} sm={6} md={6} lg={8} xl={3} xxl={3}>
           <Upload
             colorBorder="blue"
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture"
             onChange={handleChange}
           >
-            <Button variant="light" className="rounded-pill px-4 py-2">
+            <Button
+              variant="light"
+              style={{ borderRadius: '15px', padding: '10px 20px' }}
+            >
               Select file
             </Button>
           </Upload>
         </Col>
-        <Col xs={12} sm={12} md={9} lg={9} xl={8} xxl={8}>
+        <Col xs={6} sm={6} md={6} lg={8} xl={4} xxl={4}>
           <Button
             lavel="Upload CSV"
-            className="rounded-pill px-4 py-2"
+            style={{
+              borderRadius: '15px',
+              padding: '8px 20px',
+              boxShadow: 'none'
+            }}
             disabled={btndisable}
             variant={btncolor}
           >
@@ -129,7 +138,6 @@ function CsvMember() {
           </Button>
         </Col>
       </Row>
-
       <Row className="mx-4 my-3">
         <Col span={20}>
           <Radio ghost className="mt-5 mb-3">
@@ -159,14 +167,20 @@ function CsvMember() {
         </Col>
       </Row>
 
-      <Row className="mx-4 my-3">
-        <Col span={24}>
-          <Title level={4}>Export data to CSV/Excel file</Title>
+      <Row className="mx-4 ">
+        <Col span={20}>
+          <Title level={3} style={{ color: '#444444' }}>
+            Export data to CSV/Excel file
+          </Title>
         </Col>
       </Row>
-      <Row className="mx-4 my-3">
-        <Col span={24}>
-          <Button className="rounded-pill px-4 py-2" variant="outline-primary">
+      <br />
+      <Row>
+        <Col className="mx-4">
+          <Button
+            style={{ borderRadius: '15px', padding: '8px 20px' }}
+            variant="outline-primary"
+          >
             Export Data
           </Button>
         </Col>

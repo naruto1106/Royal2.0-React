@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, Tooltip, Switch, Typography } from 'antd';
+import { Row, Col, Tooltip, Typography, Switch } from 'antd';
 import { Button } from 'react-bootstrap';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
@@ -11,16 +11,14 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
-const { Text } = Typography;
 
-const settingStyle = {
-  marginTop: '82px',
-  fontFamilly: 'Inter',
-  fontSize: '16px',
-  fontStyle: 'normal',
-  fontWeight: '400',
-  color: '#000000',
-  letterSpacing: '-0.019em'
+const { Title } = Typography;
+const TooltipStyle = {
+  background: 'rgb(53, 157, 217)',
+  borderRadius: '50px',
+  color: 'white',
+  scale: '1.5',
+  marginLeft: '50px'
 };
 function SettingsSetting() {
   const dispatch = useDispatch();
@@ -72,27 +70,19 @@ function SettingsSetting() {
 
   return (
     <>
-      <Row className="mx-4 py-3" style={settingStyle} lg={20} xl={20} xxl={20}>
-        <Col
-          className=" my-2 me-3"
-          xs={23}
-          sm={23}
-          md={10}
-          lg={8}
-          xl={8}
-          xxl={8}
-        >
-          <Text strong style={{ color: '#444444' }}>
-            {' '}
-            For multi-branch:apply points globally{' '}
-          </Text>
+      <Row className="py-5">
+        <Col className="my-2" xs={23} sm={23} md={10} lg={9} xl={9} xxl={9}>
+          <Title level={4} style={{ marginLeft: '20px' }}>
+            For multi-branch:apply points globally
+          </Title>
         </Col>
         <Col className="my-2" xs={23} sm={23} md={4} lg={4} xl={4} xxl={4}>
           <Switch
             defaultChecked
             style={{
-              scale: '1.3',
-              backgroundColor: '#359DD9'
+              scale: '1.9',
+              marginLeft: '50px',
+              backgroundColor: 'rgb(86, 204, 242)'
             }}
           />
         </Col>
@@ -106,7 +96,7 @@ function SettingsSetting() {
           xxl={9}
         >
           <Button
-            className="rounded-pill py-2 px-4"
+            className="px-5 py-2 rounded-pill me-1 mb-1"
             variant="outline-primary"
             onClick={() => updateSetting()}
           >
@@ -123,21 +113,10 @@ function SettingsSetting() {
           style={{ textAlign: 'end' }}
           className="my-1"
         >
-          <Tooltip
-            placement="right"
-            color="#359dd9"
-            title="Membership Number Starting Point"
-          >
-            <QuestionCircleOutlined
-              style={{
-                backgroundColor: '#359DD9',
-                borderRadius: '50%',
-                border: 'none',
-                color: 'white',
-                fontSize: '21px',
-                textAlign: 'end'
-              }}
-            />
+          <Tooltip title="234567890" placement="right">
+            <QuestionCircleOutlined style={TooltipStyle}>
+              ?
+            </QuestionCircleOutlined>
           </Tooltip>
         </Col>
       </Row>

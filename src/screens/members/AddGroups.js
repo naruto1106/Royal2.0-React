@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Tooltip, Form, Input, Row, Col, message } from 'antd';
+import { Typography, Tooltip, Form, Input, Row, Col } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 // import { useParams } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
@@ -11,8 +11,9 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { Button } from 'react-bootstrap';
+import TabGroups from './TabGroups';
 
-const { Title, Text } = Typography;
+const { Title, Paragraph } = Typography;
 const btnQuestion = {
   backgroundColor: '#359DD9',
   borderRadius: '50%',
@@ -21,7 +22,7 @@ const btnQuestion = {
   fontSize: '21px',
   float: 'right'
 };
-const inputBorderRadius = { borderRadius: '10px' };
+const inputBorderRadius = { borderRadius: '15px' };
 
 function AddGroups() {
   const dispatch = useDispatch();
@@ -62,40 +63,22 @@ function AddGroups() {
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
 
-  const onFinish = async values => {
+  const onFinish = values => {
     console.log('Success:', values);
-    try {
-      _isMounted.current && setLoadingSchema(true);
-      const { name } = values;
-      const addMember = await Axios.post(
-        endpoint.getDataAddEndpoint('bb_loyal2_groups'),
-        {
-          name
-        }
-      );
-      const user = addMember.data;
-      if (user.error) return message.error(user.error);
-      message.success('Added successful!');
-      console.log(`${endpoint.appUsers} response -> `, user);
-    } catch (error) {
-      handleError(error, true);
-    } finally {
-      _isMounted.current && setLoadingSchema(false);
-    }
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
   return (
     <>
-      <Row className="mx-4 mt-3">
+      <Row className="mx-4">
         <Col span={24}>
           <Title level={4} className="mb-3">
             Add a group tier
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3">
+      <Row className="mx-4">
         <Col span={24}>
           <Form
             name="basic"
@@ -112,11 +95,9 @@ function AddGroups() {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
-            <Text strong className="text-label">
-              Name
-            </Text>
-            <Row className="mt-1">
-              <Col xs={21} lg={20}>
+            <Paragraph className="mb-2">Name</Paragraph>
+            <Row>
+              <Col xs={21} lg={23}>
                 <Form.Item
                   name="name"
                   rules={[
@@ -130,16 +111,14 @@ function AddGroups() {
                 </Form.Item>
               </Col>
             </Row>
-            <Text strong className="text-label">
-              Code
-            </Text>
-            <Row className="mt-1">
-              <Col xs={21} lg={20}>
+            <Paragraph className="mb-2">Code</Paragraph>
+            <Row>
+              <Col xs={21} lg={23}>
                 <Form.Item
                   name="code"
                   rules={[
                     {
-                      required: false,
+                      required: true,
                       message: 'Please input Code!'
                     }
                   ]}
@@ -158,7 +137,8 @@ function AddGroups() {
             </Row>
 
             <Button
-              className="btn-active-command rounded-pill mt-5 px-4 py-2"
+              variant="outline-primary"
+              className="rounded-pill mt-2 px-5"
               type="submit"
             >
               Add
@@ -166,6 +146,7 @@ function AddGroups() {
           </Form>
         </Col>
       </Row>
+      <TabGroups />
     </>
   );
 }

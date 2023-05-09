@@ -19,7 +19,6 @@ import {
   // Radio,
   // Switch,
   // Select,
-  Typography,
   Row,
   message
 } from 'antd';
@@ -27,9 +26,8 @@ import { Button } from 'react-bootstrap';
 // import { NavLink } from 'react-router-dom';
 // const { TextArea } = Input;
 // const { Option } = Select;
-const { Title } = Typography;
 const inputStyle = { width: '93%' };
-const inputBorderRadius = { borderRadius: '10px' };
+const inputBorderRadius = { borderRadius: '15px' };
 // const twoInputStyle = {
 //   display: 'inline-block',
 //   width: '45%'
@@ -123,9 +121,9 @@ function AddMember() {
     <>
       <Row justify="center">
         <Col>
-          <Title level={4} className="d-flex justify-content-center mb-4">
+          <h4 className="d-flex justify-content-center mb-4">
             Add a new member
-          </Title>
+          </h4>
 
           <Form
             name="Add"
@@ -502,10 +500,7 @@ function AddMember() {
             <br />
             <br />
             <div style={{ width: '100%', textAlign: 'center' }}>
-              <Button
-                className="btn-active-command rounded-pill px-4 py-2"
-                type="submit"
-              >
+              <Button className="btn-active-command rounded-pill" type="submit">
                 Save
               </Button>
             </div>

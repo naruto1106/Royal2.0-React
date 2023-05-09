@@ -7,10 +7,6 @@ import SettingsList from './points/SettingsList';
 import SettingsHistory from './points/SettingsHistory';
 import SettingsCSV from './points/SettingsCSV';
 import PointMenu from './points/PointMenu';
-import SettingsSearch from './points/SettingsSearch';
-import SettingsView from './points/SettingsView';
-import SettingsUpdate from './points/SettingsUpdate';
-
 import { Card } from 'react-bootstrap';
 function PageComponent() {
   let { routeKey } = useParams();
@@ -64,7 +60,7 @@ function PageComponent() {
           <Row>
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
               <PointMenu></PointMenu>
-              <SettingsSearch></SettingsSearch>
+              {/* <SettingsSearch></SettingsSearch> */}
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
           </Row>
@@ -79,34 +75,6 @@ function PageComponent() {
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
               <PointMenu></PointMenu>
               <SettingsCSV></SettingsCSV>
-            </Col>
-            {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
-          </Row>
-        </Card.Body>
-      </Card>
-    );
-  } else if (routeKey == 'view') {
-    return (
-      <Card className="overflow-hidden z-index-1 card-main_layout">
-        <Card.Body className="p-0">
-          <Row>
-            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
-              <PointMenu></PointMenu>
-              <SettingsView></SettingsView>
-            </Col>
-            {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
-          </Row>
-        </Card.Body>
-      </Card>
-    );
-  } else if (routeKey == 'edit') {
-    return (
-      <Card className="overflow-hidden z-index-1 card-main_layout">
-        <Card.Body className="p-0">
-          <Row>
-            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
-              <PointMenu></PointMenu>
-              <SettingsUpdate></SettingsUpdate>
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
           </Row>
@@ -128,6 +96,49 @@ function PageComponent() {
       </Card>
     );
   }
+  //   } else if (routeKey == 'view') {
+  //     return (
+  //       <Card className="overflow-hidden z-index-1 card-main_layout">
+  //         <Card.Body className="p-0">
+  //           <Row>
+  //             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+  //               <MemberMenu></MemberMenu>
+  //               <ViewMember></ViewMember>
+  //             </Col>
+  //             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
+  //           </Row>
+  //         </Card.Body>
+  //       </Card>
+  //     );
+  //   } else if (routeKey == 'edit') {
+  //     return (
+  //       <Card className="overflow-hidden z-index-1 card-main_layout">
+  //         <Card.Body className="p-0">
+  //           <Row>
+  //             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+  //               <MemberMenu></MemberMenu>
+  //               <UpdateMember></UpdateMember>
+  //             </Col>
+  //             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
+  //           </Row>
+  //         </Card.Body>
+  //       </Card>
+  //     );
+  //   } else {
+  //     return (
+  //       <Card className="overflow-hidden z-index-1 card-main_layout">
+  //         <Card.Body className="p-0">
+  //           <Row>
+  //             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+  //               <MemberMenu></MemberMenu>
+  //               <NewMenu></NewMenu>
+  //             </Col>
+  //             {/* <Col xs={1} sm={1} md={1} lg={2} xl={1} xxl={1}></Col> */}
+  //           </Row>
+  //         </Card.Body>
+  //       </Card>
+  //     );
+  //   }
 }
 
 export default PageComponent;

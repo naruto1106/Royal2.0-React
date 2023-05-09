@@ -63,8 +63,7 @@ function ListTransaction() {
       const memberRes = await Axios.get(
         endpoint.appUsers('/module/bb_loyal2_transactions/')
       );
-      setMemeberLists(memberRes.data.list);
-      // console.log(memberRes.data,"memberRes.daata")
+      setMemeberLists(memberRes.data);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -83,19 +82,17 @@ function ListTransaction() {
     navigate('/datamanager/bb_loyal2_transactions/edit/' + row._id);
   };
   const deleteRow = () => {
-    _array.length > 0
-      ? showDeleteConfirm(_array)
-      : message.error('Please select item!');
+    // mshowDeleteConfir();
+    _array.length > 0 ? showDeleteConfirm(_array) : showDeleteConfirm1();
     console.log(_array, 'delete=> selected item');
   };
   let index = 0;
-  const AllChange = memberData => {
+  const AllChange = () => {
     // console.log(row);
     index++;
     _array = [];
-    console.log(index % 2);
-    index % 2 == '1'
-      ? memberData.data.map(id => {
+    index % 2 == 1
+      ? memberLists.map(id => {
           console.log(id._id);
           _array.push(id._id);
         })
@@ -107,6 +104,7 @@ function ListTransaction() {
     index = _array.indexOf(row.original._id);
     index > -1 ? _array.splice(index, 1) : _array.push(row.original._id);
     _array.sort();
+    // setDeleteLists(_array);
   };
 
   const row_select = row => {
@@ -124,26 +122,39 @@ function ListTransaction() {
         console.log(item, 'deleted item');
       },
       onOk() {
-        // console.log(item.length);
         onDelete(item);
       }
     });
   };
-  const onDelete = async item => {
-    let i = item.length;
-    setLoadingSchema(true);
-    await item.map(async id => {
-      await Axios.delete(
-        endpoint.appUsers(`/module/bb_loyal2_transactions/${id}`)
-      );
-      i--;
-      console.log('counter', i);
-      if (i == 0) {
-        initPageModule();
-        message.success('Deleted successful!');
-        _array = [];
+
+  const showDeleteConfirm1 = () => {
+    confirm({
+      title: 'Select deleted item.',
+      icon: <ExclamationCircleFilled />,
+      content: '',
+      okText: 'OK',
+      okType: 'danger',
+      onOk() {
+        console.log('deleted item');
       }
     });
+  };
+  const onDelete = async item => {
+    // try {
+    //   _isMounted.current && setLoadingSchema(false);
+
+    await item.map(async id => {
+      await Axios.delete(
+        endpoint.appUsers(`/modules/bb_loyal2_transactions/${id}`)
+      );
+    });
+    initPageModule();
+    message.success('Deleted successful!');
+    // } catch (error) {
+    //   handleError(error, true);
+    // } finally {
+    //   _isMounted.current && setLoadingSchema(false);
+    // }
   };
   useEffect(() => {
     console.log(layoutData, 'this is layoutdata------');
@@ -219,7 +230,9 @@ function ListTransaction() {
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox
             {...getToggleAllRowsSelectedProps()}
-            onClick={() => AllChange(layoutData)}
+            onClick={getToggleAllRowsSelectedProps =>
+              AllChange(getToggleAllRowsSelectedProps)
+            }
           />
         ),
         Cell: ({ row }) => (
@@ -244,6 +257,7 @@ function ListTransaction() {
   // end Loading part
   return (
     <>
+      <h1>hello</h1>
       <AdvanceTableWrapper
         columns={columns}
         data={memberLists}

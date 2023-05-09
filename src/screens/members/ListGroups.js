@@ -9,15 +9,19 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Modal, message } from 'antd';
+import { Modal, Typography, Row } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../utils/endpoint';
 const { confirm } = Modal;
+import TabGroups from './TabGroups';
 
-function ListGroup() {
+const { Title } = Typography;
+
+// const { Title } = Typography;
+function ListGroups() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
@@ -27,7 +31,6 @@ function ListGroup() {
   const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
-  let _array = [];
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -59,9 +62,9 @@ function ListGroup() {
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
       const memberRes = await Axios.get(
-        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+        endpoint.appUsers('/app/users/') + `?user_type=3`
       );
-      setMemeberLists(memberRes.data.list);
+      setMemeberLists(memberRes.data);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -77,39 +80,22 @@ function ListGroup() {
   }, []);
 
   const editRow = row => {
-    navigate('/datamanager/bb_loyal2_groups/edit/' + row._id);
+    navigate('/datamanager/bb_loyal2_members/edit/' + row._id);
   };
   const deleteRow = () => {
-    _array.length > 0
-      ? showDeleteConfirm(_array)
-      : message.error('Please select item!');
-    console.log(_array, 'delete=> selected item');
+    showDeleteConfirm();
   };
-  let index = 0;
-  const AllChange = memberData => {
-    // console.log(row);
-    index++;
-    _array = [];
-    console.log(index % 2);
-    index % 2 == '1'
-      ? memberData.data.map(id => {
-          console.log(id._id);
-          _array.push(id._id);
-        })
-      : (_array = []);
+  const AllChange = row => {
+    console.log('checkbox_alldddd', row);
   };
-
   const onChange = row => {
-    let index;
-    index = _array.indexOf(row.original._id);
-    index > -1 ? _array.splice(index, 1) : _array.push(row.original._id);
-    _array.sort();
+    console.log('check_box_click', row); // isSelected: true, false
   };
 
   const row_select = row => {
-    navigate('/datamanager/bb_loyal2_groups/edit/' + row._id);
+    navigate('/datamanager/bb_loyal2_members/view/' + row._id);
   };
-  const showDeleteConfirm = item => {
+  const showDeleteConfirm = () => {
     confirm({
       title: 'Are you sure delete?',
       icon: <ExclamationCircleFilled />,
@@ -117,25 +103,11 @@ function ListGroup() {
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onCancel() {
-        console.log(item, 'deleted item');
-      },
       onOk() {
-        onDelete(item);
-      }
-    });
-  };
-  const onDelete = async item => {
-    let i = item.length;
-    setLoadingSchema(true);
-    await item.map(async id => {
-      await Axios.delete(endpoint.getDataAddEndpoint(`bb_loyal2_groups/${id}`));
-      i--;
-      console.log('counter', i);
-      if (i == 0) {
-        initPageModule();
-        message.success('Deleted successful!');
-        _array = [];
+        console.log('OK');
+      },
+      onCancel() {
+        console.log('Cancel');
       }
     });
   };
@@ -163,6 +135,7 @@ function ListGroup() {
         tempElement.accessor = key;
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {
+          //  const { code } = rowData.row.original;
           const value = rowData.row.original[key];
           const divTag = (
             <div
@@ -191,7 +164,16 @@ function ListGroup() {
             />
           </>
         ),
-
+        // headerProps: {
+        //   style: {
+        //     maxWidth: 10
+        //   }
+        // },
+        // cellProps: {
+        //   style: {
+        //     maxWidth: 10
+        //   }
+        // },
         Cell: rowData => {
           return (
             <>
@@ -213,7 +195,9 @@ function ListGroup() {
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox
             {...getToggleAllRowsSelectedProps()}
-            onClick={() => AllChange(layoutData)}
+            onClick={getToggleAllRowsSelectedProps =>
+              AllChange(getToggleAllRowsSelectedProps)
+            }
           />
         ),
         Cell: ({ row }) => (
@@ -236,8 +220,15 @@ function ListGroup() {
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   // end Loading part
+
   return (
     <>
+      <Row className="mx-4">
+        <Title level={4} className="mb-3">
+          All group/tier records
+        </Title>
+      </Row>
+
       <AdvanceTableWrapper
         columns={columns}
         data={memberLists}
@@ -266,7 +257,9 @@ function ListGroup() {
           />
         </div>
       </AdvanceTableWrapper>
+
+      <TabGroups />
     </>
   );
 }
-export default ListGroup;
+export default ListGroups;

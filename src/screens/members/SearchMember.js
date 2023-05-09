@@ -2,14 +2,14 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { InputNumber, DatePicker, Typography, Row, Col, Input } from 'antd';
+import { InputNumber, DatePicker, Typography } from 'antd';
 // import { useParams, useNavigate } from 'react-router-dom';
 
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
-import { Button, Form } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
@@ -18,11 +18,7 @@ import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFoot
 // import { ExclamationCircleFilled } from '@ant-design/icons';
 // const { confirm } = Modal;
 
-const { Title, Text } = Typography;
-const inputStyle = {
-  borderRadius: '10px',
-  width: '100%'
-};
+const { Title } = Typography;
 function SearchMember() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
@@ -244,115 +240,121 @@ function SearchMember() {
 
   return (
     <>
-      <Row className="mb-4 mx-4">
-        <Col lg={23} xl={23}>
-          <Title level={4}>Search Members</Title>
-        </Col>
-      </Row>
-      <Row className="my-5 mx-4">
-        <Col lg={24} xl={22}>
-          <Input
-            placeholder="Free text search"
-            onChange={e => {
-              setSearchtext(e.target.value);
-            }}
-            value={searchtext}
-            style={inputStyle}
-          />
-        </Col>
-      </Row>
-      <Row className="mb-5 mx-4" align="middle">
-        <Col lg={13} xl={12}>
-          <Row align="middle">
-            <Col span={12}>
-              <Text strong className="text-label">
+      <Form>
+        <Row className="mb-5 mx-4">
+          <Col md={10}>
+            <Title level={4} style={{ color: '#444444' }}>
+              Search Members
+            </Title>
+          </Col>
+        </Row>
+        <Row className="mb-5  mx-4">
+          <Col md={9}>
+            <Form.Control
+              type="text"
+              placeholder="Free text search"
+              style={{ borderRadius: '10px' }}
+              value={searchtext}
+              onChange={e => {
+                setSearchtext(e.target.value);
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="mb-5  mx-4">
+          <Col md={5}>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={6} style={{ color: '#444444' }}>
                 Points balance between
-              </Text>
-            </Col>
-            <Col span={4}>
-              <InputNumber
-                min={1}
-                max={1000}
-                defaultValue={1}
-                style={inputStyle}
-              />
-            </Col>
-            <Col span={4} style={{ textAlign: 'center' }}>
-              <Text className="text-label" strong>
+              </Form.Label>
+              <Col sm={2}>
+                <InputNumber
+                  min={1}
+                  max={1000}
+                  defaultValue={1}
+                  style={{ borderRadius: '10px' }}
+                />
+              </Col>
+              <Form.Label
+                column
+                sm={2}
+                className="text-center"
+                style={{ color: '#444444' }}
+              >
                 and
-              </Text>
-            </Col>
-            <Col span={4}>
-              <InputNumber
-                min={1}
-                max={1000}
-                defaultValue={1}
-                style={inputStyle}
-              />
-            </Col>
-          </Row>
-        </Col>
-        <Col lg={10} xl={10}>
-          <Row align="middle" gutter={[16, 16]}>
-            <Col span={12} style={{ textAlign: 'end' }}>
-              <Text strong className="text-label">
+              </Form.Label>
+              <Col sm={2}>
+                <InputNumber
+                  min={1}
+                  max={1000}
+                  defaultValue={1}
+                  style={{ width: '100%', borderRadius: '10px' }}
+                />
+              </Col>
+            </Form.Group>
+          </Col>
+          <Col md={4}>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label
+                column
+                sm={4}
+                lg={4}
+                className="text-end"
+                style={{ color: '#444444' }}
+              >
                 Group
-              </Text>
-            </Col>
-            <Col span={12}>
-              <Form.Select
-                defaultValue="select"
-                placeholder="Select"
-                style={{ borderRadius: '10px' }}
-              >
-                <option>Default select</option>
-                <option>Group1</option>
-                <option>Group2</option>
-              </Form.Select>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-      <Row className="mb-5 mx-4" align="middle">
-        <Col lg={13} xl={12}>
-          <Row align="middle">
-            <Col span={6}>
-              <Text strong className="text-label">
+              </Form.Label>
+              <Col sm={8} lg={8}>
+                <Form.Select
+                  defaultValue="select"
+                  placeholder="Select"
+                  style={{ width: '100%', borderRadius: '10px' }}
+                >
+                  <option>Default select</option>
+                  <option>Group1</option>
+                  <option>Group2</option>
+                </Form.Select>
+              </Col>
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className=" mx-4">
+          <Col md={5}>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm={3} style={{ color: '#444444' }}>
                 Activity
-              </Text>
-            </Col>
-            <Col span={6}>
-              <Form.Select
-                defaultValue="select"
-                placeholder="Select"
-                style={{ borderRadius: '10px' }}
-              >
-                <option value="1">Activity</option>
-                <option value="0">Inactive</option>
-              </Form.Select>
-            </Col>
-            <Col span={6} style={{ textAlign: 'center' }}>
-              <Text strong className="text-label">
-                Since
-              </Text>
-            </Col>
-            <Col span={6}>
-              <DatePicker style={inputStyle} />
-            </Col>
-          </Row>
-        </Col>
-        <Col lg={10} xl={10} style={{ textAlign: 'end' }}>
-          <Button
-            variant="outline-primary"
-            className="rounded-pill py-2 px-4"
-            // style={{ padding: '8px 22px' }}
-            onClick={() => search()}
-          >
-            Search
-          </Button>
-        </Col>
-      </Row>
+              </Form.Label>
+              <Col sm={5}>
+                <Form.Select
+                  defaultValue="select"
+                  placeholder="Select"
+                  style={{ width: '100%', borderRadius: '10px' }}
+                >
+                  <option value="1">Activity</option>
+                  <option value="0">Inactive</option>
+                </Form.Select>
+              </Col>
 
+              <Col sm={4}>
+                <DatePicker
+                  placeholder="since"
+                  style={{ borderRadius: '10px' }}
+                />
+              </Col>
+            </Form.Group>
+          </Col>
+          <Col md={4} style={{ textAlign: 'end' }}>
+            <Button
+              variant="outline-primary"
+              className="rounded-pill me-1 mb-1"
+              style={{ padding: '8px 22px' }}
+              onClick={() => search()}
+            >
+              Search
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       {memberLists.length > 0 && (
         <AdvanceTableWrapper
           columns={columns}

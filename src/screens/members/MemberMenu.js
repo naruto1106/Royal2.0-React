@@ -12,15 +12,15 @@ function MemberMenu() {
   return (
     <>
       <Row className="mx-4">
-        <Col xs={23} sm={23} md={6} lg={6} xl={6} xxl={8}>
+        <Col xs={23} sm={23} md={8} lg={8} xl={8} xxl={8}>
           <Title level={3}>Members</Title>
         </Col>
         <Col
           xs={23}
           sm={23}
-          md={18}
-          lg={18}
-          xl={18}
+          md={16}
+          lg={16}
+          xl={16}
           xxl={16}
           style={{ textAlign: 'end' }}
         >

@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, InputNumber, Tooltip, Typography } from 'antd';
+import { Row, Col, InputNumber, Tooltip } from 'antd';
 import { Button } from 'react-bootstrap';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,15 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
-const { Text } = Typography;
+const settingStyle = {
+  marginTop: '82px',
+  fontFamilly: 'Inter',
+  fontSize: '16px',
+  fontStyle: 'normal',
+  fontWeight: '400',
+  color: '#000000',
+  letterSpacing: '-0.019em'
+};
 function SettingsMember() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
@@ -64,15 +72,12 @@ function SettingsMember() {
 
   return (
     <>
-      <Row className="mx-4 mt-5" align="middle">
-        <Col span={6}>
-          <Text className="text-label" strong>
-            {' '}
-            Membership Number Prefix
-          </Text>
+      <Row style={settingStyle}>
+        <Col span={5} style={{ textAlign: 'end' }}>
+          Membership Number Prefix
         </Col>
 
-        <Col span={4}>
+        <Col span={4} style={{ textAlign: 'end' }}>
           <InputNumber
             min={0}
             defaultValue={0}
@@ -96,10 +101,8 @@ function SettingsMember() {
           </Tooltip>
         </Col>
 
-        <Col span={8} style={{ textAlign: 'end' }}>
-          <Text className="text-label" strong>
-            Membership Number Starting Point
-          </Text>
+        <Col span={6} style={{ textAlign: 'end' }}>
+          Membership Number Starting Point
         </Col>
         <Col span={4} style={{ textAlign: 'end' }}>
           <InputNumber
@@ -129,11 +132,12 @@ function SettingsMember() {
       <br />
       <br />
       <Row>
-        <Col span={15}></Col>
+        <Col span={12}></Col>
         <Col span={7} style={{ textAlign: 'end' }}>
           <Button
             variant="outline-primary"
-            className="rounded-pill py-2 px-4"
+            className="rounded-pill me-1 mb-1"
+            style={{ padding: '8px 20px' }}
             onClick={() => updateSetting()}
           >
             Update settings
