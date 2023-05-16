@@ -69,11 +69,11 @@ function ViewBranches() {
   // let layoutFields = layoutData.options.fields;
   let layoutFields = layoutData.options.fields;
   const editUser = id => {
-    navigate(`/bb_loyal2_branches/edit/${id}`);
+    navigate(`/datamanager/bb_loyal2_branches/edit/${id}`);
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',
@@ -102,7 +102,7 @@ function ViewBranches() {
       handleError(error, true);
     } finally {
       _isMounted.current && setLoadingSchema(false);
-      navigate('/branches');
+      navigate('/datamanager/bb_loyal2_branches/list');
     }
   };
   return (

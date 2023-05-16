@@ -43,6 +43,7 @@ function UpdateManageUsers() {
   let { routeKey, id } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const [branches, setBranches] = useState([]);
   const initPageModule = async () => {
     try {
       // default part
@@ -54,6 +55,10 @@ function UpdateManageUsers() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -110,7 +115,7 @@ function UpdateManageUsers() {
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',
@@ -139,7 +144,7 @@ function UpdateManageUsers() {
       handleError(error, true);
     } finally {
       _isMounted.current && setLoadingSchema(false);
-      navigate('/manage_users');
+      navigate('/manage_users/list');
     }
   };
 
@@ -297,7 +302,16 @@ function UpdateManageUsers() {
                       placeholder="Select"
                       style={{ borderRadius: '10px' }}
                     >
-                      <option value="option1">option1</option>
+                      <option key={'null'} value={null}></option>
+                      {branches.map((item, index) => {
+                        return (
+                          <>
+                            <option key={index} value={item._id}>
+                              {item.name}
+                            </option>
+                          </>
+                        );
+                      })}
                     </BootstrapForm.Select>
                   </Col>
                 </Row>

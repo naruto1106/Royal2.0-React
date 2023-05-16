@@ -17,6 +17,11 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 
+const cardStyle = {
+  backgroundColor: '#F8F8F8',
+  borderRadius: '10px',
+  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'
+};
 const dateFormat = 'YYYY-MM-DD';
 const { Title, Text } = Typography;
 const inputStyle = {
@@ -74,54 +79,77 @@ function Expiration() {
     <>
       <Card className="overflow-hidden z-index-1 card-main_layout">
         <Card.Body className="p-0">
-          <Row className="mx-4">
-            <Col span={20}>
-              <Title level={3} className="mb-3">
-                Points Expiration & Usage
-              </Title>
+          <Row className="mt-3 mb-5">
+            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+              <Row className="mx-4 mt-3">
+                <Col span={20}>
+                  <Title level={3} className="mb-3">
+                    Points Expiration & Usage
+                  </Title>
+                </Col>
+              </Row>
+              <Card className="mt-5">
+                <Card.Body style={cardStyle}>
+                  <Row className="mx-2">
+                    <Col span={22}>
+                      <Row align="middle" gutter={[16, 16]} span={20}>
+                        <Col span={5}>
+                          <Text strong className="text-lebel mb-2">
+                            Points expire
+                          </Text>
+                          <Text className="text-lebel mb-2"> after</Text>
+                        </Col>
+                        <Col span={4}>
+                          {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
+                          <InputNumber style={inputStyle} />
+                        </Col>
+                        <Col span={6}>
+                          <Text className="text-lebel mb-2">month/s</Text>
+                        </Col>
+                        <Col span={5} style={{ textAlign: 'end' }}>
+                          <Button
+                            className="rounded-pill py-2 px-4"
+                            variant="outline-primary"
+                          >
+                            Update
+                          </Button>
+                        </Col>
+                        <Col span={2} style={{ textAlign: 'end' }}>
+                          <Tooltip title="234567890" placement="right">
+                            <QuestionCircleOutlined style={ToolTip}>
+                              ?
+                            </QuestionCircleOutlined>
+                          </Tooltip>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
+              <Card className="mt-5">
+                <Card.Body style={cardStyle}>
+                  <Row className="mx-2">
+                    <Col span={22}>
+                      <Row align="middle" gutter={[16, 16]}>
+                        <Col span={15}>
+                          <Title level={4} className="m-0">
+                            Points Expiring & Used Report
+                          </Title>
+                        </Col>
+                        <Col span={5} style={{ textAlign: 'end' }}>
+                          <DatePicker
+                            defaultValue={selectedStartDate}
+                            style={inputStyle}
+                          />
+                        </Col>
+                      </Row>
+                      <TabGroups />
+                    </Col>
+                  </Row>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
-          <Row className="mx-4 mt-7" align="middle" gutter={[24, 24]} span={20}>
-            <Col span={5}>
-              <Text strong className="text-lebel mb-2">
-                Points expire
-              </Text>
-              <Text className="text-lebel mb-2"> after</Text>
-            </Col>
-            <Col span={4}>
-              {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
-              <InputNumber style={inputStyle} />
-            </Col>
-            <Col span={6}>
-              <Text className="text-lebel mb-2">month/s</Text>
-            </Col>
-            <Col span={3}>
-              <Button
-                className="rounded-pill py-2 px-4"
-                variant="outline-primary"
-              >
-                Update
-              </Button>
-            </Col>
-            <Col span={2} style={{ textAlign: 'end' }}>
-              <Tooltip title="234567890" placement="right">
-                <QuestionCircleOutlined style={ToolTip}>
-                  ?
-                </QuestionCircleOutlined>
-              </Tooltip>
-            </Col>
-          </Row>
-          <Row className="mx-4 my-7" span={20} align="middle" gutter={[16, 16]}>
-            <Col span={15}>
-              <Title level={4} className="m-0">
-                Points Expiring & Used Report
-              </Title>
-            </Col>
-            <Col span={5}>
-              <DatePicker defaultValue={selectedStartDate} style={inputStyle} />
-            </Col>
-          </Row>
-          <TabGroups />
         </Card.Body>
       </Card>
     </>

@@ -13,6 +13,7 @@ import ViewGroups from './members/ViewGroups';
 // import TabGroups from './members/TabGroups';
 
 import { Card } from 'react-bootstrap';
+import UpdateGroups from './members/UpdateGroups';
 function GroupsPage() {
   let { routeKey } = useParams();
   console.log(routeKey, 'this is routekey');
@@ -23,6 +24,8 @@ function GroupsPage() {
           <Row>
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
               <GroupMenu></GroupMenu>
+            </Col>
+            <Col span={24}>
               <HistoryGroups></HistoryGroups>
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
@@ -94,6 +97,20 @@ function GroupsPage() {
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
               <GroupMenu></GroupMenu>
               <SearchGroups></SearchGroups>
+            </Col>
+            {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
+          </Row>
+        </Card.Body>
+      </Card>
+    );
+  } else if (routeKey == 'edit') {
+    return (
+      <Card className="overflow-hidden z-index-1 card-main_layout">
+        <Card.Body className="p-0">
+          <Row>
+            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+              {/* <GroupMenu></GroupMenu> */}
+              <UpdateGroups></UpdateGroups>
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
           </Row>

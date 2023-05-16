@@ -31,6 +31,10 @@ function AddIssuedVouchers() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [branchISbb_loyal2_branchesID, set_branchISbb_loyal2_branchesID] =
+    useState(null);
+  const [transaction_date, setTransaction_date] = useState('');
   const initPageModule = async () => {
     try {
       // default part
@@ -42,6 +46,10 @@ function AddIssuedVouchers() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -65,26 +73,26 @@ function AddIssuedVouchers() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
 
   const onFinish = async values => {
-    console.log('Success:', values);
+    console.log('Success:', values, transaction_date);
     try {
       _isMounted.current && setLoadingSchema(true);
       const {
         voucherISbb_loyal2_vouchersID,
         ownerISbb_usersID
-        // transaction_date,
         // code,
         // points_usedNUM,
-        // memberISbb_userID
+        // memberISbb_usersID
       } = values;
       const addMember = await Axios.post(
         endpoint.getDataAddEndpoint('bb_loyal2_vouchers_issued'),
         {
           voucherISbb_loyal2_vouchersID,
-          ownerISbb_usersID
-          // transaction_date,
+          ownerISbb_usersID,
+          transaction_date,
           // code,
           // points_usedNUM,
-          // memberISbb_userID
+          // memberISbb_usersID,
+          branchISbb_loyal2_branchesID
         }
       );
       const user = addMember.data;
@@ -100,7 +108,13 @@ function AddIssuedVouchers() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-
+  const changeBranch = e => {
+    set_branchISbb_loyal2_branchesID(e.target.value);
+  };
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+    setTransaction_date(dateString);
+  };
   return (
     <>
       <Row className="mx-4 mt-3">
@@ -169,7 +183,7 @@ function AddIssuedVouchers() {
                   Member
                 </Text>
                 <Form.Item
-                  name="memberISbb_userID"
+                  name="memberISbb_usersID"
                   className="mt-1"
                   rules={[
                     {
@@ -204,8 +218,11 @@ function AddIssuedVouchers() {
                 <Text strong className="text-label">
                   Transaction Date
                 </Text>
-                <Form.Item name="transaction_date" className="mt-1">
-                  <DatePicker style={{ borderRadius: '10px', width: '100%' }} />
+                <Form.Item className="mt-1">
+                  <DatePicker
+                    onChange={onChange}
+                    style={{ borderRadius: '10px', width: '100%' }}
+                  />
                 </Form.Item>
               </Col>
               <Col xs={20} sm={10} md={10} lg={10} xl={10}>
@@ -236,10 +253,19 @@ function AddIssuedVouchers() {
                   </Col>
                   <Col span={12}>
                     <BootstrapForm.Select
-                      placeholder="Select Image"
                       style={inputBorderRadius}
+                      onChange={e => changeBranch(e)}
                     >
-                      <option>option</option>
+                      <option key={'null'} value={null}></option>
+                      {branches.map((item, index) => {
+                        return (
+                          <>
+                            <option key={index} value={item._id}>
+                              {item.name}
+                            </option>
+                          </>
+                        );
+                      })}
                     </BootstrapForm.Select>
                   </Col>
                 </Row>

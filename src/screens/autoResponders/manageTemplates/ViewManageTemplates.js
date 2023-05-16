@@ -69,11 +69,11 @@ function ViewManageTemplates() {
   // let layoutFields = layoutData.options.fields;
   let layoutFields = layoutData.options.fields;
   const editUser = id => {
-    navigate(`/bb_loyal2_templates/edit/${id}`);
+    navigate(`/datamanager/bb_loyal2_templates/edit/${id}`);
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

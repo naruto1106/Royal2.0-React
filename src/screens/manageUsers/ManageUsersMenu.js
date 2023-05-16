@@ -53,13 +53,31 @@ function ManageUsersMenu() {
               className={!routeKey ? 'btn-active-menu' : 'btn-inactive-menu'}
               onClick={() => navigate('/manage_users')}
             >
+              History
+            </Button>
+            <Button
+              className={
+                routeKey === 'settings'
+                  ? 'btn-active-menu'
+                  : 'btn-inactive-menu'
+              }
+              onClick={() => navigate('/manage_users/settings')}
+            >
+              Settings
+            </Button>
+            <Button
+              className={
+                routeKey === 'list' ? 'btn-active-menu' : 'btn-inactive-menu'
+              }
+              onClick={() => navigate('/manage_users/list')}
+            >
               List
             </Button>
             <Button
               className={
                 routeKey === 'add' ? 'btn-active-menu' : 'btn-inactive-menu'
               }
-              onClick={() => navigate('/app/users/add')}
+              onClick={() => navigate('/manage_users/add')}
             >
               {<PlusOutlined style={{ marginBottom: '3px' }} />}Add
             </Button>
@@ -67,7 +85,7 @@ function ManageUsersMenu() {
               className={
                 routeKey === 'search' ? 'btn-active-menu' : 'btn-inactive-menu'
               }
-              onClick={() => navigate('/app/users/search')}
+              onClick={() => navigate('/manage_users/search')}
             >
               Search
             </Button>
@@ -75,7 +93,7 @@ function ManageUsersMenu() {
               className={
                 routeKey === 'csv' ? 'btn-active-menu' : 'btn-inactive-menu'
               }
-              onClick={() => navigate('/app/users/csv')}
+              onClick={() => navigate('/manage_users/csv')}
             >
               Import/Export
             </Button>

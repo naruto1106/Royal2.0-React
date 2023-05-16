@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Typography, Row, Col, Radio, Checkbox } from 'antd';
+import React from 'react';
+import { Typography, Row, Col, Checkbox } from 'antd';
 // import { Tabs, Tab, Button, Card } from 'react-bootstrap';
 
 const { Title, Text } = Typography;
 
 function Communication_settings_3() {
-  const [radio_value, setRadio_value] = useState(1);
-  const onChange = e => {
-    console.log('radio checked', e.target.value);
+  // const [radio_value, setRadio_value] = useState(1);
+  // const onChange = e => {
+  //   console.log('radio checked', e.target.value);
 
-    setRadio_value(e.target.value);
-  };
+  //   setRadio_value(e.target.value);
+  // };
   return (
     <>
       <Row justify="center">
@@ -67,42 +67,42 @@ function Communication_settings_3() {
           </Row>
         </Col>
         <Col span={4}>
-          <Radio.Group
+          {/* <Radio.Group
             style={{ width: '90%' }}
             value={radio_value}
             onChange={onChange}
-          >
-            <Row className="mt-4">
-              <Col span={24} style={{ textAlign: 'end' }}>
-                <Radio value={1} />
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col span={24} style={{ textAlign: 'end' }}>
-                <Radio value={2} />
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col span={24} style={{ textAlign: 'end' }}>
-                <Radio value={3} />
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col span={24} style={{ textAlign: 'end' }}>
-                <Radio value={4} />
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col span={24} style={{ textAlign: 'end' }}>
-                <Radio value={5} />
-              </Col>
-            </Row>
-            <Row className="mt-4">
-              <Col span={24} style={{ textAlign: 'end' }}>
-                <Radio value={6} />
-              </Col>
-            </Row>
-          </Radio.Group>
+          > */}
+          <Row className="mt-4">
+            <Col span={24} style={{ textAlign: 'end' }}>
+              <Checkbox value={1} />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col span={24} style={{ textAlign: 'end' }}>
+              <Checkbox value={2} />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col span={24} style={{ textAlign: 'end' }}>
+              <Checkbox value={3} />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col span={24} style={{ textAlign: 'end' }}>
+              <Checkbox value={4} />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col span={24} style={{ textAlign: 'end' }}>
+              <Checkbox value={5} />
+            </Col>
+          </Row>
+          <Row className="mt-4">
+            <Col span={24} style={{ textAlign: 'end' }}>
+              <Checkbox value={6} />
+            </Col>
+          </Row>
+          {/* </Radio.Group> */}
         </Col>
       </Row>
       <Row className="mt-6 mb-4">

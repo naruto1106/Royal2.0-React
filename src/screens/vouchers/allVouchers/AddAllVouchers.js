@@ -35,6 +35,8 @@ function AddAllVouchers() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [open, setOpen] = useState(false);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
   // const [imageISfile, setImageISfile] = useState([]);
   // const [eventISbb_loyal2_eventsID, set_eventISbb_loyal2_eventsID] =
   //   useState('select1');
@@ -49,6 +51,14 @@ function AddAllVouchers() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -119,7 +129,7 @@ function AddAllVouchers() {
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4 mt-3">
+      <Row className="mx-4 my-3">
         <Col span={24}>
           <Form
             name="basic"
@@ -172,19 +182,27 @@ function AddAllVouchers() {
               </Col>
               <Col xs={20} sm={10} md={10} lg={10} xl={10}>
                 <Row align="middle">
-                  <Col span={12}>
+                  <Col span={11}>
                     <Text strong className="text-label">
                       Auto Allocate On Event
                     </Text>
                   </Col>
-                  <Col span={12}>
+                  <Col span={13}>
                     <BootstrapForm.Select
                       placeholder="Select"
                       style={inputBorderRadius}
                       onChange={e => onChangeEvent(e.target.value)}
                     >
-                      <option value="select1">Select1</option>
-                      <option value="select2">Select2</option>
+                      <option value=""></option>
+                      <option value="1">Every Month on the 1st</option>
+                      <option value="2">On Member Birthday</option>
+                      <option value="3">On Member First Login</option>
+                      <option value="4">
+                        On Member Points=Points Required
+                      </option>
+                      <option value="5">On Member Points=Voucher Value</option>
+                      <option value="6">On Member Signup</option>
+                      <option value="6">On Member SignUp Anniversary</option>
                     </BootstrapForm.Select>
                   </Col>
                 </Row>
@@ -235,7 +253,8 @@ function AddAllVouchers() {
                   onClick={() => setOpen(!open)}
                   className="rounded-pill px-4 py-2"
                 >
-                  Advanced Settings{<DownOutlined />}
+                  Advanced Settings
+                  {<DownOutlined style={{ marginLeft: '10px' }} />}
                 </Button>
               </Col>
               <Col xs={20} sm={10} md={10} lg={10} xl={10}>
@@ -330,7 +349,7 @@ function AddAllVouchers() {
                       <Row align="middle">
                         <Col span={12}>
                           <Text strong className="text-label">
-                            Brance
+                            Branch
                           </Text>
                         </Col>
                         <Col span={12}>
@@ -338,7 +357,14 @@ function AddAllVouchers() {
                             placeholder="Select Image"
                             style={inputBorderRadius}
                           >
-                            <option>option</option>
+                            <option key={'null'} value={null}></option>
+                            {branches.map((item, index) => {
+                              return (
+                                <option key={index} value={item._id}>
+                                  {item.name}
+                                </option>
+                              );
+                            })}
                           </BootstrapForm.Select>
                         </Col>
                       </Row>
@@ -357,7 +383,12 @@ function AddAllVouchers() {
                             placeholder="Select Image"
                             style={inputBorderRadius}
                           >
-                            <option>option</option>
+                            <option value=""></option>
+                            <option value="0">Currency Value</option>
+                            <option value="1">Precent of Sale Value</option>
+                            <option value="2">
+                              Points Converted to Currency
+                            </option>
                           </BootstrapForm.Select>
                         </Col>
                       </Row>
@@ -374,7 +405,14 @@ function AddAllVouchers() {
                             placeholder="Select Image"
                             style={inputBorderRadius}
                           >
-                            <option>option</option>
+                            <option value={null}></option>
+                            {groups.map((row, index) => {
+                              return (
+                                <option key={index} value={row._id}>
+                                  {row.name}
+                                </option>
+                              );
+                            })}
                           </BootstrapForm.Select>
                         </Col>
                       </Row>
@@ -419,14 +457,47 @@ function AddAllVouchers() {
                           </Text>
                         </Col>
                         <Col span={12}>
-                          <BootstrapForm.Select
-                            placeholder="Select Image"
-                            style={inputBorderRadius}
-                          >
-                            <option>option</option>
-                          </BootstrapForm.Select>
+                          <InputNumber
+                            // placeholder="Select Image"
+                            style={inputNumberStyle}
+                          ></InputNumber>
                         </Col>
                       </Row>
+                    </Col>
+                  </Row>
+                  <Row gutter={[16, 16]} align="middle" className="mt-4">
+                    <Col span={20}>
+                      <Text strong className="text-label mb-2">
+                        Optional Email Template
+                      </Text>
+                      <BootstrapForm.Select
+                        placeholder="Select Image"
+                        style={inputBorderRadius}
+                      >
+                        <option value=""></option>
+                        <option value="0">Account Update Email</option>
+                        <option value="1">Account Update Text/SMS</option>
+                        <option value="2">Birthday Email</option>
+                        <option value="3">Birthday Text/SMS</option>
+                        <option value="4">Member Password Reset Link</option>
+                        <option value="5">New Member Welcome Email</option>
+                        <option value="6">New Memeber Welcome Text/SMS</option>
+                        <option value="7">Order Processed Email</option>
+                        <option value="8">Refer A Friend Email</option>
+                        <option value="9">Sales Upload Approved</option>
+                        <option value="10">Sales Upload Declined</option>
+                        <option value="11">Sample PDF Template</option>
+                        <option value="12">Subscription Added</option>
+                        <option value="13">Subscription Expired</option>
+                        <option value="14">Subscription Expiring</option>
+                        <option value="15">Voucher Expiry Warning</option>
+                        <option value="16">Voucher Issued Email</option>
+                        <option value="17">Voucher Issued Text/SMS</option>
+                        <option value="18">Voucher Request Confirmation</option>
+                        <option value="19">
+                          Wish List/Registry Invite Email
+                        </option>
+                      </BootstrapForm.Select>
                     </Col>
                   </Row>
                 </div>

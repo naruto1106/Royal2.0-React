@@ -33,7 +33,7 @@ import { Button } from 'react-bootstrap';
 // const { Option } = Select;
 const { Title } = Typography;
 const inputStyle = { width: '93%' };
-const inputBorderRadius = { borderRadius: '15px' };
+const inputBorderRadius = { borderRadius: '10px' };
 // const twoInputStyle = {
 //   display: 'inline-block',
 //   width: '45%'
@@ -143,7 +143,7 @@ function UpdateMember() {
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',
@@ -175,9 +175,9 @@ function UpdateMember() {
       <Divider />
       <Row justify="center" className="mx-4">
         <Col>
-          <h4 className="d-flex justify-content-center mb-4">
+          <Title level={4} className="d-flex justify-content-center mb-4">
             Update this member record
-          </h4>
+          </Title>
           <Form
             name="Add"
             labelCol={{
@@ -565,14 +565,17 @@ function UpdateMember() {
             <br />
             <br />
             <div style={{ width: '100%', textAlign: 'center' }}>
-              <Button className="btn-active-command rounded-pill" type="submit">
+              <Button
+                className="btn-active-command rounded-pill px-4 py-2"
+                type="submit"
+              >
                 Save
               </Button>
             </div>
             <div style={{ width: '100%', textAlign: 'center' }}>
               <Button
                 variant="outline-primary"
-                className="rounded-pill mt-2"
+                className="rounded-pill mt-2 px-4 py-2"
                 onClick={() => showDeleteConfirm(FieldsData[0]._id)}
               >
                 Delete

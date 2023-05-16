@@ -18,10 +18,11 @@ import {
   Collapse
 } from 'react-bootstrap';
 import { QuestionCircleOutlined, DownOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import endpoint from 'utils/endpoint';
 import handleError from 'utils/handleError';
 
-const { Title, Text } = Typography;
+const { Title, Paragraph, Text } = Typography;
 const badgeStyle = {
   backgroundColor: '#359DD9',
   borderRadius: '50%'
@@ -36,7 +37,32 @@ const ToolTip = {
 const inputNumberStyle = { borderRadius: '10px', width: '100%' };
 const inputBorderRadius = { borderRadius: '10px' };
 
+const data = [
+  'Test',
+  'Account Update Email',
+  'Account Update Text/SMS',
+  'Birthday Email',
+  'Birthday Text/SMS',
+  'Member Password Reset Link',
+  'New Member Welcome Email',
+  'New Member Welcome Text/SMS',
+  'Order Processed Email',
+  'Refer A Friend Email',
+  'Sales Upload Approved',
+  'Sales Upload Declined',
+  'Sample PDF Template',
+  'Subscription Added',
+  'Subscription Expired',
+  'Subscription Expiring',
+  'Voucher Expiry Warning',
+  'Voucher Issued Email',
+  'Voucher Issued Text/SMS',
+  'Voucher Request Confirmation',
+  'Wish List/Registry Invite Email'
+];
+
 function EmailAuto(props) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const onFinish = async values => {
     console.log('Success:', values);
@@ -85,11 +111,11 @@ function EmailAuto(props) {
           <Badge style={badgeStyle}>!</Badge>
         </Col>
         <Col span={19}>
-          <Text strong className="text-label">
+          <Paragraph className="text-label">
             To increase the chance of your emails being delivered please see{' '}
             <u style={{ color: '#359DD9' }}>this article</u> for tips and
             guidelines.
-          </Text>
+          </Paragraph>
         </Col>
       </Row>
       <Row className="mt-3" align="top">
@@ -97,13 +123,13 @@ function EmailAuto(props) {
           <Badge style={badgeStyle}>!</Badge>
         </Col>
         <Col span={19}>
-          <Text strong className="text-label">
+          <Paragraph className="text-label">
             To disable a specific autoresponder clear the field below and it
             will not send, even if the switch above is set to 'yes'. The fields
             below allow you to link <u>your own personal templates</u> to these
             autoresponders, and making the message sent each time personal to
             your loyaly program.
-          </Text>
+          </Paragraph>
         </Col>
       </Row>
       <Row className="mt-4">
@@ -127,16 +153,21 @@ function EmailAuto(props) {
         <Row className="mt-1">
           <Col span={20}>
             <BootstrapForm.Select style={inputBorderRadius}>
-              <option value="1">select1</option>
-              <option value="2">select2</option>
+              {data.map((item, index) => {
+                return (
+                  <option key={index} value={index}>
+                    {item}
+                  </option>
+                );
+              })}
             </BootstrapForm.Select>
           </Col>
         </Row>
         <Row align="middle" className="mt-5">
           <Col span={16}>
-            <Text strong className="text-label">
+            <Paragraph className="text-label m-0">
               Only send New Member welcome email after first transaction
-            </Text>
+            </Paragraph>
           </Col>
           <Col span={4} style={{ textAlign: 'end' }}>
             <Switch onChange={onChange} />
@@ -149,9 +180,9 @@ function EmailAuto(props) {
         </Row>
         <Row align="middle" className="mt-3">
           <Col span={16}>
-            <Text strong className="text-label">
+            <Paragraph className="text-label m-0">
               Suppress if added/imported via the backoffice
-            </Text>
+            </Paragraph>
           </Col>
           <Col span={4} style={{ textAlign: 'end' }}>
             <Switch onChange={onChange} />
@@ -167,6 +198,7 @@ function EmailAuto(props) {
             <Button
               className="rounded-pill px-4 py-2"
               variant="outline-primary"
+              onClick={() => navigate('/autoresponders')}
             >
               Send manually
             </Button>
@@ -178,8 +210,13 @@ function EmailAuto(props) {
         <Row>
           <Col span={20}>
             <BootstrapForm.Select style={inputBorderRadius}>
-              <option value="1">select1</option>
-              <option value="2">select2</option>
+              {data.map((item, index) => {
+                return (
+                  <option key={index} value={index}>
+                    {item}
+                  </option>
+                );
+              })}
             </BootstrapForm.Select>
           </Col>
         </Row>
@@ -187,9 +224,7 @@ function EmailAuto(props) {
           <Col span={20}>
             <Row align="middle" gutter={[16, 16]}>
               <Col lg={3} xl={2}>
-                <Text strong className="text-label">
-                  Send
-                </Text>
+                <Text className="text-label">Send</Text>
               </Col>
               <Col lg={6} xl={6}>
                 <Form.Item
@@ -201,14 +236,13 @@ function EmailAuto(props) {
                 </Form.Item>
               </Col>
               <Col lg={8} xl={9}>
-                <Text strong className="days before">
-                  days before
-                </Text>
+                <Text className="days before">days before</Text>
               </Col>
               <Col lg={7} xl={7} style={{ textAlign: 'end' }}>
                 <Button
                   className="rounded-pill px-4 py-2"
                   variant="outline-primary"
+                  onClick={() => navigate('/autoresponders')}
                 >
                   Send manually
                 </Button>
@@ -224,7 +258,8 @@ function EmailAuto(props) {
               onClick={() => setOpen(!open)}
               className="rounded-pill px-4 py-2 border-0"
             >
-              Show more templates{<DownOutlined />}
+              Show more templates
+              {<DownOutlined style={{ marginLeft: '10px' }} />}
             </Button>
           </Col>
         </Row>
@@ -237,8 +272,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -246,9 +286,7 @@ function EmailAuto(props) {
                 <Col span={20}>
                   <Row align="middle" gutter={[16, 16]}>
                     <Col lg={3} xl={2}>
-                      <Text strong className="text-label">
-                        Send
-                      </Text>
+                      <Paragraph className="text-label">Send</Paragraph>
                     </Col>
                     <Col lg={6} xl={6}>
                       <Form.Item name="send" className="m-0">
@@ -256,9 +294,7 @@ function EmailAuto(props) {
                       </Form.Item>
                     </Col>
                     <Col lg={8} xl={9}>
-                      <Text strong className="days before">
-                        days before
-                      </Text>
+                      <Paragraph className="days before">days before</Paragraph>
                     </Col>
                   </Row>
                 </Col>
@@ -268,9 +304,9 @@ function EmailAuto(props) {
                   <Row align="middle">
                     <Col lg={20} xl={18} xxl={16}>
                       {' '}
-                      <Text strong className="text-label">
+                      <Paragraph className="text-label">
                         Only send reminders for vouchers with code starting with
-                      </Text>
+                      </Paragraph>
                     </Col>
                     <Col lg={4} xl={6} xxl={8}>
                       <Form.Item
@@ -293,8 +329,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -302,9 +343,7 @@ function EmailAuto(props) {
                 <Col span={20}>
                   <Row align="middle" gutter={[16, 16]}>
                     <Col lg={3} xl={2}>
-                      <Text strong className="text-label">
-                        Send
-                      </Text>
+                      <Paragraph className="text-label">Send</Paragraph>
                     </Col>
                     <Col lg={6} xl={6}>
                       <Form.Item name="send" className="m-0">
@@ -312,9 +351,7 @@ function EmailAuto(props) {
                       </Form.Item>
                     </Col>
                     <Col lg={8} xl={9}>
-                      <Text strong className="days before">
-                        days before
-                      </Text>
+                      <Paragraph className="days before">days before</Paragraph>
                     </Col>
                   </Row>
                 </Col>
@@ -326,8 +363,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -338,8 +380,8 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
+                    <option value="0">select</option>
                     <option value="1">select1</option>
-                    <option value="2">select2</option>
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -350,8 +392,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -362,8 +409,8 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
+                    <option value="0">select</option>
                     <option value="1">select1</option>
-                    <option value="2">select2</option>
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -374,8 +421,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -386,8 +438,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -398,8 +455,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -410,8 +472,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>

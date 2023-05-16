@@ -4,34 +4,41 @@ import { Typography, Row, Col, InputNumber } from 'antd';
 // import { Outlet, useNavigate } from 'react-router-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import { Button, Form } from 'react-bootstrap';
-const { Title, Paragraph } = Typography;
+const { Text } = Typography;
 
 function TabGroups() {
   return (
     <>
-      <Row className="mx-4 mt-7">
+      {/* <Row className="mx-4 mt-3">
         <Col span={24}>
           <Title level={4} className="mb-3">
             Groups/Tiers Settings
           </Title>
         </Col>
+      </Row> */}
+      <Row className="mx-4 mt-4">
+        <Text className="text-label" strong>
+          {' '}
+          Automate based on
+        </Text>
       </Row>
       <Row className="mx-4 mt-3">
-        <Paragraph> Automate based on</Paragraph>
-      </Row>
-      <Row className="mx-4">
         <Col span={24}>
           <Tabs defaultActiveKey="action" id="group_settings" fill>
             <Tab eventKey="action" title="Action" className="border-0 p-5">
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Action</Paragraph>
+                    <Text className="text-label" strong>
+                      Action
+                    </Text>
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Applied group</Paragraph>
+                    <Text className="text-label" strong>
+                      Applied group
+                    </Text>
                   </Row>
                 </Col>
               </Row>
@@ -86,7 +93,7 @@ function TabGroups() {
                   <Row justify="end">
                     <Button
                       variant="outline-primary"
-                      className="rounded-pill mt-5 px-6"
+                      className="rounded-pill mt-5 px-4 py-2"
                     >
                       Save
                     </Button>
@@ -108,7 +115,9 @@ function TabGroups() {
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Paragraph>Code range</Paragraph>
+                    <Text className="text-label" strong>
+                      Code range
+                    </Text>
                   </Row>
                 </Col>
                 <Col
@@ -119,7 +128,9 @@ function TabGroups() {
                   xl={{ span: 9, offset: 1 }}
                 >
                   <Row justify="center">
-                    <Paragraph>Group to apply</Paragraph>
+                    <Text className="text-label" strong>
+                      Group to apply
+                    </Text>
                   </Row>
                 </Col>
               </Row>
@@ -230,7 +241,7 @@ function TabGroups() {
                   <Row justify="end">
                     <Button
                       variant="outline-primary"
-                      className="rounded-pill mt-5 px-6"
+                      className="rounded-pill mt-5 px-4 py-2"
                     >
                       Save
                     </Button>
@@ -246,12 +257,16 @@ function TabGroups() {
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Maximum of points</Paragraph>
+                    <Text className="text-label" strong>
+                      Maximum of points
+                    </Text>
                   </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
                   <Row justify="center">
-                    <Paragraph>Applied group</Paragraph>
+                    <Text className="text-label" strong>
+                      Applied group
+                    </Text>
                   </Row>
                 </Col>
               </Row>
@@ -347,7 +362,7 @@ function TabGroups() {
                   <Row justify="end">
                     <Button
                       variant="outline-primary"
-                      className="rounded-pill mt-5 px-6"
+                      className="rounded-pill mt-5 px-4 py-2"
                     >
                       Save
                     </Button>
@@ -362,10 +377,18 @@ function TabGroups() {
             >
               <Row className="mt-3">
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">Maximum of points</Row>
+                  <Row justify="center">
+                    <Text className="text-label" strong>
+                      Maximum of points
+                    </Text>
+                  </Row>
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} lg={{ span: 9, offset: 1 }}>
-                  <Row justify="center">Applied group</Row>
+                  <Row justify="center">
+                    <Text className="text-label" strong>
+                      Applied group
+                    </Text>
+                  </Row>
                 </Col>
               </Row>
               <Row className="mt-3">
@@ -460,7 +483,7 @@ function TabGroups() {
                   <Row justify="end">
                     <Button
                       variant="outline-primary"
-                      className="rounded-pill mt-5 px-6"
+                      className="rounded-pill mt-5 px-4 py-2"
                     >
                       Save
                     </Button>

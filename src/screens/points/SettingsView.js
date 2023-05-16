@@ -72,7 +72,7 @@ function SettingsView() {
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

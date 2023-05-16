@@ -84,7 +84,7 @@ function ListManageUsers() {
   }, []);
 
   const editRow = row => {
-    navigate('/app/users/edit/' + row._id);
+    navigate('/manage_users/edit/' + row._id);
   };
   const deleteRow = () => {
     _array.length > 0
@@ -114,11 +114,11 @@ function ListManageUsers() {
   };
 
   const row_select = row => {
-    navigate('/app/users/view/' + row._id);
+    navigate('/manage_users/view/' + row._id);
   };
   const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

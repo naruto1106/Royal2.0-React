@@ -6,38 +6,39 @@ import {
   Input,
   InputNumber,
   DatePicker,
-  Select
+  Form,
+  message
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { Form, Button } from 'react-bootstrap';
-
+import { Button } from 'react-bootstrap';
+import Form1 from 'react-bootstrap/Form';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import { useParams } from 'react-router-dom';
 import endpoint from '../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setTransactionMenuData } from 'redux/slices/currentDataSlice';
 
-const { Title } = Typography;
-const buttonStyle = {
-  boxSizing: 'border-box',
-  height: '40px',
-  border: '0.5px solid #359dd9',
-  borderRadius: '10px',
-  padding: '10px 90px'
+const { Title, Text } = Typography;
+
+const inputStyle = {
+  borderRadius: '10px'
 };
 function AddTransaction() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-
+  const [branchISbb_loyal2_branchesID, setBranchISbb_loyal2_branchesID] =
+    useState('');
+  const handleChange = e => {
+    console.log(e.target.value);
+    setBranchISbb_loyal2_branchesID(e.target.value);
+  };
   const initPageModule = async () => {
     try {
       // default part
@@ -66,18 +67,6 @@ function AddTransaction() {
     };
   }, []);
 
-  // Loading part
-  if (loadingSchema) {
-    return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
-  }
-  if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
-
-  const onChange = value => {
-    console.log('changed', value);
-  };
-  const DateChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
   const [setting_show, setSetting_show] = useState(false);
   const setting_click = () => {
     if (setting_show == false) {
@@ -87,214 +76,294 @@ function AddTransaction() {
       setSetting_show(false);
     }
   };
-  const onselectChange = value => {
-    console.log(`selected ${value}`);
+
+  // Loading part
+  if (loadingSchema) {
+    return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
+  }
+  if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
+  const onFinish = async values => {
+    console.log('Success:', values);
+    try {
+      _isMounted.current && setLoadingSchema(true);
+      const {
+        ownerISbb_usersID,
+        memberISbb_usersID,
+        total_valueNUM,
+        transaction_ref,
+        code,
+        qtyNUM,
+        notes,
+        ex_tax_amountNUM,
+        tax_amountNUM,
+        tax_type,
+        grand_totalNUM,
+        unit_priceNUM
+        // branchISbb_loyal2_branchesID
+      } = values;
+      const transaction_date = values['transaction_date'].format(
+        'YYYY-MM-DD HH:mm:ss'
+      );
+      console.log(transaction_date, 'transactiondate');
+      console.log(endpoint.appUsers(layoutData.options.post_endpoint));
+
+      const addMember = await Axios.post(
+        endpoint.appUsers('/module/bb_loyal2_transactions'),
+        {
+          ownerISbb_usersID,
+          memberISbb_usersID,
+          total_valueNUM,
+          transaction_ref,
+          transaction_date,
+          code,
+          qtyNUM,
+          notes,
+          ex_tax_amountNUM,
+          tax_amountNUM,
+          tax_type,
+          grand_totalNUM,
+          unit_priceNUM,
+          branchISbb_loyal2_branchesID
+        }
+      );
+      const user = addMember.data;
+      // if (user.error) return message.error(user.error);
+      message.success('Added successful!');
+      console.log(`${endpoint.appUsers} response -> `, user);
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+    }
   };
-  const onSearch = value => {
-    console.log('search:', value);
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
   };
   return (
     <>
-      <Row>
-        <Col offset={1}>
-          <Title level={4}>Add a transaction</Title>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col offset={1} span={20}>
-          <Form.Group className="mb-3">
-            <Form.Label>Member</Form.Label>
-            <br />
-            <Input type="text" size="large" />
-          </Form.Group>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col offset={1} span={6}>
-          <Form.Group className="mb-3">
-            <Form.Label>Total value</Form.Label>
-            <br />
-            <InputNumber
-              min={1}
-              size="large"
-              defaultValue={3}
-              style={{ width: '100%' }}
-              onChange={onChange}
-            />
-          </Form.Group>
-        </Col>
-        <Col offset={1} span={6}>
-          <Form.Group className="mb-3">
-            <Form.Label>Oty</Form.Label>
-            <br />
-            <InputNumber
-              min={1}
-              size="large"
-              defaultValue={3}
-              style={{ width: '100%' }}
-              onChange={onChange}
-            />
-          </Form.Group>
-        </Col>
-        <Col offset={1} span={6}>
-          <Form.Group className="mb-3">
-            <Form.Label>Transaction Date</Form.Label>
-            <br />
-            <DatePicker
-              size="large"
-              onChange={DateChange}
-              style={{ width: '100%' }}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col offset={1} span={5} style={{ cursor: 'pointer' }}>
-          <Title
-            level={4}
-            style={{ color: '#359dd9' }}
-            onClick={() => setting_click()}
-          >
-            Advanced Settings &nbsp;&nbsp;&nbsp;
-            <DownOutlined style={{ fontSize: '14px' }} />
+      <Row className="mx-4">
+        <Col>
+          <Title level={4} className="text-label">
+            Add a transaction
           </Title>
         </Col>
-        <Col offset={12}>
-          <Button style={buttonStyle} variant="outline-primary">
-            Add{' '}
-          </Button>
-        </Col>
       </Row>
-      <br />
-      {setting_show == true && (
-        <>
-          <Row>
-            <Col offset={1} span={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>&nbsp;</Form.Label>
-                <br />
-                <Input type="text" size="large" onChange={onChange} />
-              </Form.Group>
-            </Col>
-            <Col offset={1} span={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>&nbsp;</Form.Label>
-                <br />
-                <Input type="text" size="large" onChange={onChange} />
-              </Form.Group>
-            </Col>
-            <Col offset={2} span={5}>
-              <Form.Group className="mb-3">
-                <Form.Label>Notes</Form.Label>
-                <br />
-                <Input type="text" size="large" onChange={onChange} />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col offset={1} span={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>Ex Tax Amount</Form.Label>
-                <br />
-                <InputNumber
-                  min={0}
-                  size="large"
-                  style={{ width: '100%' }}
-                  onChange={onChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col offset={1} span={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>Tax Amount</Form.Label>
-                <br />
-                <InputNumber
-                  min={0}
-                  size="large"
-                  style={{ width: '100%' }}
-                  onChange={onChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col offset={2} span={5}>
-              <Form.Group className="mb-3">
-                <Form.Label>Tax Type</Form.Label>
-                <br />
-                <Input
-                  type="text"
-                  size="large"
-                  style={{ width: '100%' }}
-                  onChange={onChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
 
-          <Row>
-            <Col offset={1} span={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>Branch</Form.Label>
-                <br />
-                <Select
-                  showSearch
-                  placeholder="Select"
-                  size="large"
-                  optionFilterProp="children"
-                  style={{ width: '100%' }}
-                  onChange={onselectChange}
-                  onSearch={onSearch}
-                  filterOption={(input, option) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={[
+      <Form
+        name="Add"
+        initialValues={{
+          remember: true
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+      >
+        <Row className="mx-4 mt-3">
+          <Col span={24}>
+            <Row>
+              <Col span={20}>
+                <Text strong>Owner</Text>
+                <Form.Item
+                  className="mb-3"
+                  name="ownerISbb_usersID"
+                  rules={[
                     {
-                      value: 'jack',
-                      label: 'Jack'
-                    },
-                    {
-                      value: 'lucy',
-                      label: 'Lucy'
-                    },
-                    {
-                      value: 'tom',
-                      label: 'Tom'
+                      required: true
                     }
                   ]}
-                />
-              </Form.Group>
-            </Col>
-            <Col offset={1} span={6}>
-              <Form.Group className="mb-3">
-                <Form.Label>Grand Total</Form.Label>
-                <br />
-                <InputNumber
-                  min={0}
-                  size="large"
-                  style={{ width: '100%' }}
-                  onChange={onChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col offset={2} span={5}>
-              <Form.Group className="mb-3">
-                <Form.Label>Unit Price</Form.Label>
-                <br />
-                <InputNumber
-                  min={0}
-                  size="large"
-                  style={{ width: '100%' }}
-                  onChange={onChange}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-        </>
-      )}
+                >
+                  <Input style={inputStyle} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col span={20}>
+                <Text strong>Member</Text>
+                <Form.Item
+                  className="mb-3"
+                  name="memberISbb_usersID"
+                  rules={[
+                    {
+                      required: true
+                    }
+                  ]}
+                >
+                  <Input style={inputStyle} />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={[24, 24]} className="mt-3">
+              <Col span={6}>
+                <Text strong>Total value</Text>
+
+                <Form.Item
+                  className="mb-3"
+                  name="total_valueNUM"
+                  rules={[
+                    {
+                      required: true
+                    }
+                  ]}
+                >
+                  <InputNumber
+                    min={1}
+                    style={{ width: '100%', borderRadius: '10px' }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={6}>
+                <Text strong>Oty</Text>
+                <Form.Item className="mb-3" name="qtyNUM">
+                  <InputNumber
+                    min={1}
+                    style={{ width: '100%', borderRadius: '10px' }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Text strong>Transaction Date</Text>
+                <Form.Item
+                  className="mb-3"
+                  name="transaction_date"
+                  rules={[
+                    {
+                      required: true
+                    }
+                  ]}
+                >
+                  <DatePicker style={{ width: '100%', borderRadius: '10px' }} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+
+        <Row className="mx-4 mt-5" span={20}>
+          <Col span={10}>
+            <Button
+              variant="outline-primary"
+              className="rounded-pill px-4 py-2"
+              onClick={() => setting_click()}
+            >
+              Advanced Settings
+              <DownOutlined style={{ marginLeft: '10px', fontSize: '14px' }} />
+            </Button>
+          </Col>
+          <Col span={10}>
+            <Button
+              variant="outline-primary"
+              className="rounded-pill py-2 px-4"
+              style={{ float: 'right' }}
+              type="submit"
+            >
+              Add
+            </Button>
+          </Col>
+        </Row>
+
+        {setting_show == true && (
+          <>
+            <Row className="mx-4 mt-7">
+              <Col span={6}>
+                <Text strong>Transaciton Ref</Text>
+                <Form.Item
+                  className="mb-3"
+                  name="transaction_ref"
+                  rules={[
+                    {
+                      required: true
+                    }
+                  ]}
+                >
+                  <Input type="text" style={inputStyle} />
+                </Form.Item>
+              </Col>
+              <Col offset={1} span={6}>
+                <Text strong>Code</Text>
+                <Form.Item className="mb-3" name="code">
+                  <Input type="text" style={inputStyle} />
+                </Form.Item>
+              </Col>
+              <Col offset={2} span={5}>
+                <Text strong>Notes</Text>
+                <Form.Item className="mb-3" name="notes">
+                  <Input type="text" style={inputStyle} />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row className="mx-4 mt-3">
+              <Col span={6}>
+                <Text strong>Ex Tax Amount</Text>
+                <Form.Item className="mb-3" name="ex_tax_amountNUM">
+                  <InputNumber
+                    min={0}
+                    style={{ width: '100%', borderRadius: '10px' }}
+                    // onChange={onChange}
+                  />
+                </Form.Item>
+              </Col>
+              <Col offset={1} span={6}>
+                <Text strong>Tax Amount</Text>
+                <Form.Item className="mb-3" name="tax_amountNUM">
+                  <InputNumber
+                    min={0}
+                    style={{ width: '100%', borderRadius: '10px' }}
+                    // onChange={onChange}
+                  />
+                </Form.Item>
+              </Col>
+              <Col offset={2} span={5}>
+                <Text strong>Tax Type</Text>
+                <Form.Item className="mb-3" name="tax_type">
+                  <Input
+                    type="text"
+                    style={{ width: '100%', borderRadius: '10px' }}
+                    // onChange={onChange}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row className="mx-4 mt-3">
+              <Col span={6}>
+                <Text strong>Branch</Text>
+                <Form1.Select
+                  defaultValue="select"
+                  placeholder="Select"
+                  style={{ width: '100%', borderRadius: '10px' }}
+                  onChange={e => handleChange(e)}
+                >
+                  <option value="0"></option>
+                  <option value="1">Branch1</option>
+                  <option value="2">Branch2</option>
+                  <option value="2">Branch3</option>
+                </Form1.Select>
+              </Col>
+              <Col offset={1} span={6}>
+                <Text strong>Grand Total</Text>
+                <Form.Item className="mb-3" name="grand_totalNUM">
+                  <InputNumber
+                    min={0}
+                    style={{ width: '100%', borderRadius: '10px' }}
+                    // onChange={onChange}
+                  />
+                </Form.Item>
+              </Col>
+              <Col offset={2} span={5}>
+                <Text strong>Unit Price</Text>
+                <Form.Item className="mb-3" name="unit_priceNUM">
+                  <InputNumber
+                    min={0}
+                    style={{ width: '100%', borderRadius: '10px' }}
+                    // onChange={onChange}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </>
+        )}
+      </Form>
     </>
   );
 }

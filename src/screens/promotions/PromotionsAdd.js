@@ -21,17 +21,17 @@ import {
   InputNumber
 } from 'antd';
 import { Button, Form as BootstrapForm } from 'react-bootstrap';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
+// import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
-const inputStyle = { width: '93%' };
-const inputBorderRadius = { borderRadius: '10px', width:"100%" };
+// const inputStyle = { width: '93%' };
+const inputBorderRadius = { borderRadius: '10px', width: '100%' };
 
-const inputQuestion = {
-  display: 'inline-block',
-  width: '93%',
-  borderRadius: '15px'
-};
+// const inputQuestion = {
+//   display: 'inline-block',
+//   width: '93%',
+//   borderRadius: '15px'
+// };
 
 function PromotionsAdd() {
   const dispatch = useDispatch();
@@ -45,12 +45,14 @@ function PromotionsAdd() {
   const [eventISbb_loyal2_eventsID, setAuto] = useState('');
   const [date_from, setDate_from] = useState('');
   const [date_to, setDate_to] = useState('');
-  const onDate_from=(a)=>{
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const onDate_from = a => {
     setDate_from(a.format('YYYY-MM-DD HH:mm:ss'));
-  }
-  const onDate_to=(a)=>{
+  };
+  const onDate_to = a => {
     setDate_to(a.format('YYYY-MM-DD HH:mm:ss'));
-  }
+  };
   const handleChange1 = e => {
     console.log(e.target.value);
     setBranch(e.target.value);
@@ -77,6 +79,16 @@ function PromotionsAdd() {
       dispatch(
         setPromotionsMenuData({ currentPromotionsMenuSchema: schema.menu })
       ); // store current Promotions menu
+
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupsList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupsList.data.list);
+
       _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
@@ -101,7 +113,7 @@ function PromotionsAdd() {
     try {
       _isMounted.current && setLoadingSchema(true);
       const { name, points_to_awardNUM, code, quickscan_function } = values;
-     
+
       // console.log(date_test_success,"date_test_success");
       const addPromotions = await Axios.post(
         endpoint.getDataAddEndpoint('bb_loyal2_promotions'),
@@ -157,7 +169,7 @@ function PromotionsAdd() {
                 Add a new non-transactional promotion record
               </Title>
             </Row>
-            <Row gutter={[16,16]}>
+            <Row gutter={[16, 16]}>
               <Col span={12}>
                 {layoutFields.name ? (
                   <>
@@ -172,7 +184,6 @@ function PromotionsAdd() {
                           message: 'Please input your Name!'
                         }
                       ]}
-                      
                     >
                       <Input
                         className="mt-1"
@@ -197,7 +208,6 @@ function PromotionsAdd() {
                           message: 'Please input your Points to awardNUM!'
                         }
                       ]}
-                      
                     >
                       <InputNumber
                         className="mt-1"
@@ -210,7 +220,7 @@ function PromotionsAdd() {
               </Col>
             </Row>
 
-            <Row gutter={[16,16]}>
+            <Row gutter={[16, 16]}>
               <Col span={12}>
                 {layoutFields.code ? (
                   <>
@@ -225,7 +235,6 @@ function PromotionsAdd() {
                           message: 'Please input your Code!'
                         }
                       ]}
-                      
                     >
                       <Input
                         className="mt-1"
@@ -242,7 +251,7 @@ function PromotionsAdd() {
                     <Text strong className="text-label">
                       {layoutFields.quickscan_function}
                     </Text>
-                    <Form.Item name="quickscan_function" >
+                    <Form.Item name="quickscan_function">
                       <Input
                         className="mt-1"
                         placeholder={layoutFields.quickscan_function}
@@ -253,40 +262,39 @@ function PromotionsAdd() {
                 ) : null}
               </Col>
             </Row>
-            <Row gutter={[16,16]} className='mt-3'>
+            <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
                 {layoutFields.date_from ? (
                   <>
-                    
-                      <Row align="middle">
-                        <Col span={10}>
-                          <Text strong className="text-label">
-                            {layoutFields.date_from}
-                          </Text>
-                        </Col>
-                        <Col span={14}>
-                        <Form.Item name="date_from" className='m-0' >
+                    <Row align="middle">
+                      <Col span={10}>
+                        <Text strong className="text-label">
+                          {layoutFields.date_from}
+                        </Text>
+                      </Col>
+                      <Col span={14}>
+                        <Form.Item name="date_from" className="m-0">
                           <DatePicker
                             placeholder={layoutFields.date_from}
                             style={inputBorderRadius}
                             onChange={onDate_from}
                           />
-                           </Form.Item>
-                        </Col>
-                      </Row>
-                   
+                        </Form.Item>
+                      </Col>
+                    </Row>
                   </>
                 ) : null}
               </Col>
               <Col span={12}>
                 {layoutFields.branchISbb_loyal2_branchesID ? (
-                  <Form.Item
-                    name="branchISbb_loyal2_branchesID"
-                     
-                  >
+                  <Form.Item name="branchISbb_loyal2_branchesID">
                     <Row align="middle">
                       <Col span={8}>
-                        <Text strong className="text-label" style={{ padding: '0px 3px' }}>
+                        <Text
+                          strong
+                          className="text-label"
+                          style={{ padding: '0px 3px' }}
+                        >
                           {layoutFields.branchISbb_loyal2_branchesID}
                         </Text>
                       </Col>
@@ -298,10 +306,14 @@ function PromotionsAdd() {
                           style={inputBorderRadius}
                           onChange={e => handleChange1(e)}
                         >
-                          <option value=""></option>
-                          <option value="1">branch1</option>
-                          <option value="2">branch2</option>
-                          <option value="3">branch3</option>
+                          <option value={null}></option>
+                          {branches.map((item, index) => {
+                            return (
+                              <option key={index} value={item._id}>
+                                {item.name}
+                              </option>
+                            );
+                          })}
                         </BootstrapForm.Select>
                       </Col>
                     </Row>
@@ -310,40 +322,39 @@ function PromotionsAdd() {
               </Col>
             </Row>
 
-            <Row gutter={[16,16]} className='mt-3'>
+            <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
                 {layoutFields.date_to ? (
                   <>
-                    
-                      <Row align="middle">
-                        <Col span={10}>
-                          <Text strong className="text-label">
-                            {layoutFields.date_to}
-                          </Text>
-                        </Col>
-                        <Col span={14}>
-                        <Form.Item name="date_to" className='m-0' >
+                    <Row align="middle">
+                      <Col span={10}>
+                        <Text strong className="text-label">
+                          {layoutFields.date_to}
+                        </Text>
+                      </Col>
+                      <Col span={14}>
+                        <Form.Item name="date_to" className="m-0">
                           <DatePicker
                             placeholder={layoutFields.date_to}
                             style={inputBorderRadius}
                             onChange={onDate_to}
                           />
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                    
+                        </Form.Item>
+                      </Col>
+                    </Row>
                   </>
                 ) : null}
               </Col>
               <Col span={12}>
                 {layoutFields.groupISbb_loyal2_groupsID ? (
-                  <Form.Item
-                    name="groupISbb_loyal2_groupsID"
-                     
-                  >
+                  <Form.Item name="groupISbb_loyal2_groupsID">
                     <Row align="middle">
                       <Col span={8}>
-                        <Text strong className="text-label" style={{ padding: '0px 3px' }}>
+                        <Text
+                          strong
+                          className="text-label"
+                          style={{ padding: '0px 3px' }}
+                        >
                           {layoutFields.groupISbb_loyal2_groupsID}
                         </Text>
                       </Col>
@@ -353,10 +364,14 @@ function PromotionsAdd() {
                           style={inputBorderRadius}
                           onChange={e => handleChange2(e)}
                         >
-                          <option value=""></option>
-                          <option value="1">Group1</option>
-                          <option value="2">Group2</option>
-                          <option value="3">Group3</option>
+                          <option key={'null'} value={null}></option>
+                          {groups.map((item, index) => {
+                            return (
+                              <option key={index} value={item._id}>
+                                {item.name}
+                              </option>
+                            );
+                          })}
                         </BootstrapForm.Select>
                       </Col>
                     </Row>
@@ -364,7 +379,7 @@ function PromotionsAdd() {
                 ) : null}
               </Col>
             </Row>
-            <Row gutter={[16,16]} className='mt-3'>
+            <Row gutter={[16, 16]} className="mt-3">
               <Col span={19}>
                 {layoutFields.eventISbb_loyal2_eventsID ? (
                   <>
@@ -379,16 +394,16 @@ function PromotionsAdd() {
                           name="eventISbb_loyal2_eventsID"
                           style={inputQuestion}
                         > */}
-                          <BootstrapForm.Select
-                            placeholder={layoutFields.eventISbb_loyal2_eventsID}
-                            style={inputBorderRadius}
-                            onChange={e => handleChange3(e)}
-                          >
-                            <option value=""></option>
-                            <option value="1">Auto1</option>
-                            <option value="2">Auto2</option>
-                            <option value="3">Auto3</option>
-                          </BootstrapForm.Select>
+                        <BootstrapForm.Select
+                          placeholder={layoutFields.eventISbb_loyal2_eventsID}
+                          style={inputBorderRadius}
+                          onChange={e => handleChange3(e)}
+                        >
+                          <option value=""></option>
+                          <option value="1">Auto1</option>
+                          <option value="2">Auto2</option>
+                          <option value="3">Auto3</option>
+                        </BootstrapForm.Select>
                         {/* </Form.Item> */}
                       </Col>
                     </Row>
@@ -400,10 +415,175 @@ function PromotionsAdd() {
                   className="rounded-pill py-2 px-4"
                   variant="outline-primary"
                   type="submit"
-                  //   onClick={() => updateSetting()}
+                  //   onClick={() => add()}
                 >
                   Add
                 </Button>
+              </Col>
+            </Row>
+          </Form>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 0
+            }}
+            wrapperCol={{
+              span: 24
+            }}
+            initialValues={{
+              remember: true
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Row className="mt-5" gutter={[16, 16]}>
+              <Row>
+                <Title level={4} className="mb-4">
+                  Add a new transactional promotion record
+                </Title>
+              </Row>
+
+              <Col span={24}>
+                <Row align="middle">
+                  <Col span={5}>
+                    <Text className="text-label" strong>
+                      Name
+                    </Text>
+                  </Col>
+                  <Col span={19}>
+                    <Form.Item>
+                      <Input
+                        style={{
+                          borderRadius: '10px',
+                          width: '100%'
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Percent of spent
+                    </Text>
+                  </Col>
+                  {/* <Form.Item> */}
+                  <Col span={6}>
+                    <Input style={{ borderRadius: '10px' }} />
+                  </Col>
+                  {/* </Form.Item> */}
+
+                  <Col span={1}></Col>
+                  <Col span={6}>
+                    <Text strong className="text-label">
+                      Fixed points value
+                    </Text>
+                  </Col>
+                  {/* <Form.Item> */}
+                  <Col span={6}>
+                    <Input style={{ borderRadius: '10px' }} />
+                  </Col>
+                  {/* </Form.Item> */}
+                </Row>
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Category
+                    </Text>
+                  </Col>
+                  <Col span={6}>
+                    <BootstrapForm.Select style={{ borderRadius: '10px' }}>
+                      <option>12345</option>
+                      <option>12345</option>
+                      <option>12345</option>
+                      <option>12345</option>
+                      <option>12345</option>
+                    </BootstrapForm.Select>
+                  </Col>
+                  <Col span={1}></Col>
+
+                  <Col span={3}>
+                    <Text strong className="text-label">
+                      Code
+                    </Text>
+                  </Col>
+                  <Col span={9}>
+                    <Input style={{ borderRadius: '10px' }} />
+                  </Col>
+                </Row>
+
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Group
+                    </Text>
+                  </Col>
+                  <Col span={6}>
+                    <BootstrapForm.Select style={{ borderRadius: '10px' }}>
+                      <option key={'null'} value={null}></option>
+                      {groups.map((item, index) => {
+                        return (
+                          <option key={index} value={item._id}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
+                    </BootstrapForm.Select>
+                  </Col>
+                  <Col span={1}></Col>
+                  <Col span={3}>
+                    <Text strong className="text-label">
+                      Date From
+                    </Text>
+                  </Col>
+                  <Col span={4}>
+                    <DatePicker style={{ borderRadius: '10px' }} />
+                  </Col>
+                  <Col span={1} style={{ textAlign: 'center' }}>
+                    <Text strong className="text-label">
+                      to
+                    </Text>
+                  </Col>
+                  <Col span={4}>
+                    <DatePicker style={{ borderRadius: '10px' }} />
+                  </Col>
+                </Row>
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Branch
+                    </Text>
+                  </Col>
+                  <Col span={6}>
+                    <BootstrapForm.Select style={{ borderRadius: '10px' }}>
+                      <option value={null}></option>
+                      {branches.map((item, index) => {
+                        return (
+                          <option key={index} value={item._id}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
+                    </BootstrapForm.Select>
+                  </Col>
+                </Row>
+                <Row className="mt-3">
+                  <Col span={24} style={{ textAlign: 'end' }}>
+                    <Button
+                      bv
+                      className="rounded-pill px-4 py-2"
+                      lavel="Get sample CSV"
+                      variant="outline-primary"
+                      style={{ textAlign: 'end', float: 'right' }}
+                      //   onClick={() => subadd()}
+
+                      type="submit"
+                    >
+                      Add
+                    </Button>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Form>

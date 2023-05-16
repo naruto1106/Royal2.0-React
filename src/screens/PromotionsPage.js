@@ -6,7 +6,7 @@ import PromotionsCSV from './promotions/PromotionsCSV';
 import PromotionsList from './promotions/PromotionsList';
 import PromotionsSearch from './promotions/PromotionsSearch';
 import PromotionsSettings from './promotions/PromotionsSettings';
-// import PromotionsHistory from './promotions/PromotionsHistory';
+import PromotionsHistory from './promotions/PromotionsHistory';
 import PromotionsMenu from './promotions/PromotionsMenu';
 
 import { Card } from 'react-bootstrap';
@@ -22,7 +22,9 @@ function PageComponent() {
           <Row>
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
               <PromotionsMenu></PromotionsMenu>
-              <PromotionsSettings></PromotionsSettings>
+            </Col>
+            <Col span={24}>
+              <PromotionsHistory></PromotionsHistory>
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
           </Row>

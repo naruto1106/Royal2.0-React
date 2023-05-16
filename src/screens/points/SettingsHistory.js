@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 // import { useParams } from 'react-router-dom';
 import Axios from 'axios';
-import { Row, Col } from 'antd';
+import { Typography, Row, Col } from 'antd';
 import { getErrorAlert } from 'helpers/utils';
 import { getColor, rgbaColor } from 'helpers/utils';
 import { chartJsDefaultTooltip } from 'helpers/chartjs-utils';
@@ -15,13 +15,14 @@ import handleError from 'utils/handleError';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 
 function SettingsHistory() {
+  const { Title } = Typography;
   const chat_hidden = {
     position: 'absolute',
     width: '130px',
     height: '27px',
-    top: '50px',
+    top: '20px',
     marginLeft: '50%',
-    transform: 'translate(-60px, 0)',
+    transform: 'translate(-30px, 0)',
     backgroundColor: 'white',
     zIndex: '1'
   };
@@ -108,11 +109,18 @@ function SettingsHistory() {
 
   return (
     <>
-      <Row span={2}>
-        <Col offset={1} span={22}>
-          <Card style={{ width: '100%', position: 'relative' }}>
-            <Card.Body style={{ marginLeft: '20px' }}>
-              <Card.Title as="h6">Points Awarded Per Month</Card.Title>
+      <Row className="mx-4">
+        <Col>
+          <Title level={4} className="text-label">
+            Points Awarded Per Month
+          </Title>
+        </Col>
+      </Row>
+
+      <Row className="mx-4 my-3" justify="center">
+        <Col xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
+          <Card style={{ width: '100%' }}>
+            <Card.Body>
               <Line data={data} options={options} height={500} width={1618} />
             </Card.Body>
             <div className="chat_hidden" style={chat_hidden}></div>

@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Axios from 'axios';
 import { Typography, Row, Col, Steps } from 'antd';
 import { Button, Card } from 'react-bootstrap';
+import endpoint from '../utils/endpoint';
+import { getErrorAlert } from 'helpers/utils';
+import Loading from 'components/loading';
 import Communication_settings_1 from './communications/communication_settings_1';
 import Communication_settings_2 from './communications/communication_settings_2';
 import Communication_settings_3 from './communications/communication_settings_3';
@@ -38,6 +42,44 @@ function Communication_settings() {
     setCurrent(current + 1);
   };
 
+  // ///
+  const _isMounted = useRef(false);
+  const [loadingSchema, setLoadingSchema] = useState(true);
+  // const [layoutData, setLayoutData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
+
+  const initPageModule = async () => {
+    try {
+      // default part
+      _isMounted.current && setLoadingSchema(true);
+
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupList.data.list);
+      // end default part
+    } catch (error) {
+      // handleError(error, true);
+      getErrorAlert({ onRetry: initPageModule });
+    } finally {
+      console.log('finally');
+      _isMounted.current && setLoadingSchema(false);
+    }
+  };
+  useEffect(() => {
+    _isMounted.current = true;
+    if (current == 0) initPageModule();
+    return () => {
+      _isMounted.current = false;
+    };
+  }, []);
+
+  ///
   // const prev = () => {
   //   setCurrent(current - 1);
   // };
@@ -45,6 +87,10 @@ function Communication_settings() {
     console.log('onChange:', value);
     setCurrent(value);
   };
+
+  if (loadingSchema) {
+    return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
+  }
   return (
     <>
       <Card className="overflow-hidden z-index-1 card-main_layout">
@@ -77,7 +123,12 @@ function Communication_settings() {
             <Card.Body className="p-0">
               <Row className="mx-4 mt-5">
                 <Col span={24}>
-                  {(current == 0 && <Communication_settings_1 />) ||
+                  {(current == 0 && (
+                    <Communication_settings_1
+                      groups={groups}
+                      branches={branches}
+                    />
+                  )) ||
                     (current == 1 && <Communication_settings_2 />) ||
                     (current == 2 && <Communication_settings_3 />)}
                 </Col>

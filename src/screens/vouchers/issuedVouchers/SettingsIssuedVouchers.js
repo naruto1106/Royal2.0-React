@@ -2,7 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { Row, Col, Typography, Skeleton } from 'antd';
+import { Row, Col, Typography, Switch } from 'antd';
 import { Button } from 'react-bootstrap';
 // import { useParams } from 'react-router-dom';
 import endpoint from '../../../utils/endpoint';
@@ -56,7 +56,9 @@ function SettingsIssuedVouchers() {
     return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
   }
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
-
+  const onChange = checked => {
+    console.log(`switch to ${checked}`);
+  };
   return (
     <>
       <Row className="mx-4 mt-5">
@@ -72,7 +74,8 @@ function SettingsIssuedVouchers() {
               </Text>
             </Col>
             <Col md={4} lg={4} xl={3}>
-              <Skeleton.Avatar active="false" size="default" shape="circle" />
+              {/* <Skeleton.Avatar active="false" size="default" shape="circle" /> */}
+              <Switch onChange={onChange} />
             </Col>
             <Col md={8} lg={8} xl={10} style={{ textAlign: 'end' }}>
               <Button

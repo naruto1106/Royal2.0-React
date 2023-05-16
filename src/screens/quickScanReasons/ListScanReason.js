@@ -115,7 +115,7 @@ function ListScanReason() {
   };
   const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

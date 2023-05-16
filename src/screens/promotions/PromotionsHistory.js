@@ -18,11 +18,9 @@ function PromotionsHistory() {
   const { Title } = Typography;
   const chat_hidden = {
     position: 'absolute',
-    width: '130px',
-    height: '27px',
-    top: '150px',
-    marginLeft: '50%',
-    transform: 'translate(-30px, 0)',
+    width: '50%',
+    height: '50px',
+    right: '100px',
     backgroundColor: 'white',
     zIndex: '1'
   };
@@ -111,17 +109,15 @@ function PromotionsHistory() {
 
   return (
     <>
-      <Row>
-        <Col offset={2}>
-          <Title level={4} style={{ color: '#444444' }}>
-            Promotions Awarded Per Month
-          </Title>
+      <Row className="mx-4">
+        <Col span={22}>
+          <Title level={4}>Promotions Per Month</Title>
         </Col>
       </Row>
 
-      <Row>
-        <Col offset={2} xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
-          <Card style={{ width: '100%', position: 'relative' }}>
+      <Row className="mx-4 my-3" justify="center">
+        <Col xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
+          <Card style={{ width: '100%' }}>
             <Card.Body>
               <Line data={data} options={options} height={500} width={1618} />
             </Card.Body>

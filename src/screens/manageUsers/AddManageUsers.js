@@ -29,6 +29,9 @@ function AddManageUsers() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [branchISbb_loyal2_branchesID, set_branchISbb_loyal2_branchesID] =
+    useState(null);
   const initPageModule = async () => {
     try {
       // default part
@@ -40,6 +43,10 @@ function AddManageUsers() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -75,6 +82,7 @@ function AddManageUsers() {
           first_name,
           last_name,
           email,
+          branchISbb_loyal2_branchesID,
           user_type: 3
         }
       );
@@ -93,6 +101,9 @@ function AddManageUsers() {
   };
   const onChange = checked => {
     console.log(`switch to ${checked}`);
+  };
+  const changeBranch = e => {
+    set_branchISbb_loyal2_branchesID(e.target.value);
   };
   return (
     <>
@@ -231,10 +242,19 @@ function AddManageUsers() {
                   </Col>
                   <Col span={16}>
                     <BootstrapForm.Select
-                      placeholder="Select"
+                      onChange={e => changeBranch(e)}
                       style={{ borderRadius: '10px' }}
                     >
-                      <option value="option1">option1</option>
+                      <option key={'null'} value={null}></option>
+                      {branches.map((item, index) => {
+                        return (
+                          <>
+                            <option key={index} value={item._id}>
+                              {item.name}
+                            </option>
+                          </>
+                        );
+                      })}
                     </BootstrapForm.Select>
                   </Col>
                 </Row>

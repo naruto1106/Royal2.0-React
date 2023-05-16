@@ -84,7 +84,11 @@ const ProfileDropdown = () => {
 
       <Dropdown.Menu className="dropdown-caret dropdown-menu-card  dropdown-menu-end">
         <div className="bg-white rounded-2 py-2 dark__bg-1000">
-          <Dropdown.Item className="fw-bold text-warning">
+          <Dropdown.Item
+            as={Link}
+            to="/view_account"
+            className="fw-bold text-warning"
+          >
             <FontAwesomeIcon icon="user" className="me-2" />
             Account
           </Dropdown.Item>

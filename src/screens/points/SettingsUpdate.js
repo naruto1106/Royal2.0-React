@@ -33,6 +33,7 @@ function SettingsUpdate() {
   const [layoutData, setLayoutData] = useState(null);
   const dateFormat = 'YYYY-MM-DD HH:mm:ss';
   const [branch_val, setBranch_val] = useState('');
+  const [branches, setBranches] = useState([]);
 
   const selectchange = e => {
     console.log('selectchange', e.target.value);
@@ -54,6 +55,11 @@ function SettingsUpdate() {
         setBranch_val(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
+
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
 
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
@@ -263,10 +269,16 @@ function SettingsUpdate() {
               style={{ width: '100%', borderRadius: '10px' }}
               // onChange={handleChange}
             >
-              <option value=""></option>
-              <option value="1">Branch1</option>
-              <option value="2">Branch2</option>
-              <option value="3">Branch3</option>
+              <option key={'null'} value={null}></option>
+              {branches.map((item, index) => {
+                return (
+                  <>
+                    <option key={index} value={item._id}>
+                      {item.name}
+                    </option>
+                  </>
+                );
+              })}
             </BootstrapForm.Select>
           </Col>
           <Col className="mx-3">

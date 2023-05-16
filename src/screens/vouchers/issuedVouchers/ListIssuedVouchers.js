@@ -77,7 +77,7 @@ function ListIssuedVouchers() {
   }, []);
 
   const editRow = row => {
-    navigate('/datamanager/bb_loyal2_vouchers_issued/view/' + row._id);
+    navigate('/datamanager/bb_loyal2_vouchers_issued/edit/' + row._id);
   };
   const deleteRow = () => {
     _array.length > 0
@@ -110,7 +110,7 @@ function ListIssuedVouchers() {
   };
   const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',
@@ -268,7 +268,7 @@ function ListIssuedVouchers() {
           tableProps={{
             bordered: true,
             striped: true,
-            className: 'fs--1 mb-0 overflow-hidden mt-5'
+            className: 'fs--1 mb-0 overflow-hidden mt-3'
           }}
         />
         <div className="mt-3">

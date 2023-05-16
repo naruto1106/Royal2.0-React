@@ -10,7 +10,8 @@ import endpoint from 'utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
-import { RetweetOutlined } from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
+import { FaRetweet } from 'react-icons/fa';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
@@ -98,16 +99,37 @@ function CommunicationLogPage() {
         id: 'status',
         Header: 'Status',
         Cell: () => {
+          return <>sent</>;
+        }
+      };
+      tempArray.push(statusBtn);
+      let viewBtn = {
+        id: 'view',
+        Header: '',
+        Cell: () => {
           return (
             <>
-              <Button variant="light" onClick={() => setModalShow(true)}>
-                <RetweetOutlined />
-              </Button>
+              <EyeOutlined style={{ scale: '1.2', cursor: 'pointer' }} />
             </>
           );
         }
       };
-      tempArray.push(statusBtn);
+      tempArray.push(viewBtn);
+      let resendBtn = {
+        id: 'resend',
+        Header: '',
+        Cell: () => {
+          return (
+            <>
+              <FaRetweet
+                style={{ scale: '1.2', cursor: 'pointer' }}
+                onClick={() => setModalShow(true)}
+              />
+            </>
+          );
+        }
+      };
+      tempArray.push(resendBtn);
 
       setColumns(tempArray);
     }

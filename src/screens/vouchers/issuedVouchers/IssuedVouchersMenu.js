@@ -27,7 +27,7 @@ function IssuedVouchersMenu() {
         >
           <Space>
             {Object.entries(currentMemberMenuSchema).map((row, index) => {
-              return index >= 1 && index <= 5 ? (
+              return index <= 5 ? (
                 <Button
                   key={index}
                   className={
@@ -36,8 +36,8 @@ function IssuedVouchersMenu() {
                   onClick={() =>
                     navigate(
                       row[1].route ===
-                        '/datamanager/bb_loyal2_vouchers_issued/settings'
-                        ? '/vouchers_issued'
+                        '/datamanager/bb_loyal2_vouchers_issued/history'
+                        ? '/datamanager/bb_loyal2_vouchers_issued/'
                         : row[1].route
                     )
                   }

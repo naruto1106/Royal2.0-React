@@ -24,7 +24,7 @@ import { Button, Form as BootstrapForm } from 'react-bootstrap';
 import moment from 'moment';
 
 const { Title, Text } = Typography;
-const inputStyle = { width: '100%' };
+// const inputStyle = { width: '100%' };
 const inputBorderRadius = { borderRadius: '10px', width: '100%' };
 
 function PromotionsUpdate() {
@@ -37,30 +37,41 @@ function PromotionsUpdate() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [branchISbb_loyal2_branchesID, setBranch] = useState('');
+  // const [branchISbb_loyal2_branchesID, setBranch] = useState('');
   const [groupISbb_loyal2_groupsID, setGroup] = useState('');
   const [eventISbb_loyal2_eventsID, setAuto] = useState('');
   const [date_from, setDate_from] = useState('');
   const [date_to, setDate_to] = useState('');
+  const [branch_val, setBranch_val] = useState('');
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
   const dateFormat = 'YYYY-MM-DD';
   //   console.log(routeKey, id, '12311111111111111');
-  const onDate_from=(a)=>{
+  const onDate_from = a => {
     setDate_from(a.format('YYYY-MM-DD HH:mm:ss'));
-  }
-  const onDate_to=(a)=>{
-    setDate_to(a.format('YYYY-MM-DD HH:mm:ss'));
-  }
-  const handleChange1 = e => {
-    console.log(e.target.value);
-    setBranch(e.target.value);
   };
-  const handleChange2 = e => {
+  const onDate_to = a => {
+    setDate_to(a.format('YYYY-MM-DD HH:mm:ss'));
+  };
+  const selectchange = e => {
     console.log(e.target.value);
-    setGroup(e.target.value);
+    // setBranch(e.target.value);
+  };
+  const selectchange1 = e => {
+    console.log(e.target.value);
+    // setBranch(e.target.value);
   };
   const handleChange3 = e => {
     console.log(e.target.value);
-    setAuto(e.target.value);
+    // setBranch(e.target.value);
+  };
+  const selectchange_group1 = e => {
+    console.log(e.target.value);
+    setGroup(e.target.value);
+  };
+  const selectchange_group2 = e => {
+    console.log(e.target.value);
+    setGroup(e.target.value);
   };
   const initPageModule = async () => {
     try {
@@ -71,21 +82,30 @@ function PromotionsUpdate() {
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupsList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupsList.data.list);
       let layoutSchema = schema.layout;
-      if(layoutSchema.data[0][0].date_from){
+      if (layoutSchema.data[0][0].date_from) {
         _isMounted.current &&
-        setDate_from(moment(layoutSchema.data[0][0].date_from, dateFormat));
+          setDate_from(moment(layoutSchema.data[0][0].date_from, dateFormat));
       }
-      if(layoutSchema.data[0][0].date_to){
+      if (layoutSchema.data[0][0].date_to) {
         _isMounted.current &&
-        setDate_to(moment(layoutSchema.data[0][0].date_to, dateFormat));
+          setDate_to(moment(layoutSchema.data[0][0].date_to, dateFormat));
       }
-      _isMounted.current &&
-        setBranch(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
+      // _isMounted.current &&
+      //   setBranch(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
       _isMounted.current &&
         setGroup(layoutSchema.data[0][0].groupISbb_loyal2_groupsID);
       _isMounted.current &&
         setAuto(layoutSchema.data[0][0].eventISbb_loyal2_eventsID);
+      setBranch_val(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(
         setPromotionsMenuData({ currentPromotionsMenuSchema: schema.menu })
@@ -113,9 +133,11 @@ function PromotionsUpdate() {
     console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
+      const branchISbb_loyal2_branchesID = branch_val;
+
       const { _id, name, points_to_awardNUM, code, quickscan_function } =
         values;
-      
+
       const addPromotions = await Axios.patch(
         endpoint.getDataAddEndpoint(`bb_loyal2_promotions/${_id}`),
         {
@@ -286,7 +308,7 @@ function PromotionsUpdate() {
                 ) : null}
               </Col>
             </Row>
-            <Row gutter={[16, 16]} className='mt-3'>
+            <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
                 {layoutFields.date_from ? (
                   <>
@@ -296,8 +318,8 @@ function PromotionsUpdate() {
                           {layoutFields.date_from}
                         </Text>
                       </Col>
-                      <Col span={16} >
-                        <Form.Item name="date_from"className='m-0' >
+                      <Col span={16}>
+                        <Form.Item name="date_from" className="m-0">
                           <DatePicker
                             placeholder={layoutFields.date_from}
                             style={inputBorderRadius}
@@ -328,17 +350,22 @@ function PromotionsUpdate() {
                     </Col>
                     <Col span={16}>
                       <BootstrapForm.Select
-                        placeholder={layoutFields.branchISbb_loyal2_branchesID}
                         defaultValue={
                           FieldsData[0][0].branchISbb_loyal2_branchesID
                         }
-                        style={inputBorderRadius}
-                        onChange={e => handleChange1(e)}
+                        name="branch"
+                        onChange={e => selectchange1(e)}
+                        style={{ width: '100%', borderRadius: '10px' }}
+                        // onChange={handleChange}
                       >
-                        <option value=""></option>
-                        <option value="1">branch1</option>
-                        <option value="2">branch2</option>
-                        <option value="3">branch3</option>
+                        <option key={'null'} value={null}></option>
+                        {branches.map((item, index) => {
+                          return (
+                            <option key={index} value={item._id}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
                       </BootstrapForm.Select>
                     </Col>
                   </Row>
@@ -346,7 +373,7 @@ function PromotionsUpdate() {
               </Col>
             </Row>
 
-            <Row gutter={[16, 16]} className='mt-4'>
+            <Row gutter={[16, 16]} className="mt-4">
               <Col span={12}>
                 {layoutFields.date_to ? (
                   <>
@@ -357,7 +384,7 @@ function PromotionsUpdate() {
                         </Text>
                       </Col>
                       <Col span={16}>
-                        <Form.Item name="date_to" className='m-0'>
+                        <Form.Item name="date_to" className="m-0">
                           <DatePicker
                             placeholder={layoutFields.date_to}
                             style={inputBorderRadius}
@@ -388,17 +415,22 @@ function PromotionsUpdate() {
                     </Col>
                     <Col span={16}>
                       <BootstrapForm.Select
-                        placeholder={layoutFields.groupISbb_loyal2_groupsID}
-                        style={inputBorderRadius}
-                        onChange={e => handleChange2(e)}
                         defaultValue={
-                          FieldsData[0][0].groupISbb_loyal2_groupsID
+                          FieldsData[0][0].branchISbb_loyal2_branchesID
                         }
+                        name="branch"
+                        onChange={e => selectchange_group1(e)}
+                        style={{ width: '100%', borderRadius: '10px' }}
+                        // onChange={handleChange}
                       >
-                        <option value=""></option>
-                        <option value="1">Group1</option>
-                        <option value="2">Group2</option>
-                        <option value="3">Group3</option>
+                        <option key={'null'} value={null}></option>
+                        {groups.map((item, index) => {
+                          return (
+                            <option key={index} value={item._id}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
                       </BootstrapForm.Select>
                     </Col>
                   </Row>
@@ -448,6 +480,188 @@ function PromotionsUpdate() {
                 >
                   Update
                 </Button>
+              </Col>
+            </Row>
+          </Form>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 0
+            }}
+            wrapperCol={{
+              span: 24
+            }}
+            initialValues={{
+              remember: true
+            }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            form={form}
+            autoComplete="off"
+          >
+            <Row className="mt-5" gutter={[16, 16]}>
+              <Row>
+                <Title level={4} className="mb-4">
+                  Update transactional promotion record
+                </Title>
+              </Row>
+
+              <Col span={24}>
+                <Row align="middle">
+                  <Col span={5}>
+                    <Text className="text-label" strong>
+                      Name
+                    </Text>
+                  </Col>
+                  <Col span={19}>
+                    <Form.Item>
+                      <Input
+                        style={{
+                          borderRadius: '10px',
+                          width: '100%'
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Percent of spent
+                    </Text>
+                  </Col>
+                  {/* <Form.Item> */}
+                  <Col span={6}>
+                    <Input style={{ borderRadius: '10px' }} />
+                  </Col>
+                  {/* </Form.Item> */}
+
+                  <Col span={1}></Col>
+                  <Col span={6}>
+                    <Text strong className="text-label">
+                      Fixed points value
+                    </Text>
+                  </Col>
+                  {/* <Form.Item> */}
+                  <Col span={6}>
+                    <Input style={{ borderRadius: '10px' }} />
+                  </Col>
+                  {/* </Form.Item> */}
+                </Row>
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Category
+                    </Text>
+                  </Col>
+                  <Col span={6}>
+                    <BootstrapForm.Select style={{ borderRadius: '10px' }}>
+                      <option>12345</option>
+                      <option>12345</option>
+                      <option>12345</option>
+                      <option>12345</option>
+                      <option>12345</option>
+                    </BootstrapForm.Select>
+                  </Col>
+                  <Col span={1}></Col>
+
+                  <Col span={3}>
+                    <Text strong className="text-label">
+                      Code
+                    </Text>
+                  </Col>
+                  <Col span={9}>
+                    <Input style={{ borderRadius: '10px' }} />
+                  </Col>
+                </Row>
+
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Group
+                    </Text>
+                  </Col>
+                  <Col span={6}>
+                    <BootstrapForm.Select
+                      defaultValue={
+                        FieldsData[0][0].branchISbb_loyal2_branchesID
+                      }
+                      name="branch"
+                      onChange={e => selectchange_group2(e)}
+                      style={{ width: '100%', borderRadius: '10px' }}
+                      // onChange={handleChange}
+                    >
+                      <option key={'null'} value={null}></option>
+                      {groups.map((item, index) => {
+                        return (
+                          <option key={index} value={item._id}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
+                    </BootstrapForm.Select>
+                  </Col>
+                  <Col span={1}></Col>
+                  <Col span={3}>
+                    <Text strong className="text-label">
+                      Date From
+                    </Text>
+                  </Col>
+                  <Col span={4}>
+                    <DatePicker style={{ borderRadius: '10px' }} />
+                  </Col>
+                  <Col span={1} style={{ textAlign: 'center' }}>
+                    <Text strong className="text-label">
+                      to
+                    </Text>
+                  </Col>
+                  <Col span={4}>
+                    <DatePicker style={{ borderRadius: '10px' }} />
+                  </Col>
+                </Row>
+                <Row className="mt-3" align="middle">
+                  <Col span={5}>
+                    <Text strong className="text-label">
+                      Branch
+                    </Text>
+                  </Col>
+                  <Col span={6}>
+                    <BootstrapForm.Select
+                      defaultValue={
+                        FieldsData[0][0].branchISbb_loyal2_branchesID
+                      }
+                      name="branch"
+                      onChange={e => selectchange(e)}
+                      style={{ width: '100%', borderRadius: '10px' }}
+                      // onChange={handleChange}
+                    >
+                      <option key={'null'} value={null}></option>
+                      {branches.map((item, index) => {
+                        return (
+                          <option key={index} value={item._id}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
+                    </BootstrapForm.Select>
+                  </Col>
+                </Row>
+                <Row className="mt-3">
+                  <Col span={24} style={{ textAlign: 'end' }}>
+                    <Button
+                      bv
+                      className="rounded-pill px-4 py-2"
+                      lavel="Get sample CSV"
+                      variant="outline-primary"
+                      style={{ textAlign: 'end', float: 'right' }}
+                      //   onClick={() => subadd()}
+
+                      type="submit"
+                    >
+                      Update
+                    </Button>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Form>

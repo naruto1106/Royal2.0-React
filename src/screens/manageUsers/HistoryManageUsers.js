@@ -108,14 +108,12 @@ function HistoryManageUsers() {
   return (
     <>
       <Row>
-        <Col offset={2}>
-          <Title level={4} style={{ color: '#444444' }}>
-            New Members per Month
-          </Title>
+        <Col className="mx-4">
+          <Title level={4}>New Users per Month</Title>
         </Col>
       </Row>
-      <Row>
-        <Col offset={2} xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
+      <Row className="mx-4 my-3" justify="center">
+        <Col xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
           <Card style={{ width: '100%' }}>
             <Card.Body>
               <Line data={data} options={options} height={500} width={1618} />

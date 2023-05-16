@@ -10,10 +10,9 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
-import TabGroups from './TabGroups';
-const { Title, Paragraph } = Typography;
+const { Title, Text } = Typography;
 const inputStyle = {
-  borderRadius: '15px',
+  borderRadius: '10px',
   width: '100%'
 };
 
@@ -58,43 +57,50 @@ function SearchGroups() {
 
   return (
     <>
-      <Row className="mx-4">
+      <Row className="mx-4 mt-3">
         <Col span={24}>
           <Title level={4} className="mb-3">
             Search branches/stores
           </Title>
         </Col>
       </Row>
-      <Row className="mx-4">
-        <Col span={24}>
-          <Paragraph className="mb-2">Free text search</Paragraph>
-          <Input placeholder="text" style={inputStyle} />
+      <Row className="mx-4 mt-3">
+        <Col xs={24} md={24} lg={23}>
+          {/* <Text style={{color:'#444444'}} strong className="mb-2">Free text search</Text> */}
+          <Input placeholder="Free text search" style={inputStyle} />
         </Col>
       </Row>
-      <Row className="mx-4 mt-4" gutter={[16, 16]}>
-        <Col xs={24} md={24} lg={11} xl={8}>
-          <Paragraph>Date Added/Imported between</Paragraph>
+      <Row className="mx-4 mt-7" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
+            Date Added/Imported between
+          </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-        <Col xs={4} md={4} lg={2} xl={2}>
-          <Paragraph style={{ textAlign: 'center' }}>and</Paragraph>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
+            and
+          </Text>
         </Col>
         <Col xs={10} md={7} lg={3} xl={4}>
           <DatePicker placeholder="to" style={inputStyle} />
         </Col>
-        <Col xs={24} md={6} lg={5} xl={6}>
-          <Button
-            variant="outline-primary"
-            className="rounded-pill px-4"
-            style={{ float: 'right' }}
-          >
-            Search
-          </Button>
+        <Col xs={24} md={6} lg={4} xl={4}>
+          <Row>
+            <Col span={24}>
+              <Button
+                variant="outline-primary"
+                style={{ float: 'right' }}
+                className="rounded-pill px-4 py-2"
+              >
+                Search
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
-      <TabGroups />
     </>
   );
 }

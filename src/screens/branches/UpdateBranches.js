@@ -115,12 +115,12 @@ function UpdateBranches() {
       handleError(error, true);
     } finally {
       _isMounted.current && setLoadingSchema(false);
-      navigate('/branches');
+      navigate('/datamanager/bb_loyal2_branches/list');
     }
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

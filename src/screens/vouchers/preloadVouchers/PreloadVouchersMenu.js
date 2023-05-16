@@ -27,7 +27,7 @@ function PreloadVouchersMenu() {
         >
           <Space>
             {Object.entries(currentMemberMenuSchema).map((row, index) => {
-              return index >= 1 && index <= 5 ? (
+              return index <= 5 ? (
                 <Button
                   key={index}
                   className={
@@ -36,8 +36,8 @@ function PreloadVouchersMenu() {
                   onClick={() =>
                     navigate(
                       row[1].route ===
-                        '/datamanager/bb_loyal2_vouchers_precodes/settings'
-                        ? '/pre_loaded_voucher_codes'
+                        '/datamanager/bb_loyal2_vouchers_precodes/history'
+                        ? '/datamanager/bb_loyal2_vouchers_precodes/'
                         : row[1].route
                     )
                   }

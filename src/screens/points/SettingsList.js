@@ -9,14 +9,14 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { setPointMenuData } from 'redux/slices/currentDataSlice';
 import { useNavigate } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
-import { Modal } from 'antd';
+import { Modal, message, Typography } from 'antd';
 import AdvanceTableWrapper from 'components/common/advance-table/AdvanceTableWrapper';
 import AdvanceTable from 'components/common/advance-table/AdvanceTable';
 import AdvanceTableFooter from 'components/common/advance-table/AdvanceTableFooter';
 import ActionButton from 'components/common/ActionButton';
 import endpoint from '../../utils/endpoint';
 const { confirm } = Modal;
-
+const { Title } = Typography;
 function SettingsList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,9 +24,10 @@ function SettingsList() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [pointLists, setMemeberLists] = useState([]);
+  const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
+  let _array = [];
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -54,13 +55,14 @@ function SettingsList() {
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
-      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current point menu
+      dispatch(setPointMenuData({ currentPointMenuSchema: schema.menu })); // store current member menu
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
-      const pointRes = await Axios.get(
-        endpoint.appUsers('/app/users/') + `?user_type=3`
+      const memberRes = await Axios.get(
+        endpoint.appUsers('/module/bb_loyal2_points/')
       );
-      setMemeberLists(pointRes.data);
+      setMemeberLists(memberRes.data.list);
+      // console.log(memberRes.data,"memberRes.daata")
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -79,31 +81,63 @@ function SettingsList() {
     navigate('/datamanager/bb_loyal2_points/edit/' + row._id);
   };
   const deleteRow = () => {
-    showDeleteConfirm();
+    _array.length > 0
+      ? showDeleteConfirm(_array)
+      : message.error('Please select item!');
+    console.log(_array, 'delete=> selected item');
   };
-  const AllChange = row => {
-    console.log('checkbox_alldddd', row);
+  let index = 0;
+  const AllChange = memberData => {
+    // console.log(row);
+    index++;
+    _array = [];
+    console.log(index % 2);
+    index % 2 == '1'
+      ? memberData.data.map(id => {
+          console.log(id._id);
+          _array.push(id._id);
+        })
+      : (_array = []);
   };
+
   const onChange = row => {
-    console.log('check_box_click', row); // isSelected: true, false
+    let index;
+    index = _array.indexOf(row.original._id);
+    index > -1 ? _array.splice(index, 1) : _array.push(row.original._id);
+    _array.sort();
   };
 
   const row_select = row => {
     navigate('/datamanager/bb_loyal2_points/view/' + row._id);
   };
-  const showDeleteConfirm = () => {
+  const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        console.log('OK');
-      },
       onCancel() {
-        console.log('Cancel');
+        console.log(item, 'deleted item');
+      },
+      onOk() {
+        // console.log(item.length);
+        onDelete(item);
+      }
+    });
+  };
+  const onDelete = async item => {
+    let i = item.length;
+    setLoadingSchema(true);
+    await item.map(async id => {
+      await Axios.delete(endpoint.appUsers(`/module/bb_loyal2_points/${id}`));
+      i--;
+      console.log('counter', i);
+      if (i == 0) {
+        initPageModule();
+        message.success('Deleted successful!');
+        _array = [];
       }
     });
   };
@@ -131,7 +165,6 @@ function SettingsList() {
         tempElement.accessor = key;
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {
-          //  const { code } = rowData.row.original;
           const value = rowData.row.original[key];
           const divTag = (
             <div
@@ -182,9 +215,7 @@ function SettingsList() {
         Header: ({ getToggleAllRowsSelectedProps }) => (
           <IndeterminateCheckbox
             {...getToggleAllRowsSelectedProps()}
-            onClick={getToggleAllRowsSelectedProps =>
-              AllChange(getToggleAllRowsSelectedProps)
-            }
+            onClick={() => AllChange(layoutData)}
           />
         ),
         Cell: ({ row }) => (
@@ -209,9 +240,12 @@ function SettingsList() {
   // end Loading part
   return (
     <>
+      <Title className="mx-4" level={4}>
+        All points record
+      </Title>
       <AdvanceTableWrapper
         columns={columns}
-        data={pointLists}
+        data={memberLists}
         sortable
         // pagination
         // selection
@@ -229,7 +263,7 @@ function SettingsList() {
         />
         <div className="mt-3">
           <AdvanceTableFooter
-            rowCount={pointLists.length}
+            rowCount={memberLists.length}
             table
             rowInfo
             navButtons

@@ -77,7 +77,7 @@ function ListManageTemplates() {
   }, []);
 
   const editRow = row => {
-    navigate('/datamanager/bb_loyal2_templates/view/' + row._id);
+    navigate('/datamanager/bb_loyal2_templates/edit/' + row._id);
   };
   const deleteRow = () => {
     _array.length > 0
@@ -110,7 +110,7 @@ function ListManageTemplates() {
   };
   const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

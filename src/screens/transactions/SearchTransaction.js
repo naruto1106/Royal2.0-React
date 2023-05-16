@@ -1,90 +1,127 @@
 import React from 'react';
-import { Typography, Row, Col, Input, DatePicker } from 'antd';
+import Axios from 'axios';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { Typography, DatePicker, Input, Row, Col } from 'antd';
 import { Button } from 'react-bootstrap';
-const { Title } = Typography;
-const buttonStyle = {
-  boxSizing: 'border-box',
-  height: '40px',
-  // background: '#ffffff',
-  border: '0.5px solid #359dd9',
-  // color: '#359dd9',
-  borderRadius: '10px',
-  padding: '7px 40px'
-};
-const datapicker = {
+// import { useParams } from 'react-router-dom';
+import endpoint from '../../utils/endpoint';
+import { getErrorAlert } from 'helpers/utils';
+import Loading from 'components/loading';
+import handleError from 'utils/handleError';
+import { setTransactionMenuData } from 'redux/slices/currentDataSlice';
+const { Title, Text } = Typography;
+const inputStyle = {
   borderRadius: '10px',
   width: '100%'
 };
 function SearchTransaction() {
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
+  const dispatch = useDispatch();
+  const _isMounted = useRef(false);
+  // let { routeKey } = useParams();
+  const [loadingSchema, setLoadingSchema] = useState(true);
+  const [layoutData, setLayoutData] = useState(null);
+  const initPageModule = async () => {
+    try {
+      // default part
+      _isMounted.current && setLoadingSchema(true);
+      const ep = endpoint.getDataTransactionSchemaEndpoint('search');
+      const moduleSchemaRes = await Axios.get(ep);
+      let schema = moduleSchemaRes.data;
+      console.log('menuSchema:->', schema);
+      let layoutSchema = schema.layout;
+      console.log(schema.menu, ' schema.menu schema.menu schema.menu');
+      dispatch(
+        setTransactionMenuData({ currentTransactionMenuSchema: schema.menu })
+      ); // store current member menu
+      _isMounted.current && setLayoutData(layoutSchema);
+      // end default part
+    } catch (error) {
+      handleError(error, true);
+    } finally {
+      _isMounted.current && setLoadingSchema(false);
+    }
   };
+
+  useEffect(() => {
+    _isMounted.current = true;
+    initPageModule();
+    return () => {
+      _isMounted.current = false;
+    };
+  }, []);
+
+  if (loadingSchema) {
+    return <Loading style={{ marginTop: 150 }} msg="Loading Schema..." />;
+  }
+  if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
 
   return (
     <>
-      <Row>
-        <Col offset={1}>
-          <Title level={4}>Search transactions</Title>
+      <Row className="mx-4 mt-3">
+        <Col span={24}>
+          <Title level={4} className="mb-3 text-label">
+            Search transactions
+          </Title>
         </Col>
       </Row>
-      <br />
-      <Row>
-        <Col offset={1} span={20}>
-          <Input
-            type="text"
-            style={{ borderRadius: '10px' }}
-            size="large"
-            placeholder="Free text search"
-          />
+      <Row className="mx-4 mt-3 mb-4">
+        <Col span={23}>
+          <Input placeholder="Free text search" style={inputStyle} />
         </Col>
       </Row>
-      <br />
-      <Row>
-        <Col offset={1} span={20}>
-          <Input
-            type="text"
-            style={{ borderRadius: '10px' }}
-            size="large"
-            placeholder="Member"
-          />
+      <Row className="mx-4">
+        <Col span={23}>
+          <Input placeholder="Member" style={inputStyle} />
         </Col>
       </Row>
-      <br />
-      <br />
-      <Row>
-        <Col offset={1} span={5}>
-          <p className="my-2"> Transaction Date between </p>
+      <Row className="mx-4 mt-5" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
+            Transaction Date between
+          </Text>
         </Col>
-        <Col span={4}>
-          <DatePicker size="large" style={datapicker} onChange={onChange} />
+        <Col xs={10} md={7} lg={3} xl={4}>
+          <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-
-        <Col span={2} offset={1}>
-          <p className="my-2"> and </p>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
+            and
+          </Text>
         </Col>
-        <Col span={4}>
-          <DatePicker size="large" style={datapicker} onChange={onChange} />
+        <Col xs={10} md={7} lg={3} xl={4}>
+          <DatePicker placeholder="to" style={inputStyle} />
         </Col>
       </Row>
-      <br />
-      <Row>
-        <Col offset={1} span={5}>
-          <p className="my-2"> Date Added/Imported between </p>
+      <Row className="mx-4 mt-5" align="middle">
+        <Col xs={24} md={24} lg={14} xl={9}>
+          <Text className="text-label" strong>
+            Date Added/Imported between
+          </Text>
         </Col>
-        <Col span={4}>
-          <DatePicker size="large" style={datapicker} onChange={onChange} />
+        <Col xs={10} md={7} lg={3} xl={4}>
+          <DatePicker placeholder="from" style={inputStyle} />
         </Col>
-
-        <Col span={2} offset={1}>
-          <p className="my-2"> and </p>
+        <Col xs={4} md={4} lg={2} xl={2} style={{ textAlign: 'center' }}>
+          <Text strong className="text-label">
+            and
+          </Text>
         </Col>
-        <Col span={4}>
-          <DatePicker size="large" style={datapicker} onChange={onChange} />
+        <Col xs={10} md={7} lg={3} xl={4}>
+          <DatePicker placeholder="to" style={inputStyle} />
         </Col>
-        <Col span="3" offset={2}>
-          <Button style={buttonStyle} variant="outline-primary" size="large">
-            Search
-          </Button>
+        <Col xs={24} md={6} lg={4} xl={4}>
+          <Row>
+            <Col span={24}>
+              <Button
+                variant="outline-primary"
+                style={{ float: 'right' }}
+                className="rounded-pill px-4 py-2"
+              >
+                Search
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>

@@ -25,7 +25,7 @@ function PromotionsList() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [promotionsLists, setPromotionsLists] = useState([]);
+  // const [promotionsLists, setPromotionsLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
   let _array = [];
@@ -62,10 +62,10 @@ function PromotionsList() {
       _isMounted.current && setLayoutData(layoutSchema);
 
       // end default part
-      const promotionsRes = await Axios.get(
-        endpoint.appUsers('/app/users/') + `?user_type=3`
-      );
-      setPromotionsLists(promotionsRes.data);
+      // const promotionsRes = await Axios.get(
+      //   endpoint.appUsers('/app/users/') + `?user_type=3`
+      // );
+      // setPromotionsLists(promotionsRes.data);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -116,7 +116,7 @@ function PromotionsList() {
   };
   const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

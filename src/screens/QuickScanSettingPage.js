@@ -49,7 +49,7 @@ function QuickScanSettingPage() {
     }
   };
   const handleChange = info => {
-    console.log('uploading');
+    console.log(info, 'uploading');
   };
   return (
     <>
@@ -135,11 +135,11 @@ function QuickScanSettingPage() {
                         variant="outline-primary"
                         className="rounded-pill px-4 py-2"
                       >
-                        Update &nbsp; Password
+                        &nbsp;Update Password&nbsp;
                       </Button>
                     </Col>
                   </Row>
-                  <Row className="mt-4">
+                  <Row className="mt-4" align="middle">
                     <Col span={11}>
                       <Text className="text-label" strong>
                         Allow backoffice users to login to QuickScan
@@ -232,7 +232,9 @@ function QuickScanSettingPage() {
                         onClick={() => setting_click()}
                       >
                         Advanced QuickScan points options{' '}
-                        <DownOutlined style={{ fontSize: '14px' }} />
+                        <DownOutlined
+                          style={{ fontSize: '14px', marginLeft: '10px' }}
+                        />
                       </Button>
                     </Col>
                     <Col span={4} style={{ textAlign: 'end' }} className="my-1">
@@ -259,21 +261,39 @@ function QuickScanSettingPage() {
                       <Row className="mt-4">
                         <Col span={22}>
                           <Paragraph
-                            style={{ textAlign: 'justify' }}
+                            // style={{ textAlign: 'justify' }}
                             className="text-label"
                           >
                             Enter a single amount in points to have a single
-                            button presented to the operator (ie7). Separate
-                            with commas if more than one amount/button is
-                            required(ie 3,5,10,20). Use colons to label
-                            buttons(ie Eggs:3, Bacon:5, Toast:10, Ketchup:20).
-                            For free-form points entry enter the word free.For a
-                            calculator enter the word calc. Add min:amount to
-                            the calc command to set a minium before points will
-                            be awarded using the calculatorsabove (ie calc
-                            min:10). For auto points allocation enter auto:
-                            points where points is the number of points(ie
-                            auto:7).
+                            button <br /> presented to the operator (ie<b>7</b>
+                            ). <br />
+                          </Paragraph>
+                          <Paragraph className="mt-4">
+                            Separate with commas if more than one amount/button
+                            is
+                            <br /> required(ie <b> 3,5,10,20 </b>). Use colons
+                            to label buttons(ie <br />
+                            <b> Eggs:3, Bacon:5, Toast:10, Ketchup:20</b>).
+                          </Paragraph>
+                          <Paragraph className="mt-4">
+                            For free-form points entry enter the word{' '}
+                            <b> free.</b>
+                          </Paragraph>
+                          <Paragraph className="mt-4">
+                            For a calculator enter the word <b> calc </b>.
+                          </Paragraph>
+                          <Paragraph className="mt-4">
+                            Add <b> min:amount </b> to the <b> calc </b> command
+                            to set a minimum
+                            <br />
+                            before points will be awarded using the calculators
+                            above (ie
+                            <br /> <b> calc min:10 </b>).
+                          </Paragraph>
+                          <Paragraph className="mt-4">
+                            For auto points allocation enter{' '}
+                            <b> auto: points </b> where points <br /> is the
+                            number of points(ie<b> auto:7</b>).
                           </Paragraph>
                         </Col>
                       </Row>
@@ -313,7 +333,10 @@ function QuickScanSettingPage() {
                       </Text>
                     </Col>
                     <Col style={{ textAlign: 'right' }} span={2}>
-                      <InputNumber style={{ width: '100%' }} size="small" />
+                      <InputNumber
+                        style={{ width: '100%', borderRadius: '10px' }}
+                        size="small"
+                      />
                     </Col>
                   </Row>
                   <Row className="mt-3">
@@ -405,6 +428,16 @@ function QuickScanSettingPage() {
                     </Col>
                     <Col style={{ textAlign: 'end' }} span={3}>
                       <Switch onChange={onChange} />
+                    </Col>
+                  </Row>
+                  <Row className="mt-5">
+                    <Col>
+                      <Button
+                        variant="outline-primary"
+                        className="rounded-pill px-4 py-2"
+                      >
+                        Update settings
+                      </Button>
                     </Col>
                   </Row>
                 </Tab>

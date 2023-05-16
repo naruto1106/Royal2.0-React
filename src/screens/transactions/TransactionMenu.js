@@ -33,20 +33,16 @@ function TransactionMenu() {
               return index <= 5 ? (
                 <Button
                   key={index}
-                  icon={row[0] == 'Add' ? <PlusOutlined /> : null}
+                  // icon={row[0] == 'Add' ? <PlusOutlined /> : null}
                   // type={row[1].active ? "primary" : null}
                   className={
                     row[1].active ? 'btn-active-menu' : 'btn-inactive-menu'
                   }
-                  // style={row[1].active ? SelButtonStyle : buttonStyle}
-                  onClick={() =>
-                    navigate(
-                      row[1].route === '/datamanager/bb_loyal2_transactions/'
-                        ? '/transactions'
-                        : row[1].route
-                    )
-                  }
+                  onClick={() => navigate(row[1].route)}
                 >
+                  {row[0] == 'Add' ? (
+                    <PlusOutlined style={{ marginTop: '-2px' }} />
+                  ) : null}
                   {row[0]}
                 </Button>
               ) : null;

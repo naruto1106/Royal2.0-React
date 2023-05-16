@@ -10,12 +10,16 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 // import { Link } from 'react-router-dom';
-import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
+import { Button, Dropdown, ButtonGroup, Table } from 'react-bootstrap';
 // import { DownOutlined, RightOutlined } from '@ant-design/icons';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 const { Title, Text } = Typography;
 const { confirm } = Modal;
-
+const tdpadding = {
+  paddingLeft: '0px',
+  color: '#444444'
+};
+const tdright = { textAlign: 'right', color: '#444444' };
 // const tdright = { textAlign: 'right', color: '#444444' };
 function ViewIssuedVouchers() {
   const dispatch = useDispatch();
@@ -65,11 +69,11 @@ function ViewIssuedVouchers() {
   // let layoutFields = layoutData.options.fields;
   let layoutFields = layoutData.options.fields;
   const editUser = id => {
-    navigate(`/bb_loyal2_vouchers_issued/edit/${id}`);
+    navigate(`/datamanager/bb_loyal2_vouchers_issued/edit/${id}`);
   };
   const showDeleteConfirm = id => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',
@@ -110,10 +114,10 @@ function ViewIssuedVouchers() {
       </Row>
       <Divider />
       <Row className="mx-4" align="middle">
-        <Col span={11}>
+        <Col span={10}>
           <Title level={4}>Viewing voucher issued record</Title>
         </Col>
-        <Col span={10} style={{ textAlign: 'end' }}>
+        <Col span={13} style={{ textAlign: 'end' }}>
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle
               id="dropdown-custom-1"
@@ -142,109 +146,147 @@ function ViewIssuedVouchers() {
           </Dropdown>
         </Col>
       </Row>
-      <Row className="mx-4 mt-7" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            {layoutFields.voucherISbb_loyal2_vouchersID}
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label">
-            {memberData.voucherISbb_loyal2_vouchersID}
-          </Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            {layoutFields.ownerISbb_usersID}
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label">
-            {memberData.ownerISbb_usersID}
-          </Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            Transaction Date
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label">
-            31-01-2023
-          </Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            Code
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label">
-            R0003
-          </Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            Points Used
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label"></Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            Branch
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label"></Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            Voucher Value
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Text strong className="text-label">
-            0.00
-          </Text>
-        </Col>
-      </Row>
-      <Row className="mx-4 mt-4" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            Voucher Code/s
-          </Text>
-        </Col>
-        <Col span={10}>
-          <Row align="middle">
-            <Col sm={20} lg={18} xl={16} xxl={9}>
-              <Text strong className="text-label">
-                VQ29AMPZSGB Valid for use
-              </Text>
-            </Col>
-            <Col sm={4} lg={6} xl={8} xxl={15}>
-              <Button variant="light" className="px-0">
-                <img
-                  alt="printer"
-                  style={{ width: '50px' }}
-                  src="/img/printer.PNG"
-                />
-              </Button>
-            </Col>
-          </Row>
+      <Row className="mx-4">
+        <Col span={20}>
+          <Table responsive style={{ marginTop: '60px', width: '100%' }}>
+            <tbody style={tdpadding}>
+              {layoutFields.voucherISbb_loyal2_vouchersID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.voucherISbb_loyal2_vouchersID}
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.voucherISbb_loyal2_vouchersID
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.ownerISbb_usersID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      Qty
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.ownerISbb_usersID : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.memberISbb_usersID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.memberISbb_usersID}
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.memberISbb_usersID : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.transaction_date ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.transaction_date}
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.transaction_date : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.code ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.code}
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.code : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.points_usedNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.points_usedNUM}
+                    </Text>
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.points_usedNUM : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.branchISbb_loyal2_branchesID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.branchISbb_loyal2_branchesID}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.branchISbb_loyal2_branchesID
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+
+              <tr>
+                <td style={tdpadding}>
+                  <Text strong className="text-label">
+                    Voucher Code/s
+                  </Text>
+                </td>
+                <td style={tdright}>
+                  {' '}
+                  <Row align="middle">
+                    <Col
+                      sm={20}
+                      lg={20}
+                      xl={20}
+                      xxl={20}
+                      style={{ textAlign: 'end' }}
+                    >
+                      <Text strong className="text-label">
+                        VQ29AMPZSGB Valid for use
+                      </Text>
+                    </Col>
+                    <Col sm={4} lg={4} xl={4} xxl={4}>
+                      <Button variant="light" className="px-0">
+                        <img
+                          alt="printer"
+                          style={{ width: '50px' }}
+                          src="/img/printer.PNG"
+                        />
+                      </Button>
+                    </Col>
+                  </Row>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
         </Col>
       </Row>
     </>

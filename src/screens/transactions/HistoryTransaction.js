@@ -113,17 +113,15 @@ function HistoryTransaction() {
 
   return (
     <>
-      <Row>
-        <Col offset={2}>
-          <Title level={4} style={{ color: '#444444' }}>
-            Sales history
-          </Title>
+      <Row className="mx-4">
+        <Col span={22}>
+          <Title level={4}>Sales history</Title>
         </Col>
       </Row>
-      <Row>
-        <Col offset={2} xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
+      <Row className="mx-4 my-3" justify="center">
+        <Col xs={22} sm={22} md={22} lg={22} xl={22} xxl={22}>
           <Card style={{ width: '100%' }}>
-            <Card.Body style={{ marginLeft: '20px' }}>
+            <Card.Body>
               <Card.Title as="h6">Sales Total Per Month</Card.Title>
               <Line data={data} options={options} height={500} width={1618} />
             </Card.Body>

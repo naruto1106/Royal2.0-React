@@ -115,7 +115,11 @@ function DashboardPage() {
                             <Title level={4}>10</Title>
                           </Row>
                           <Row className="mx-2">
-                            <Button variant="link" className="p-0">
+                            <Button
+                              variant="link"
+                              className="p-0"
+                              style={{ color: '#359dd9' }}
+                            >
                               Add member
                             </Button>
                           </Row>
@@ -134,7 +138,11 @@ function DashboardPage() {
                             <Title level={4}>10</Title>
                           </Row>
                           <Row className="mx-2">
-                            <Button variant="link" className="p-0">
+                            <Button
+                              variant="link"
+                              className="p-0"
+                              style={{ color: '#359dd9' }}
+                            >
                               Manage transaction
                             </Button>
                           </Row>
@@ -220,32 +228,28 @@ function DashboardPage() {
                               Expiring points
                             </Text>
                           </Row>
-                          <Row className="mx-2 mt-3">
-                            <Tabs
-                              defaultActiveKey="next_month"
-                              id="points"
-                              fill
+                          {/* <Row className="mx-2 mt-3"> */}
+                          <Tabs defaultActiveKey="next_month" id="points" fill>
+                            <Tab
+                              eventKey="next_month"
+                              title="Next Month"
+                              className="border-0 p-4"
                             >
-                              <Tab
-                                eventKey="next_month"
-                                title="Next Month"
-                                className="border-0 p-4"
-                              >
-                                <Row justify="center">
-                                  <Title level={4}></Title>
-                                </Row>
-                              </Tab>
-                              <Tab
-                                eventKey="6month"
-                                title="In 6 months"
-                                className="border-0 p-4"
-                              >
-                                <Row justify="center">
-                                  <Title level={4}></Title>
-                                </Row>
-                              </Tab>
-                            </Tabs>
-                          </Row>
+                              <Row justify="center">
+                                <Title level={4}></Title>
+                              </Row>
+                            </Tab>
+                            <Tab
+                              eventKey="6month"
+                              title="In 6 months"
+                              className="border-0 p-4"
+                            >
+                              <Row justify="center">
+                                <Title level={4}></Title>
+                              </Row>
+                            </Tab>
+                          </Tabs>
+                          {/* </Row> */}
                         </Card.Body>
                       </Card>
                     </Col>
@@ -264,13 +268,22 @@ function DashboardPage() {
                             </Text>
                           </Row>
                           <Row className="mx-2">
-                            <Title level={4}>0.00</Title>
+                            <Title
+                              level={4}
+                              style={{ position: 'absolute', top: '90px' }}
+                            >
+                              0.00
+                            </Title>
                           </Row>
                           <Row
                             className="mx-2"
                             style={{ position: 'absolute', bottom: '13px' }}
                           >
-                            <Button variant="link" className="p-0">
+                            <Button
+                              variant="link"
+                              className="p-0"
+                              style={{ color: '#359dd9' }}
+                            >
                               Top-up credits
                             </Button>
                           </Row>
@@ -285,17 +298,25 @@ function DashboardPage() {
                               Communication
                             </Text>
                           </Row>
-                          <Row className="mx-2" style={{ height: '100px' }}>
+                          <Row
+                            className="mx-2 mt-1"
+                            style={{ height: '100px' }}
+                          >
                             <Col span={24}>
                               <Row align="middle">
                                 <Col span={16}>
-                                  <Text>Autoresponders</Text>
+                                  <Text style={{ fontSize: '14px' }}>
+                                    Autoresponders
+                                  </Text>
                                 </Col>
                                 <Col span={8}>
                                   <Title
                                     className="m-0"
                                     level={4}
-                                    style={{ textAlign: 'end' }}
+                                    style={{
+                                      textAlign: 'end',
+                                      fontSize: '18px'
+                                    }}
                                   >
                                     1000
                                   </Title>
@@ -305,13 +326,18 @@ function DashboardPage() {
                             <Col span={24}>
                               <Row align="middle">
                                 <Col span={16}>
-                                  <Text>Emails</Text>
+                                  <Text style={{ fontSize: '14px' }}>
+                                    Emails
+                                  </Text>
                                 </Col>
                                 <Col span={8}>
                                   <Title
                                     className="m-0"
                                     level={4}
-                                    style={{ textAlign: 'end' }}
+                                    style={{
+                                      textAlign: 'end',
+                                      fontSize: '18px'
+                                    }}
                                   >
                                     1000
                                   </Title>
@@ -321,13 +347,18 @@ function DashboardPage() {
                             <Col span={24}>
                               <Row align="middle">
                                 <Col span={16}>
-                                  <Text>Texts/SMS</Text>
+                                  <Text style={{ fontSize: '14px' }}>
+                                    Texts/SMS
+                                  </Text>
                                 </Col>
                                 <Col span={8}>
                                   <Title
                                     className="m-0"
                                     level={4}
-                                    style={{ textAlign: 'end' }}
+                                    style={{
+                                      textAlign: 'end',
+                                      fontSize: '18px'
+                                    }}
                                   >
                                     1000
                                   </Title>
@@ -336,7 +367,11 @@ function DashboardPage() {
                             </Col>
                           </Row>
                           <Row className="mx-2">
-                            <Button variant="link" className="p-0">
+                            <Button
+                              variant="link"
+                              className="p-0"
+                              style={{ color: '#359dd9' }}
+                            >
                               Manage
                             </Button>
                           </Row>
@@ -351,19 +386,30 @@ function DashboardPage() {
                               Other services
                             </Text>
                           </Row>
-                          <Row className="mx-2" style={{ height: '100px' }}>
+                          <Row
+                            className="mx-2 mt-1"
+                            style={{ height: '100px' }}
+                          >
                             <Col span={24}>
-                              <Text>Promotions</Text>
+                              <Text style={{ fontSize: '14px' }}>
+                                Promotions
+                              </Text>
                             </Col>
                             <Col span={24}>
-                              <Text>Micro-site</Text>
+                              <Text style={{ fontSize: '14px' }}>
+                                Micro-site
+                              </Text>
                             </Col>
                             <Col span={24}>
-                              <Text>Vouchers</Text>
+                              <Text style={{ fontSize: '14px' }}>Vouchers</Text>
                             </Col>
                           </Row>
                           <Row className="mx-2">
-                            <Button variant="link" className="p-0">
+                            <Button
+                              variant="link"
+                              className="p-0"
+                              style={{ color: '#359dd9' }}
+                            >
                               Manage
                             </Button>
                           </Row>

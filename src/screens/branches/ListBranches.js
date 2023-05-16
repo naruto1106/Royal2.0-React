@@ -77,7 +77,7 @@ function ListBranches() {
   }, []);
 
   const editRow = row => {
-    navigate('/datamanager/bb_loyal2_branches/view/' + row._id);
+    navigate('/datamanager/bb_loyal2_branches/edit/' + row._id);
   };
   const deleteRow = () => {
     _array.length > 0
@@ -110,7 +110,7 @@ function ListBranches() {
   };
   const showDeleteConfirm = item => {
     confirm({
-      title: 'Are you sure delete?',
+      title: 'Delete selected items?',
       icon: <ExclamationCircleFilled />,
       content: '',
       okText: 'Yes',

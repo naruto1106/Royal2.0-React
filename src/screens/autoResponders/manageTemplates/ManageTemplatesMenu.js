@@ -27,7 +27,7 @@ function ManageTemplatesMenu() {
         >
           <Space>
             {Object.entries(currentMemberMenuSchema).map((row, index) => {
-              return index >= 1 && index <= 5 ? (
+              return index <= 5 ? (
                 <Button
                   key={index}
                   className={
@@ -36,8 +36,8 @@ function ManageTemplatesMenu() {
                   onClick={() =>
                     navigate(
                       row[1].route ===
-                        '/datamanager/bb_loyal2_templates/settings'
-                        ? '/manage_templates'
+                        '/datamanager/bb_loyal2_templates/history'
+                        ? '/datamanager/bb_loyal2_templates'
                         : row[1].route
                     )
                   }

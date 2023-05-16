@@ -27,19 +27,13 @@ function AllVouchersMenu() {
         >
           <Space>
             {Object.entries(currentMemberMenuSchema).map((row, index) => {
-              return index >= 2 && index <= 5 ? (
+              return index <= 5 ? (
                 <Button
                   key={index}
                   className={
                     row[1].active ? 'btn-active-menu' : 'btn-inactive-menu'
                   }
-                  onClick={() =>
-                    navigate(
-                      row[1].route === '/datamanager/bb_loyal2_vouchers/list'
-                        ? '/all_vouchers'
-                        : row[1].route
-                    )
-                  }
+                  onClick={() => navigate(row[1].route)}
                 >
                   {row[0] === 'Add' ? (
                     <PlusOutlined style={{ marginBottom: '3px' }} />

@@ -15,6 +15,7 @@ import {
 } from 'antd';
 import { Button, Badge, Modal } from 'react-bootstrap';
 // import { useParams } from 'react-router-dom';
+import VirtualList from 'rc-virtual-list';
 import endpoint from '../../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
@@ -31,9 +32,14 @@ const inputBorderRadius = { borderRadius: '10px' };
 const ListStyle = {
   position: 'absolute',
   zIndex: 1000,
+  // height: '500px',
+  border: '1px solid #979696',
+  padding: '10px',
   backgroundColor: 'white',
   width: '100%',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  borderRadius: '10px',
+  boxShadow: '0px 8px 8px rgba(118, 116, 116, 0.2)'
 };
 const badgeStyle = {
   backgroundColor: '#359DD9',
@@ -46,12 +52,29 @@ const ToolTip = {
   scale: '1.5'
   // marginLeft: '39em'
 };
+const ContainerHeight = 400;
 const data = [
+  'Test',
   'Account Update Email',
   'Account Update Text/SMS',
   'Birthday Email',
   'Birthday Text/SMS',
-  'Member Password Reset Link'
+  'Member Password Reset Link',
+  'New Member Welcome Email',
+  'New Member Welcome Text/SMS',
+  'Order Processed Email',
+  'Refer A Friend Email',
+  'Sales Upload Approved',
+  'Sales Upload Declined',
+  'Sample PDF Template',
+  'Subscription Added',
+  'Subscription Expired',
+  'Subscription Expiring',
+  'Voucher Expiry Warning',
+  'Voucher Issued Email',
+  'Voucher Issued Text/SMS',
+  'Voucher Request Confirmation',
+  'Wish List/Registry Invite Email'
 ];
 function SettingsManageTemplates() {
   const dispatch = useDispatch();
@@ -106,7 +129,14 @@ function SettingsManageTemplates() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-
+  // const onScroll = e => {
+  //   if (
+  //     e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
+  //     ContainerHeight
+  //   ) {
+  //     appendData();
+  //   }
+  // };
   return (
     <>
       <Row className="mx-5">
@@ -134,27 +164,29 @@ function SettingsManageTemplates() {
             style={inputBorderRadius}
             onClick={() => setSelectShow(!selectShow)}
           />
-
-          <List
-            style={ListStyle}
-            hidden={selectShow}
-            size="large"
-            bordered
-            dataSource={data}
-            renderItem={item => (
-              <List.Item>
-                <Text strong className="text-label">
-                  {item}
-                </Text>
-                {
-                  <EyeOutlined
-                    justify="end"
-                    onClick={() => setModalShow(true)}
-                  />
-                }
-              </List.Item>
-            )}
-          />
+          <List style={ListStyle} hidden={selectShow}>
+            <VirtualList
+              data={data}
+              height={ContainerHeight}
+              itemHeight={47}
+              itemKey="email"
+              // onScroll={onScroll}
+            >
+              {item => (
+                <List.Item>
+                  <Text strong className="text-label">
+                    {item}
+                  </Text>
+                  {
+                    <EyeOutlined
+                      justify="end"
+                      onClick={() => setModalShow(true)}
+                    />
+                  }
+                </List.Item>
+              )}
+            </VirtualList>
+          </List>
         </Col>
       </Row>
       <Divider />

@@ -15,7 +15,7 @@ function PromotionsMenu() {
     <>
       <Row className="mx-4">
         <Col xs={23} sm={23} md={6} lg={6} xl={6} xxl={8}>
-          <Title level={3}>Non-transactional Promotions</Title>
+          <Title level={3}>Promotions</Title>
         </Col>
         <Col
           xs={23}
@@ -28,7 +28,7 @@ function PromotionsMenu() {
         >
           <Space>
             {Object.entries(currentPromotionsMenuSchema).map((row, index) => {
-              return index >= 1 && index <= 5 ? (
+              return index <= 5 ? (
                 <Button
                   key={index}
                   className={
@@ -36,8 +36,9 @@ function PromotionsMenu() {
                   }
                   onClick={() =>
                     navigate(
-                      row[1].route === '/datamanager/bb_loyal2_promotions/'
-                        ? '/non-transactional_promotions'
+                      row[1].route ===
+                        '/datamanager/bb_loyal2_promotions/history'
+                        ? '/datamanager/bb_loyal2_promotions'
                         : row[1].route
                     )
                   }

@@ -17,10 +17,10 @@ import ActionButton from 'components/common/ActionButton';
 import endpoint from '../utils/endpoint';
 const { confirm } = Modal;
 const { Title } = Typography;
-const cardStyle = {
-  backgroundColor: '#F8F8F8',
-  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'
-};
+// const cardStyle = {
+//   backgroundColor: '#F8F8F8',
+//   boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'
+// };
 function Communication_scheduled() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -110,9 +110,9 @@ function Communication_scheduled() {
     _array.sort();
   };
 
-  const row_select = row => {
-    navigate('/datamanager/bb_loyal2_members/view/' + row._id);
-  };
+  // const row_select = row => {
+  //   navigate('/datamanager/bb_loyal2_members/view/' + row._id);
+  // };
   const showDeleteConfirm = item => {
     confirm({
       title: 'Are you sure delete?',
@@ -147,41 +147,57 @@ function Communication_scheduled() {
     console.log(layoutData, 'this is layoutdata------');
     if (layoutData) {
       console.log(layoutData.options.columns);
-      let objectData = layoutData.options.columns;
+      // let objectData = layoutData.options.columns;
       SetresultsPerPage(
         layoutData.options.pagination.results_per_page
           ? layoutData.options.pagination.results_per_page
           : 999
       );
       let tempArray = [
+        // {
+        //   accessor: 'row',
+        //   Header: 'Row',
+        //   Cell: rowData => {
+        //     return <>{rowData.row.index + 1}</>;
+        //   }
+        // }
         {
-          accessor: 'row',
-          Header: 'Row',
-          Cell: rowData => {
-            return <>{rowData.row.index + 1}</>;
-          }
+          accessor: 'name',
+          Header: 'Name'
+        },
+        {
+          accessor: 'send',
+          Header: 'Send day'
+        },
+        {
+          accessor: 'sent',
+          Header: 'Last sent'
+        },
+        {
+          accessor: 'action',
+          Header: 'Action'
         }
       ];
-      for (const key in objectData) {
-        let tempElement = {};
-        tempElement.accessor = key;
-        tempElement.Header = objectData[key];
-        tempElement.Cell = function (rowData) {
-          const value = rowData.row.original[key];
-          const divTag = (
-            <div
-              onClick={() => {
-                row_select(rowData.row.original);
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              {value}
-            </div>
-          );
-          return divTag;
-        };
-        tempArray.push(tempElement);
-      }
+      // for (const key in objectData) {
+      //   let tempElement = {};
+      //   tempElement.accessor = key;
+      //   tempElement.Header = objectData[key];
+      //   tempElement.Cell = function (rowData) {
+      //     const value = rowData.row.original[key];
+      //     const divTag = (
+      //       <div
+      //         onClick={() => {
+      //           row_select(rowData.row.original);
+      //         }}
+      //         style={{ cursor: 'pointer' }}
+      //       >
+      //         {value}
+      //       </div>
+      //     );
+      //     return divTag;
+      //   };
+      //   tempArray.push(tempElement);
+      // }
       let editBtn = {
         id: 'Edit',
         Header: (
@@ -210,7 +226,8 @@ function Communication_scheduled() {
           );
         }
       };
-      tempArray.push(editBtn);
+      console.log(editBtn);
+      // tempArray.push(editBtn);
 
       let checkBtn = {
         id: 'selection',
@@ -229,7 +246,8 @@ function Communication_scheduled() {
           </div>
         )
       };
-      tempArray.push(checkBtn);
+      console.log(checkBtn);
+      // tempArray.push(checkBtn);
       setColumns(tempArray);
     }
   }, [layoutData]);
@@ -251,37 +269,37 @@ function Communication_scheduled() {
           </Row>
           {/* <Card className="overflow-hidden z-index-1 card-main_layout">
             <Card.Body className="p-0" style={cardStyle}> */}
-              <AdvanceTableWrapper
-                columns={columns}
-                data={memberLists}
-                sortable
-                // pagination
-                // selection
-                perPage={resultsPerPage}
-              >
-                <AdvanceTable
-                  table
-                  headerClassName="bg-200 text-900 text-nowrap align-middle"
-                  rowClassName="align-middle white-space-nowrap"
-                  tableProps={{
-                    bordered: true,
-                    striped: true,
-                    className: 'fs--1 mb-0 overflow-hidden'
-                  }}
-                />
-                <div className="mt-3">
-                  <AdvanceTableFooter
-                    rowCount={memberLists.length}
-                    table
-                    rowInfo
-                    navButtons
-                    // rowsPerPageSelection
-                  />
-                </div>
-              </AdvanceTableWrapper>
-            </Card.Body>
-          </Card>
-        {/* </Card.Body>
+          <AdvanceTableWrapper
+            columns={columns}
+            data={memberLists}
+            sortable
+            // pagination
+            // selection
+            perPage={resultsPerPage}
+          >
+            <AdvanceTable
+              table
+              headerClassName="bg-200 text-900 text-nowrap align-middle"
+              rowClassName="align-middle white-space-nowrap"
+              tableProps={{
+                bordered: true,
+                striped: true,
+                className: 'fs--1 mb-0 overflow-hidden'
+              }}
+            />
+            <div className="mt-3">
+              <AdvanceTableFooter
+                rowCount={memberLists.length}
+                table
+                rowInfo
+                navButtons
+                // rowsPerPageSelection
+              />
+            </div>
+          </AdvanceTableWrapper>
+        </Card.Body>
+      </Card>
+      {/* </Card.Body>
       </Card> */}
     </>
   );

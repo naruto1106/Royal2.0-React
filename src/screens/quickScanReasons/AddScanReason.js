@@ -140,7 +140,7 @@ function AddScanReason() {
           <Row className="mt-3">
             <Col span={20}>
               <Text className="text-label" strong>
-                Autoresponder1
+                Autoresponder 1
               </Text>
               <Form1.Select
                 defaultValue="select"
@@ -148,17 +148,34 @@ function AddScanReason() {
                 style={{ width: '100%', borderRadius: '10px' }}
                 onChange={e => handleChange(e)}
               >
-                <option value="0"></option>
-                <option value="1">Autoresponder1_1</option>
-                <option value="2">Autoresponder1_2</option>
-                <option value="2">Autoresponder1_3</option>
+                <option value="0">Test</option>
+                <option value="1">Account Update Email</option>
+                <option value="2">Account Update Text/SMS</option>
+                <option value="2">Birthday Email</option>
+                <option value="0">Birthday Text/SMS</option>
+                <option value="1">Member Password Reset Link</option>
+                <option value="2">New Member Welcome Email</option>
+                <option value="2">New Member Welcome Text/SMS</option>
+                <option value="0">Order Processed Email</option>
+                <option value="1">Refer A Friend Email</option>
+                <option value="2">Sales Upload Approved</option>
+                <option value="2">Sales Upload Declined</option>
+                <option value="0">Sample PDF Template</option>
+                <option value="1">Subscription Added</option>
+                <option value="2">Subscription Expired</option>
+                <option value="2">Subscription Expiring</option>
+                <option value="0">Voucher Expiry Warning</option>
+                <option value="1">Voucher Issued Email</option>
+                <option value="2">Voucher Issued Text/SMS</option>
+                <option value="2">Voucher Request Confirmation</option>
+                <option value="2">Wish List/Registry Invite Email</option>
               </Form1.Select>
             </Col>
           </Row>
           <Row className="mt-3">
             <Col span={20}>
               <Text className="text-label" strong>
-                Autoresponder2
+                Autoresponder 2
               </Text>
               <Form1.Select
                 defaultValue="select"
@@ -166,10 +183,27 @@ function AddScanReason() {
                 style={{ width: '100%', borderRadius: '10px' }}
                 onChange={e => handleChange2(e)}
               >
-                <option value="0"></option>
-                <option value="1">Autoresponder2_1</option>
-                <option value="2">Autoresponder2_2</option>
-                <option value="2">Autoresponder3_3</option>
+                <option value="0">Test</option>
+                <option value="1">Account Update Email</option>
+                <option value="2">Account Update Text/SMS</option>
+                <option value="2">Birthday Email</option>
+                <option value="0">Birthday Text/SMS</option>
+                <option value="1">Member Password Reset Link</option>
+                <option value="2">New Member Welcome Email</option>
+                <option value="2">New Member Welcome Text/SMS</option>
+                <option value="0">Order Processed Email</option>
+                <option value="1">Refer A Friend Email</option>
+                <option value="2">Sales Upload Approved</option>
+                <option value="2">Sales Upload Declined</option>
+                <option value="0">Sample PDF Template</option>
+                <option value="1">Subscription Added</option>
+                <option value="2">Subscription Expired</option>
+                <option value="2">Subscription Expiring</option>
+                <option value="0">Voucher Expiry Warning</option>
+                <option value="1">Voucher Issued Email</option>
+                <option value="2">Voucher Issued Text/SMS</option>
+                <option value="2">Voucher Request Confirmation</option>
+                <option value="2">Wish List/Registry Invite Email</option>
               </Form1.Select>
             </Col>
           </Row>

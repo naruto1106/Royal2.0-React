@@ -10,7 +10,9 @@ const initialState = {
   lookupFieldAdditionalOptions: {}, // { fieldKey: [{Option1}, {Option2},...], ...}
   currentMemberMenuSchema: {}, //member menu schema {"menu":{},....}
   currentPointMenuSchema: {}, //member menu schema {"menu":{},....}
-  currentTransactionMenuSchema: {} //transaction menu schema {"menu":{},....}
+  currentTransactionMenuSchema: {}, //transaction menu schema {"menu":{},....}
+  currentPromotionsMenuSchema: {},
+  currentTransactionPromotionsMenuSchema: {}
 };
 
 /* Store overall app current(In view) data */
@@ -29,6 +31,12 @@ const currentDataSlice = createSlice({
     },
     setPointMenuData(currentData, { payload }) {
       return { ...currentData, ...payload };
+    },
+    setPromotionsMenuData(currentData, { payload }) {
+      return { ...currentData, ...payload };
+    },
+    setTransactionPromotionsMenuData(currentData, { payload }) {
+      return { ...currentData, ...payload };
     }
   }
 });
@@ -37,6 +45,8 @@ export const {
   setCurrentData,
   setMemberMenuData,
   setTransactionMenuData,
+  setPromotionsMenuData,
+  setTransactionPromotionsMenuData,
   setPointMenuData
 } = currentDataSlice.actions;
 

@@ -37,6 +37,9 @@ function AddManageTemplates() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [branchISbb_loyal2_branchesID, set_branchISbb_loyal2_branchesID] =
+    useState(null);
   const initPageModule = async () => {
     try {
       // default part
@@ -48,6 +51,10 @@ function AddManageTemplates() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -85,7 +92,8 @@ function AddManageTemplates() {
       const addMember = await Axios.post(
         endpoint.getDataAddEndpoint('bb_loyal2_templates'),
         {
-          name
+          name,
+          branchISbb_loyal2_branchesID
           // ownerISbb_usersID
           // transaction_date,
           // code,
@@ -105,6 +113,9 @@ function AddManageTemplates() {
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
+  };
+  const changeBranch = e => {
+    set_branchISbb_loyal2_branchesID(e.target.value);
   };
 
   return (
@@ -153,8 +164,27 @@ function AddManageTemplates() {
                   placeholder="Select"
                   style={inputBorderRadius}
                 >
-                  <option value="select">select</option>
-                  <option value="select">select1</option>
+                  <option value="0">Birthday</option>
+                  <option value="1">Member Password Reset</option>
+                  <option value="0">New Member</option>
+                  <option value="1">Order Processed</option>
+                  <option value="0">Refer A Friend</option>
+                  <option value="1">Sales Upload Approved</option>
+                  <option value="0">Sales Upload Declined</option>
+                  <option value="1">Subscription Added</option>
+                  <option value="0">Subscription Expired</option>
+                  <option value="1">Subscription Expiring</option>
+                  <option value="0">Voucher Expiry Warning</option>
+                  <option value="1">Voucher Issued</option>
+                  <option value="0">Voucher Request Confirmation</option>
+                  <option value="1">Wish List/Registry Invite</option>
+                  <option value="0">Birthday</option>
+                  <option value="1">New Member</option>
+                  <option value="0">Voucher Issued</option>
+                  <option value="1">Standard Email Template</option>
+                  <option value="0">Standard PDF Template</option>
+                  <option value="1">Standard Text Template</option>
+                  <option value="1"></option>
                 </BootstrapForm.Select>
               </Col>
             </Row>
@@ -195,8 +225,27 @@ function AddManageTemplates() {
                   placeholder="Select"
                   style={inputBorderRadius}
                 >
-                  <option value="select">select</option>
-                  <option value="select">select1</option>
+                  <option value="0">Test</option>
+                  <option value="1">Account Update Email</option>
+                  <option value="2">Account Update Text/SMS</option>
+                  <option value="3">Birthday Email</option>
+                  <option value="4">Birthday Text/SMS</option>
+                  <option value="5">Member Password Reset Link</option>
+                  <option value="6">New Member Welcome Email</option>
+                  <option value="7">New Member Welcome Text/SMS</option>
+                  <option value="8">Order Processed Email</option>
+                  <option value="9">Refer A Friend Email</option>
+                  <option value="10">Sales Upload Approved</option>
+                  <option value="11">Sales Upload Declined</option>
+                  <option value="12">Sample PDF Template</option>
+                  <option value="13">Subscription Added</option>
+                  <option value="14">Subscription Expired</option>
+                  <option value="15">Subscription Expiring</option>
+                  <option value="16">Voucher Expiry Warning</option>
+                  <option value="17">Voucher Issued Email</option>
+                  <option value="18">Voucher Issued Text/SMS</option>
+                  <option value="19">Voucher Request Confirmation</option>
+                  <option value="20">Wish List/Registry Invite Email</option>
                 </BootstrapForm.Select>
               </Col>
             </Row>
@@ -213,7 +262,7 @@ function AddManageTemplates() {
                 </Form.Item>
               </Col>
             </Row>
-            <Row className="mt-5">
+            <Row className="mt-2">
               <Button
                 variant="outline-primary"
                 className="rounded-pill px-4 py-2"
@@ -241,8 +290,27 @@ function AddManageTemplates() {
                   placeholder="Select"
                   style={inputBorderRadius}
                 >
-                  <option value="select">select</option>
-                  <option value="select">select1</option>
+                  <option value="0">Test</option>
+                  <option value="1">Account Update Email</option>
+                  <option value="2">Account Update Text/SMS</option>
+                  <option value="3">Birthday Email</option>
+                  <option value="4">Birthday Text/SMS</option>
+                  <option value="5">Member Password Reset Link</option>
+                  <option value="6">New Member Welcome Email</option>
+                  <option value="7">New Member Welcome Text/SMS</option>
+                  <option value="8">Order Processed Email</option>
+                  <option value="9">Refer A Friend Email</option>
+                  <option value="10">Sales Upload Approved</option>
+                  <option value="11">Sales Upload Declined</option>
+                  <option value="12">Sample PDF Template</option>
+                  <option value="13">Subscription Added</option>
+                  <option value="14">Subscription Expired</option>
+                  <option value="15">Subscription Expiring</option>
+                  <option value="16">Voucher Expiry Warning</option>
+                  <option value="17">Voucher Issued Email</option>
+                  <option value="18">Voucher Issued Text/SMS</option>
+                  <option value="19">Voucher Request Confirmation</option>
+                  <option value="20">Wish List/Registry Invite Email</option>
                 </BootstrapForm.Select>
               </Col>
             </Row>
@@ -259,7 +327,7 @@ function AddManageTemplates() {
                 </Form.Item>
               </Col>
             </Row>
-            <Row align="middle" className="mt-5">
+            <Row align="middle" className="mt-2">
               <Col span={10}>
                 <Row>
                   <Col span={12}>
@@ -291,11 +359,19 @@ function AddManageTemplates() {
                   </Col>
                   <Col span={14}>
                     <BootstrapForm.Select
-                      placeholder="Select"
                       style={inputBorderRadius}
+                      onChange={e => changeBranch(e)}
                     >
-                      <option value="select">select</option>
-                      <option value="select">select1</option>
+                      <option key={'null'} value={null}></option>
+                      {branches.map((item, index) => {
+                        return (
+                          <>
+                            <option key={index} value={item._id}>
+                              {item.name}
+                            </option>
+                          </>
+                        );
+                      })}
                     </BootstrapForm.Select>
                   </Col>
                 </Row>

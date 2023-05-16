@@ -33,10 +33,27 @@ export default {
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_members/${routeKey}`,
   getDataManagerGroupSchemaEndpoint: routeKey =>
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_groups/${routeKey}`,
+  getDataBrancheSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_branches/${routeKey}`,
+  getDataAllVoucherSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_vouchers/${routeKey}`,
+  getDataQuickScanReasonSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_quickscan_reasons/${routeKey}`,
+  getDataIssuedVoucherSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_vouchers_issued/${routeKey}`,
+  getDataPreloadVoucherSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_vouchers_precodes/${routeKey}`,
   getDataTransactionSchemaEndpoint: routeKey =>
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_transactions/${routeKey}`,
   getDataModuleSchemaEndpoint: (mn, action, id) =>
     `${API_ENDPOINT_PREFIX}/schemas/${mn}/${action}${id ? `?id=${id}` : ''}`,
+  getPromotionsDataManagerSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_promotions/${routeKey}`,
+  getDataManageTemplateSchemaEndpoint: routeKey =>
+    `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_templates/${routeKey}`,
+
+  getTransactionPromotionsDataManagerSchemaEndpoint: routeKey =>
+    `/transactional_promotions/${routeKey}`,
 
   getPointDataManagerSchemaEndpoint: routeKey =>
     `${API_ENDPOINT_PREFIX}/datamanager/bb_loyal2_points/${routeKey}`,

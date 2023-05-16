@@ -7,8 +7,8 @@ import AddBranches from './branches/AddBranches';
 import SearchBranches from './branches/SearchBranches';
 import CsvBranches from './branches/CsvBranches';
 import BranchesMenu from './branches/BranchesMenu';
-// import HistoryBranches from './branches/HistoryBranches';
-// import SettingsBranches from './branches/SettingsBranches';
+import HistoryBranch from './branches/HistoryBranches';
+import SettingsBranches from './branches/SettingsBranches';
 import ViewBranches from './branches/ViewBranches';
 import UpdateBranches from './branches/UpdateBranches';
 // import TabGroups from './branches/TabGroups';
@@ -17,6 +17,22 @@ import { Card } from 'react-bootstrap';
 function BranchesPage() {
   let { routeKey } = useParams();
   if (!routeKey) {
+    return (
+      <Card className="overflow-hidden z-index-1 card-main_layout">
+        <Card.Body className="p-0">
+          <Row>
+            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+              <BranchesMenu></BranchesMenu>
+            </Col>
+            <Col span={24}>
+              <HistoryBranch></HistoryBranch>
+            </Col>
+            {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
+          </Row>
+        </Card.Body>
+      </Card>
+    );
+  } else if (routeKey == 'list') {
     return (
       <Card className="overflow-hidden z-index-1 card-main_layout">
         <Card.Body className="p-0">
@@ -38,6 +54,20 @@ function BranchesPage() {
             <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
               {/* <BranchesMenu></BranchesMenu> */}
               <ViewBranches></ViewBranches>
+            </Col>
+            {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
+          </Row>
+        </Card.Body>
+      </Card>
+    );
+  } else if (routeKey == 'settings') {
+    return (
+      <Card className="overflow-hidden z-index-1 card-main_layout">
+        <Card.Body className="p-0">
+          <Row>
+            <Col xs={23} sm={23} md={23} lg={23} xl={23} xxl={23}>
+              <BranchesMenu></BranchesMenu>
+              <SettingsBranches></SettingsBranches>
             </Col>
             {/* <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}></Col> */}
           </Row>
