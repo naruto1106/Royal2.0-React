@@ -142,7 +142,7 @@ function UpdateManageTemplates() {
       <Row className="mx-4 mt-3">
         <Col span={24}>
           <Title level={4} className="mb-3">
-            Add a custom template
+            Update this custom template
           </Title>
         </Col>
       </Row>

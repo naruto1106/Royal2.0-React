@@ -35,6 +35,8 @@ function AddTransaction() {
   const [layoutData, setLayoutData] = useState(null);
   const [branchISbb_loyal2_branchesID, setBranchISbb_loyal2_branchesID] =
     useState('');
+  const [branches, setBranches] = useState([]);
+
   const handleChange = e => {
     console.log(e.target.value);
     setBranchISbb_loyal2_branchesID(e.target.value);
@@ -52,6 +54,10 @@ function AddTransaction() {
         setTransactionMenuData({ currentTransactionMenuSchema: schema.menu })
       ); // store current member menu
       _isMounted.current && setLayoutData(layoutSchema);
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       // end default part
     } catch (error) {
       handleError(error, true);
@@ -87,7 +93,7 @@ function AddTransaction() {
     try {
       _isMounted.current && setLoadingSchema(true);
       const {
-        ownerISbb_usersID,
+        // ownerISbb_usersID,
         memberISbb_usersID,
         total_valueNUM,
         transaction_ref,
@@ -108,9 +114,10 @@ function AddTransaction() {
       console.log(endpoint.appUsers(layoutData.options.post_endpoint));
 
       const addMember = await Axios.post(
-        endpoint.appUsers('/module/bb_loyal2_transactions'),
+        endpoint.getDataAddEndpoint('bb_loyal2_transactions'),
         {
-          ownerISbb_usersID,
+          // ownerISbb_usersID,
+          ownerISbb_usersID: 4,
           memberISbb_usersID,
           total_valueNUM,
           transaction_ref,
@@ -160,7 +167,7 @@ function AddTransaction() {
       >
         <Row className="mx-4 mt-3">
           <Col span={24}>
-            <Row>
+            {/* <Row>
               <Col span={20}>
                 <Text strong>Owner</Text>
                 <Form.Item
@@ -175,8 +182,8 @@ function AddTransaction() {
                   <Input style={inputStyle} />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row className="mt-3">
+            </Row> */}
+            <Row>
               <Col span={20}>
                 <Text strong>Member</Text>
                 <Form.Item
@@ -334,10 +341,14 @@ function AddTransaction() {
                   style={{ width: '100%', borderRadius: '10px' }}
                   onChange={e => handleChange(e)}
                 >
-                  <option value="0"></option>
-                  <option value="1">Branch1</option>
-                  <option value="2">Branch2</option>
-                  <option value="2">Branch3</option>
+                  <option value={null}></option>
+                  {branches.map((item, index) => {
+                    return (
+                      <option key={index} value={item._id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
                 </Form1.Select>
               </Col>
               <Col offset={1} span={6}>

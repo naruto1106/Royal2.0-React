@@ -20,7 +20,7 @@ import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setTransactionMenuData } from 'redux/slices/currentDataSlice';
-import { Button } from 'react-bootstrap';
+import { Button, Form as BootstrapForm } from 'react-bootstrap';
 // import { ExclamationCircleFilled } from '@ant-design/icons';
 import moment from 'moment';
 import { DownOutlined } from '@ant-design/icons';
@@ -39,6 +39,8 @@ function UpdateTransaction() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const dateFormat = 'YYYY-MM-DD';
+  const [branch_val, setBranch_val] = useState('');
+  const [branches, setBranches] = useState([]);
 
   const [setting_show, setSetting_show] = useState(false);
   const setting_click = () => {
@@ -49,7 +51,10 @@ function UpdateTransaction() {
       setSetting_show(false);
     }
   };
-
+  const selectchange1 = e => {
+    console.log(e.target.value);
+    setBranch_val(e.target.value);
+  };
   console.log(routeKey, id, '123');
   const initPageModule = async () => {
     try {
@@ -59,8 +64,14 @@ function UpdateTransaction() {
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
+      setBranch_val(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
+
       dispatch(
         setTransactionMenuData({ currentTransactionMenuSchema: schema.menu })
       ); // store current point menu
@@ -90,9 +101,11 @@ function UpdateTransaction() {
     console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
+      const branchISbb_loyal2_branchesID = branch_val;
+
       const {
         _id,
-        ownerISbb_usersID,
+        // ownerISbb_usersID,
         memberISbb_usersID,
         total_valueNUM,
         transaction_ref,
@@ -103,8 +116,7 @@ function UpdateTransaction() {
         tax_amountNUM,
         tax_type,
         grand_totalNUM,
-        unit_priceNUM,
-        branchISbb_loyal2_branchesID
+        unit_priceNUM
       } = values;
       const transaction_date = values['transaction_date'].format(
         'YYYY-MM-DD HH:mm:ss'
@@ -114,7 +126,8 @@ function UpdateTransaction() {
         endpoint.appUsers(`/module/bb_loyal2_transactions/${_id}`),
         {
           _id,
-          ownerISbb_usersID,
+          // ownerISbb_usersID,
+          ownerISbb_usersID: 4,
           memberISbb_usersID,
           total_valueNUM,
           transaction_ref,
@@ -145,6 +158,7 @@ function UpdateTransaction() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
+
   const onSearch = value => {
     console.log('search:', value);
   };
@@ -160,7 +174,7 @@ function UpdateTransaction() {
   };
   // console.log("transaction_date",FieldsData[0][0].transaction_date)
   form.setFieldsValue({
-    ownerISbb_usersID: FieldsData[0][0].ownerISbb_usersID,
+    // ownerISbb_usersID: FieldsData[0][0].ownerISbb_usersID,
     memberISbb_usersID: FieldsData[0][0].memberISbb_usersID,
     total_valueNUM: FieldsData[0][0].total_valueNUM,
     transaction_ref: FieldsData[0][0].transaction_ref,
@@ -198,7 +212,7 @@ function UpdateTransaction() {
             <Form.Item name="_id" hidden="hidden">
               <Input />
             </Form.Item>
-            <Row>
+            {/* <Row>
               <Col span={20}>
                 <Text strong>Owner</Text>
                 <Form.Item
@@ -213,8 +227,8 @@ function UpdateTransaction() {
                   <Input style={inputStyle} />
                 </Form.Item>
               </Col>
-            </Row>
-            <Row className="mt-3">
+            </Row> */}
+            <Row>
               <Col span={20}>
                 <Text strong>Member</Text>
                 <Form.Item
@@ -363,7 +377,7 @@ function UpdateTransaction() {
             <Row className="mx-4 mt-3">
               <Col span={6}>
                 <Text strong>Branch</Text>
-                <Form.Item className="mb-3" name="branchISbb_loyal2_branchesID">
+                {/* <Form.Item className="mb-3" name="branchISbb_loyal2_branchesID">
                   <Select
                     showSearch
                     placeholder="Select"
@@ -391,7 +405,23 @@ function UpdateTransaction() {
                       }
                     ]}
                   />
-                </Form.Item>
+                </Form.Item> */}
+                <BootstrapForm.Select
+                  defaultValue={FieldsData[0][0].branchISbb_loyal2_branchesID}
+                  name="branch"
+                  onChange={e => selectchange1(e)}
+                  style={{ width: '100%', borderRadius: '10px' }}
+                  // onChange={handleChange}
+                >
+                  <option key={'null'} value={null}></option>
+                  {branches.map((item, index) => {
+                    return (
+                      <option key={index} value={item._id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+                </BootstrapForm.Select>
               </Col>
               <Col offset={1} span={6}>
                 <Text strong>Grand Total</Text>

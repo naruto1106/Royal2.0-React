@@ -380,8 +380,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="0">select</option>
-                    <option value="1">select1</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>
@@ -409,8 +414,13 @@ function EmailAuto(props) {
               <Row>
                 <Col span={20}>
                   <BootstrapForm.Select style={inputBorderRadius}>
-                    <option value="0">select</option>
-                    <option value="1">select1</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </BootstrapForm.Select>
                 </Col>
               </Row>

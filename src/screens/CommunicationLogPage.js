@@ -23,6 +23,29 @@ const inputStyle = {
   borderRadius: '10px',
   width: '100%'
 };
+const data = [
+  'Test',
+  'Account Update Email',
+  'Account Update Text/SMS',
+  'Birthday Email',
+  'Birthday Text/SMS',
+  'Member Password Reset Link',
+  'New Member Welcome Email',
+  'New Member Welcome Text/SMS',
+  'Order Processed Email',
+  'Refer A Friend Email',
+  'Sales Upload Approved',
+  'Sales Upload Declined',
+  'Sample PDF Template',
+  'Subscription Added',
+  'Subscription Expired',
+  'Subscription Expiring',
+  'Voucher Expiry Warning',
+  'Voucher Issued Email',
+  'Voucher Issued Text/SMS',
+  'Voucher Request Confirmation',
+  'Wish List/Registry Invite Email'
+];
 
 function CommunicationLogPage() {
   const dispatch = useDispatch();
@@ -162,8 +185,13 @@ function CommunicationLogPage() {
                     Template sent
                   </Text>
                   <Form.Select className="mx-0 mt-1" style={inputStyle}>
-                    <option value="1">select1</option>
-                    <option value="2">select2</option>
+                    {data.map((item, index) => {
+                      return (
+                        <option key={index} value={index}>
+                          {item}
+                        </option>
+                      );
+                    })}
                   </Form.Select>
                 </Col>
               </Row>

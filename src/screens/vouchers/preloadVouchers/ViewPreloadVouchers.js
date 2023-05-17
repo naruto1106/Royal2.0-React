@@ -178,7 +178,7 @@ function ViewPreloadVouchers() {
                   </td>
                 </tr>
               ) : null}
-              {layoutFields.ownerISbb_usersID ? (
+              {/* {layoutFields.ownerISbb_usersID ? (
                 <tr>
                   <td style={tdpadding}>
                     <Text strong className="text-label">
@@ -191,7 +191,7 @@ function ViewPreloadVouchers() {
                     </Text>
                   </td>
                 </tr>
-              ) : null}
+              ) : null} */}
             </tbody>
           </Table>
         </Col>

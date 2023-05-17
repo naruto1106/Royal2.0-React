@@ -160,6 +160,7 @@ function ListGroup() {
       ];
       for (const key in objectData) {
         let tempElement = {};
+        if (objectData[key] === 'Owner') continue;
         tempElement.accessor = key;
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {

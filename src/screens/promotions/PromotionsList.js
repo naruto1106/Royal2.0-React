@@ -166,24 +166,26 @@ function PromotionsList() {
         }
       ];
       for (const key in objectData) {
-        let tempElement = {};
-        tempElement.accessor = key;
-        tempElement.Header = objectData[key];
-        tempElement.Cell = function (rowData) {
-          const value = rowData.row.original[key];
-          const divTag = (
-            <div
-              onClick={() => {
-                row_select(rowData.row.original);
-              }}
-              style={{ cursor: 'pointer' }}
-            >
-              {value}
-            </div>
-          );
-          return divTag;
-        };
-        tempArray.push(tempElement);
+        if (objectData[key] != 'Owner') {
+          let tempElement = {};
+          tempElement.accessor = key;
+          tempElement.Header = objectData[key];
+          tempElement.Cell = function (rowData) {
+            const value = rowData.row.original[key];
+            const divTag = (
+              <div
+                onClick={() => {
+                  row_select(rowData.row.original);
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                {value}
+              </div>
+            );
+            return divTag;
+          };
+          tempArray.push(tempElement);
+        }
       }
       let editBtn = {
         id: 'Edit',

@@ -47,7 +47,7 @@ function UpdateScanReason() {
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
-      _isMounted.current && setOwner(layoutSchema.data[0][0].ownerISbb_usersID);
+      // _isMounted.current && setOwner(layoutSchema.data[0][0].ownerISbb_usersID);
       _isMounted.current && setName(layoutSchema.data[0][0].name);
       //    _isMounted.current && setName(layoutSchema.data[0][0]._id);
       // console.log("sssssss",layoutSchema.data[0][0].ownerISbb_usersID);
@@ -84,7 +84,8 @@ function UpdateScanReason() {
       const addMember = await Axios.patch(
         endpoint.appUsers(`/module/bb_loyal2_quickscan_reasons/${id}`),
         {
-          ownerISbb_usersID: owner,
+          // ownerISbb_usersID: owner,
+          ownerISbb_usersID: 4,
           name,
           _id: routeKey
         }
@@ -118,7 +119,7 @@ function UpdateScanReason() {
       <Input type="hidden" value={routeKey} />
       <Row className="mx-4 mt-3">
         <Col span={24}>
-          {layoutFields.ownerISbb_usersID ? (
+          {/* {layoutFields.ownerISbb_usersID ? (
             <Row>
               <Col span={20}>
                 <Text className="text-label" strong>
@@ -134,7 +135,7 @@ function UpdateScanReason() {
                 />
               </Col>
             </Row>
-          ) : null}
+          ) : null} */}
           {layoutFields.name ? (
             <Row className="mt-3">
               <Col span={20}>

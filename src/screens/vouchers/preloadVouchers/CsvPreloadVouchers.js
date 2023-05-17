@@ -34,7 +34,7 @@ function CsvPreloadVouchers() {
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
-      const ep = endpoint.getDataManagerGroupSchemaEndpoint('csv');
+      const ep = endpoint.getDataPreloadVoucherSchemaEndpoint('csv');
       const moduleSchemaRes = await Axios.get(ep);
       let schema = moduleSchemaRes.data;
       console.log('menuSchema:->', schema);

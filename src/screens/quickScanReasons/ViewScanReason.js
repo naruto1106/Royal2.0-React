@@ -118,14 +118,14 @@ function ViewScanReason() {
         <Col span={20}>
           <Table responsive style={{ marginTop: '60px', width: '100%' }}>
             <tbody style={tdpadding}>
-              {layoutFields.ownerISbb_usersID ? (
+              {/* {layoutFields.ownerISbb_usersID ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.ownerISbb_usersID}</td>
                   <td style={tdright}>
                     {memberData ? memberData.ownerISbb_usersID : ''}
                   </td>
                 </tr>
-              ) : null}
+              ) : null} */}
               {layoutFields.name ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.name}</td>

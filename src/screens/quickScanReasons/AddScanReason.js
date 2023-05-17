@@ -76,7 +76,8 @@ function AddScanReason() {
       const addMember = await Axios.post(
         endpoint.appUsers('/module/bb_loyal2_quickscan_reasons'),
         {
-          ownerISbb_usersID: owner,
+          // ownerISbb_usersID: owner,
+          ownerISbb_usersID: 4,
           name
         }
       );
@@ -103,7 +104,7 @@ function AddScanReason() {
 
       <Row className="mx-4 mt-3">
         <Col span={24}>
-          {layoutFields.ownerISbb_usersID ? (
+          {/* {layoutFields.ownerISbb_usersID ? (
             <Row>
               <Col span={20}>
                 <Text className="text-label" strong>
@@ -119,7 +120,7 @@ function AddScanReason() {
                 />
               </Col>
             </Row>
-          ) : null}
+          ) : null} */}
           {layoutFields.name ? (
             <Row className="mt-3">
               <Col span={20}>
