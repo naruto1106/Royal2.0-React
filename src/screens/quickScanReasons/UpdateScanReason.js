@@ -24,7 +24,7 @@ function UpdateScanReason() {
   let { routeKey, id } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [owner, setOwner] = useState('');
+  // const [owner, setOwner] = useState('');
   const [name, setName] = useState('');
   //   const [branchISbb_loyal2_branchesID, setBranchISbb_loyal2_branchesID] =useState('');
   const handleChange = e => {

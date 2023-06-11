@@ -13,7 +13,7 @@ import {
   Divider,
   message
 } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import endpoint from '../../../utils/endpoint';
 import { getErrorAlert } from 'helpers/utils';
 import Loading from 'components/loading';
@@ -29,6 +29,7 @@ const inputBorderRadius = { borderRadius: '10px' };
 function UpdateIssuedVouchers() {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const dateFormat = 'YYYY-MM-DD HH:mm:ss';
   const _isMounted = useRef(false);
   let { routeKey, id } = useParams();
@@ -55,10 +56,11 @@ function UpdateIssuedVouchers() {
         endpoint.getModuleDataEndpoint('bb_loyal2_branches')
       );
       setBranches(branchesList.data.list);
-      _isMounted.current && setLayoutData(layoutSchema);
+
       set_branchISbb_loyal2_branchesID(
         layoutSchema.data[0][0].branchISbb_loyal2_branchesID
       );
+      _isMounted.current && setLayoutData(layoutSchema);
       //   setTransaction_date(layoutSchema.data[0][0].transaction_date);
       // end default part
     } catch (error) {
@@ -88,9 +90,9 @@ function UpdateIssuedVouchers() {
       const {
         _id,
         voucherISbb_loyal2_vouchersID,
-        ownerISbb_usersID
-        // code,
-        // points_usedNUM,
+        // ownerISbb_usersID
+        code,
+        points_usedNUM
         // memberISbb_usersID
       } = values;
       const transaction_date = values['transaction_date'].format(
@@ -101,18 +103,21 @@ function UpdateIssuedVouchers() {
         {
           _id,
           voucherISbb_loyal2_vouchersID,
-          ownerISbb_usersID,
+          // ownerISbb_usersID,
           transaction_date,
-          // code,
-          // points_usedNUM,
+          code,
+          points_usedNUM,
           // memberISbb_usersID,
           branchISbb_loyal2_branchesID
         }
       );
       const user = addMember.data;
       if (user.error) return message.error(user.error);
+      navigate('/datamanager/bb_loyal2_vouchers_issued/list');
+
       message.success('Updated successful!');
-      initPageModule();
+
+      // initPageModule();
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -134,6 +139,8 @@ function UpdateIssuedVouchers() {
   form.setFieldsValue({
     voucherISbb_loyal2_vouchersID: FieldsData[0].voucherISbb_loyal2_vouchersID,
     ownerISbb_usersID: FieldsData[0].ownerISbb_usersID,
+    code: FieldsData[0].code,
+    points_usedNUM: FieldsData[0].points_usedNUM,
     _id: FieldsData[0]._id
   });
   return (
@@ -197,7 +204,7 @@ function UpdateIssuedVouchers() {
                   className="mt-1"
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please input Qty!'
                     }
                   ]}

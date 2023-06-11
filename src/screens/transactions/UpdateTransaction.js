@@ -6,7 +6,7 @@ import {
   Typography,
   Form,
   Input,
-  Select,
+  // Select,
   Row,
   Col,
   message,
@@ -41,7 +41,8 @@ function UpdateTransaction() {
   const dateFormat = 'YYYY-MM-DD';
   const [branch_val, setBranch_val] = useState('');
   const [branches, setBranches] = useState([]);
-
+  const [memberIDList, setMemberIDList] = useState([]);
+  const [memberISbb_usersID, set_memberISbb_usersID] = useState(null);
   const [setting_show, setSetting_show] = useState(false);
   const setting_click = () => {
     if (setting_show == false) {
@@ -52,7 +53,6 @@ function UpdateTransaction() {
     }
   };
   const selectchange1 = e => {
-    console.log(e.target.value);
     setBranch_val(e.target.value);
   };
   console.log(routeKey, id, '123');
@@ -68,9 +68,14 @@ function UpdateTransaction() {
         endpoint.getModuleDataEndpoint('bb_loyal2_branches')
       );
       setBranches(branchesList.data.list);
+      const membersIDList = await Axios.get(
+        endpoint.getDataManagerSchemaEndpoint('list')
+      );
+      setMemberIDList(membersIDList.data.layout.data);
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       setBranch_val(layoutSchema.data[0][0].branchISbb_loyal2_branchesID);
+      set_memberISbb_usersID(layoutSchema.data[0][0].memberISbb_usersID);
 
       dispatch(
         setTransactionMenuData({ currentTransactionMenuSchema: schema.menu })
@@ -102,11 +107,12 @@ function UpdateTransaction() {
     try {
       _isMounted.current && setLoadingSchema(true);
       const branchISbb_loyal2_branchesID = branch_val;
+      // const memberISbb_usersID = branch_val;
 
       const {
         _id,
         // ownerISbb_usersID,
-        memberISbb_usersID,
+        // memberISbb_usersID,
         total_valueNUM,
         transaction_ref,
         code,
@@ -159,9 +165,9 @@ function UpdateTransaction() {
     console.log('Failed:', errorInfo);
   };
 
-  const onSearch = value => {
-    console.log('search:', value);
-  };
+  // const onSearch = value => {
+  //   console.log('search:', value);
+  // };
 
   let FieldsData = layoutData.data;
   console.log(FieldsData[0][0], 'FieldData');
@@ -175,7 +181,7 @@ function UpdateTransaction() {
   // console.log("transaction_date",FieldsData[0][0].transaction_date)
   form.setFieldsValue({
     // ownerISbb_usersID: FieldsData[0][0].ownerISbb_usersID,
-    memberISbb_usersID: FieldsData[0][0].memberISbb_usersID,
+    // memberISbb_usersID: FieldsData[0][0].memberISbb_usersID,
     total_valueNUM: FieldsData[0][0].total_valueNUM,
     transaction_ref: FieldsData[0][0].transaction_ref,
     _id: FieldsData[0][0]._id,
@@ -186,6 +192,7 @@ function UpdateTransaction() {
     tax_amountNUM: FieldsData[0][0].tax_amountNUM,
     tax_type: FieldsData[0][0].tax_type,
     grand_totalNUM: FieldsData[0][0].grand_totalNUM,
+    unit_priceNUM: FieldsData[0][0].unit_priceNUM,
     branchISbb_loyal2_branchesID: FieldsData[0][0].branchISbb_loyal2_branchesID
   });
 
@@ -231,7 +238,7 @@ function UpdateTransaction() {
             <Row>
               <Col span={20}>
                 <Text strong>Member</Text>
-                <Form.Item
+                {/* <Form.Item
                   className="mb-3"
                   name="memberISbb_usersID"
                   rules={[
@@ -241,7 +248,30 @@ function UpdateTransaction() {
                   ]}
                 >
                   <Input style={inputStyle} />
-                </Form.Item>
+                </Form.Item> */}
+                <BootstrapForm.Select
+                  style={inputStyle}
+                  onChange={e => set_memberISbb_usersID(e.target.value)}
+                  defaultValue={FieldsData[0][0].memberISbb_usersID}
+                >
+                  <option key={'null'} value={null}></option>
+                  {memberIDList.map((item, index) => {
+                    let Company_name = item.company_name
+                      ? item.company_name
+                      : '';
+                    return (
+                      <>
+                        <option key={index} value={item._id}>
+                          {item.last_name +
+                            ', ' +
+                            item.first_name +
+                            ' ' +
+                            Company_name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </BootstrapForm.Select>
               </Col>
             </Row>
 
@@ -439,6 +469,7 @@ function UpdateTransaction() {
                   <InputNumber
                     min={0}
                     style={inputStyle}
+
                     // onChange={onChange}
                   />
                 </Form.Item>

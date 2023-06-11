@@ -160,6 +160,14 @@ function HistoryMember() {
                   <td style={tdright}>{memberData ? memberData.email : ''}</td>
                 </tr>
               ) : null}
+              {layoutFields.company_name ? (
+                <tr>
+                  <td style={tdpadding}>{layoutFields.company_name}</td>
+                  <td style={tdright}>
+                    {memberData ? memberData.company_name : ''}
+                  </td>
+                </tr>
+              ) : null}
               {layoutFields.cell ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.cell}</td>

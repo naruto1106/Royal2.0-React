@@ -29,6 +29,7 @@ function ViewIssuedVouchers() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberData, setMemberData] = useState(null);
+  const [branches, setBranches] = useState([]);
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -40,7 +41,10 @@ function ViewIssuedVouchers() {
       let layoutSchema = schema.layout;
       console.log(schema.menu, ' schema.menu schema.menu schema.menu');
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
-
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       const memberRes = await Axios.get(
         endpoint.getModuleDataEndpoint(`bb_loyal2_vouchers_issued/${id}`)
       );
@@ -68,6 +72,17 @@ function ViewIssuedVouchers() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   // let layoutFields = layoutData.options.fields;
   let layoutFields = layoutData.options.fields;
+  if (layoutFields.branchISbb_loyal2_branchesID && memberData) {
+    let value = memberData.branchISbb_loyal2_branchesID;
+    console.log(value, 'vvvvv');
+    let index = branches.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = branches[index].name;
+    console.log(value, 'value');
+    memberData.branch_name = value;
+  }
   const editUser = id => {
     navigate(`/datamanager/bb_loyal2_vouchers_issued/edit/${id}`);
   };
@@ -245,9 +260,7 @@ function ViewIssuedVouchers() {
                   </td>
                   <td style={tdright}>
                     <Text strong className="text-label">
-                      {memberData
-                        ? memberData.branchISbb_loyal2_branchesID
-                        : ''}
+                      {memberData ? memberData.branch_name : ''}
                     </Text>
                   </td>
                 </tr>

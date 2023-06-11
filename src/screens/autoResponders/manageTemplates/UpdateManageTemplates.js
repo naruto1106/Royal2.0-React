@@ -42,6 +42,18 @@ function UpdateManageTemplates() {
   const [branches, setBranches] = useState([]);
   const [branchISbb_loyal2_branchesID, set_branchISbb_loyal2_branchesID] =
     useState(null);
+  // const [
+  //   typeISbb_loyal2_templates_typesID,
+  //   set_typeISbb_loyal2_templates_typesID
+  // ] = useState(0);
+  const [
+    subject_templateISsmallplaintextbox,
+    set_subject_templateISsmallplaintextbox
+  ] = useState(0);
+  const [
+    message_templateISsmallplaintextbox,
+    set_message_templateISsmallplaintextbox
+  ] = useState(0);
   const initPageModule = async () => {
     try {
       // default part
@@ -61,6 +73,12 @@ function UpdateManageTemplates() {
       setBranches(branchesList.data.list);
       set_branchISbb_loyal2_branchesID(
         layoutSchema.data[0][0].branchISbb_loyal2_branchesID
+      );
+      set_subject_templateISsmallplaintextbox(
+        layoutSchema.data[0][0].templateISsmallplaintextbox
+      );
+      set_message_templateISsmallplaintextbox(
+        layoutSchema.data[0][0].message_templateISsmallplaintextbox
       );
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
@@ -187,27 +205,28 @@ function UpdateManageTemplates() {
                   placeholder="Select"
                   style={inputBorderRadius}
                 >
-                  <option value="0">Birthday</option>
-                  <option value="1">Member Password Reset</option>
-                  <option value="0">New Member</option>
-                  <option value="1">Order Processed</option>
-                  <option value="0">Refer A Friend</option>
-                  <option value="1">Sales Upload Approved</option>
-                  <option value="0">Sales Upload Declined</option>
-                  <option value="1">Subscription Added</option>
-                  <option value="0">Subscription Expired</option>
-                  <option value="1">Subscription Expiring</option>
-                  <option value="0">Voucher Expiry Warning</option>
-                  <option value="1">Voucher Issued</option>
-                  <option value="0">Voucher Request Confirmation</option>
-                  <option value="1">Wish List/Registry Invite</option>
-                  <option value="0">Birthday</option>
-                  <option value="1">New Member</option>
-                  <option value="0">Voucher Issued</option>
-                  <option value="1">Standard Email Template</option>
-                  <option value="0">Standard PDF Template</option>
-                  <option value="1">Standard Text Template</option>
-                  <option value="1"></option>
+                  <option value></option>
+                  <option value="0">Test</option>
+                  <option value="1">Account Update Email</option>
+                  <option value="2">Account Update Text/SMS</option>
+                  <option value="3">Birthday Email</option>
+                  <option value="4">Birthday Text/SMS</option>
+                  <option value="5">Member Password Reset Link</option>
+                  <option value="6">New Member Welcome Email</option>
+                  <option value="7">New Member Welcome Text/SMS</option>
+                  <option value="8">Order Processed Email</option>
+                  <option value="9">Refer A Friend Email</option>
+                  <option value="10">Sales Upload Approved</option>
+                  <option value="11">Sales Upload Declined</option>
+                  <option value="12">Sample PDF Template</option>
+                  <option value="13">Subscription Added</option>
+                  <option value="14">Subscription Expired</option>
+                  <option value="15">Subscription Expiring</option>
+                  <option value="16">Voucher Expiry Warning</option>
+                  <option value="17">Voucher Issued Email</option>
+                  <option value="18">Voucher Issued Text/SMS</option>
+                  <option value="19">Voucher Request Confirmation</option>
+                  <option value="20">Wish List/Registry Invite Email</option>
                 </BootstrapForm.Select>
               </Col>
             </Row>
@@ -245,7 +264,10 @@ function UpdateManageTemplates() {
             <Row className="mt-1">
               <Col span={20}>
                 <BootstrapForm.Select
-                  placeholder="Select"
+                  defaultValue={subject_templateISsmallplaintextbox}
+                  onChange={e =>
+                    set_subject_templateISsmallplaintextbox(e.target.value)
+                  }
                   style={inputBorderRadius}
                 >
                   <option value="0">Test</option>
@@ -310,7 +332,10 @@ function UpdateManageTemplates() {
             <Row className="mt-1">
               <Col span={20}>
                 <BootstrapForm.Select
-                  placeholder="Select"
+                  defaultValue={message_templateISsmallplaintextbox}
+                  onChange={e =>
+                    set_message_templateISsmallplaintextbox(e.target.value)
+                  }
                   style={inputBorderRadius}
                 >
                   <option value="0">Test</option>

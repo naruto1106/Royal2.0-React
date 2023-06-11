@@ -27,6 +27,7 @@ function ListIssuedVouchers() {
   const [layoutData, setLayoutData] = useState(null);
   const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [branches, setBranches] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -56,6 +57,10 @@ function ListIssuedVouchers() {
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
       const memberRes = await Axios.get(
@@ -166,7 +171,15 @@ function ListIssuedVouchers() {
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {
           //  const { code } = rowData.row.original;
-          const value = rowData.row.original[key];
+          let value = rowData.row.original[key];
+          if (key === 'branchISbb_loyal2_branchesID') {
+            const index = branches.findIndex(val => {
+              return value == val._id;
+            });
+            if (index === -1) value = '';
+            else value = branches[index].name;
+          }
+
           const divTag = (
             <div
               onClick={() => {

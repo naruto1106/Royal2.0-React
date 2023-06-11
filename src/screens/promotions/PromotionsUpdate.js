@@ -37,7 +37,7 @@ function PromotionsUpdate() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  // const [branchISbb_loyal2_branchesID, setBranch] = useState('');
+  // const [branchISbb_loyal2_branchesID, setBranch] = useState(null);
   const [groupISbb_loyal2_groupsID, setGroup] = useState('');
   const [eventISbb_loyal2_eventsID, setAuto] = useState('');
   const [date_from, setDate_from] = useState('');
@@ -59,19 +59,16 @@ function PromotionsUpdate() {
   };
   const selectchange1 = e => {
     console.log(e.target.value);
-    // setBranch(e.target.value);
+    setBranch_val(e.target.value);
   };
-  const handleChange3 = e => {
-    console.log(e.target.value);
-    // setBranch(e.target.value);
-  };
+
   const selectchange_group1 = e => {
     console.log(e.target.value);
     setGroup(e.target.value);
   };
   const selectchange_group2 = e => {
     console.log(e.target.value);
-    setGroup(e.target.value);
+    // setGroup(e.target.value);
   };
   const initPageModule = async () => {
     try {
@@ -455,15 +452,20 @@ function PromotionsUpdate() {
                         <BootstrapForm.Select
                           placeholder={layoutFields.eventISbb_loyal2_eventsID}
                           style={inputBorderRadius}
-                          onChange={e => handleChange3(e)}
+                          onChange={e => {
+                            setAuto(e.target.value);
+                          }}
                           defaultValue={
                             FieldsData[0][0].eventISbb_loyal2_eventsID
                           }
                         >
-                          <option value=""></option>
-                          <option value="1">Auto1</option>
-                          <option value="2">Auto2</option>
-                          <option value="3">Auto3</option>
+                          <option value></option>
+                          <option value="5">Every Month on the 1st</option>
+                          <option value="2">On Member Birthday</option>
+                          <option value="8">On Member First Login</option>
+                          <option value="1">On Member Signup</option>
+                          <option value="7">On QuickScan</option>
+                          <option value="9">On QuickScan (Button)</option>
                         </BootstrapForm.Select>
                       </Col>
                     </Row>
@@ -556,11 +558,10 @@ function PromotionsUpdate() {
                   </Col>
                   <Col span={6}>
                     <BootstrapForm.Select style={{ borderRadius: '10px' }}>
-                      <option>12345</option>
-                      <option>12345</option>
-                      <option>12345</option>
-                      <option>12345</option>
-                      <option>12345</option>
+                      <option></option>
+                      <option value="1">Category1</option>
+                      <option value="2">Category2</option>
+                      <option value="3">Category3</option>
                     </BootstrapForm.Select>
                   </Col>
                   <Col span={1}></Col>

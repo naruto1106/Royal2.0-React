@@ -21,6 +21,15 @@ const tdpadding = {
   color: '#444444'
 };
 const tdright = { textAlign: 'right', color: '#444444' };
+const eventList = [
+  { id: '1', name: 'Every Month on the 1st' },
+  { id: '2', name: 'On Member Birthday' },
+  { id: '3', name: 'On Member First Login' },
+  { id: '4', name: 'On Member Points=Points Required' },
+  { id: '5', name: 'On Member Points=Voucher Value' },
+  { id: '6', name: 'On Member Signup' },
+  { id: '7', name: 'On Member SignUp Anniversary' }
+];
 // const tdright = { textAlign: 'right', color: '#444444' };
 function ViewAllVouchers() {
   const dispatch = useDispatch();
@@ -30,6 +39,8 @@ function ViewAllVouchers() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberData, setMemberData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -46,7 +57,14 @@ function ViewAllVouchers() {
         endpoint.getModuleDataEndpoint(`bb_loyal2_vouchers/${id}`)
       );
       setMemberData(memberRes.data);
-      console.log(memberRes, 'memberres');
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
@@ -70,6 +88,36 @@ function ViewAllVouchers() {
   // let layoutFields = layoutData.options.fields;
 
   let layoutFields = layoutData.options.fields;
+
+  if (layoutFields.eventISbb_loyal2_eventsID && memberData) {
+    let value = memberData.eventISbb_loyal2_eventsID;
+    let index = eventList.findIndex(val => {
+      return value == val.id;
+    });
+    if (index === -1) value = '';
+    else value = eventList[index].name;
+    memberData.eventISbb_loyal2_eventsID = value;
+  }
+
+  if (layoutFields.groupISbb_loyal2_groupsID && memberData) {
+    let value = memberData.groupISbb_loyal2_groupsID;
+    let index = groups.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = groups[index].name;
+    memberData.groupISbb_loyal2_groupsID = value;
+  }
+
+  if (layoutFields.branchISbb_loyal2_branchesID && memberData) {
+    let value = memberData.branchISbb_loyal2_branchesID;
+    let index = branches.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = branches[index].name;
+    memberData.branchISbb_loyal2_branchesID = value;
+  }
 
   const editUser = id => {
     navigate(`/datamanager/bb_loyal2_vouchers/edit/${id}`);
@@ -200,6 +248,291 @@ function ViewAllVouchers() {
                   </td>
                 </tr>
               ) : null}
+
+              {layoutFields.available_for_self_selectionYN ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.available_for_self_selectionYN}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.available_for_self_selectionYN
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.trigger_on_total_points_earnedNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.trigger_on_total_points_earnedNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.trigger_on_total_points_earnedNUM
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.limited_to_per_memberNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.limited_to_per_memberNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.limited_to_per_memberNUM : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.optional_email_templateISbb_loyal2_templatesID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {
+                        layoutFields.optional_email_templateISbb_loyal2_templatesID
+                      }
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.optional_email_templateISbb_loyal2_templatesID
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.points_earned_in_monthsNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.points_earned_in_monthsNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.points_earned_in_monthsNUM : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.voucher_detailsISsmallplaintextbox ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.voucher_detailsISsmallplaintextbox}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.voucher_detailsISsmallplaintextbox
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.email_instructionsISsmallplaintextbox ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.email_instructionsISsmallplaintextbox}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.email_instructionsISsmallplaintextbox
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.email_instructionsISsmallplaintextbox ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.email_instructionsISsmallplaintextbox}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.email_instructionsISsmallplaintextbox
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.eventISbb_loyal2_eventsID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.eventISbb_loyal2_eventsID}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.eventISbb_loyal2_eventsID : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.expires_after_daysNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.expires_after_daysNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.expires_after_daysNUM : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.can_be_redeemed_for_pointsNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.can_be_redeemed_for_pointsNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.can_be_redeemed_for_pointsNUM
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.valueNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.valueNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.valueNUM : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.value_type ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.value_type}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.value_type : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.min_valueNUM ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.min_valueNUM}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.min_valueNUM : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.sku_code ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.sku_code}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.sku_code : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.date_from ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.date_from}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.date_from : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.date_to ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.date_to}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.date_to : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.groupISbb_loyal2_groupsID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.groupISbb_loyal2_groupsID}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData ? memberData.groupISbb_loyal2_groupsID : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
+              {layoutFields.branchISbb_loyal2_branchesID ? (
+                <tr>
+                  <td style={tdpadding}>
+                    <Text strong className="text-label">
+                      {layoutFields.branchISbb_loyal2_branchesID}
+                    </Text>{' '}
+                  </td>
+                  <td style={tdright}>
+                    <Text strong className="text-label">
+                      {memberData
+                        ? memberData.branchISbb_loyal2_branchesID
+                        : ''}
+                    </Text>
+                  </td>
+                </tr>
+              ) : null}
               {layoutFields.imageISfile ? (
                 <tr>
                   <td style={tdpadding}>
@@ -217,7 +550,7 @@ function ViewAllVouchers() {
                             )
                         }}
                       >
-                        <Image width={150} src="/img/coffee.png" />
+                        {/* <Image width={150} src={memberData} /> */}
                       </Image.PreviewGroup>
                     ) : (
                       ''
@@ -225,38 +558,11 @@ function ViewAllVouchers() {
                   </td>
                 </tr>
               ) : null}
-              {layoutFields.available_for_self_selectionYN ? (
-                <tr>
-                  <td style={tdpadding}>
-                    <Text strong className="text-label">
-                      {layoutFields.available_for_self_selectionYN}
-                    </Text>{' '}
-                  </td>
-                  <td style={tdright}>
-                    <Text strong className="text-label">
-                      {memberData
-                        ? memberData.available_for_self_selectionYN
-                        : ''}
-                    </Text>
-                  </td>
-                </tr>
-              ) : null}
             </tbody>
           </Table>
         </Col>
       </Row>
-      {/* <Row className="mx-4 mt-7" align="middle" justify="start">
-        <Col span={11}>
-          <Text strong className="text-label">
-            {layoutFields.name}
-          </Text>
-        </Col>
-        <Col span={10} className="px-5">
-          <Text strong className="text-label">
-            {memberData.name}
-          </Text>
-        </Col>
-      </Row>
+      {/* 
       <Row className="mx-4 mt-4" align="middle" justify="start">
         <Col span={11}>
           <Text strong className="text-label">

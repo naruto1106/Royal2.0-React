@@ -98,7 +98,7 @@ function UpdateMember() {
     console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
-      const { _id, first_name, last_name, email } = values;
+      const { _id, first_name, last_name, email, company_name } = values;
 
       const updateMember = await Axios.patch(
         endpoint.appUsers(`/app/users/${_id}`),
@@ -107,6 +107,7 @@ function UpdateMember() {
           first_name,
           last_name,
           email,
+          company_name,
           user_type: 3
         }
       );
@@ -165,6 +166,7 @@ function UpdateMember() {
     first_name: FieldsData[0].first_name,
     last_name: FieldsData[0].last_name,
     email: FieldsData[0].email,
+    company_name: FieldsData[0].company_name,
     _id: FieldsData[0]._id
   });
   return (
@@ -239,7 +241,7 @@ function UpdateMember() {
             {layoutFields.company_name ? (
               <>
                 <Form.Item
-                  name="companyname"
+                  name="company_name"
                   rules={[
                     {
                       required: false,

@@ -23,7 +23,7 @@ function AddScanReason() {
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
-  const [owner, setOwner] = useState('');
+  // const [owner, setOwner] = useState('');
   const [name, setName] = useState('');
   //   const [branchISbb_loyal2_branchesID, setBranchISbb_loyal2_branchesID] =useState('');
   const handleChange = e => {
@@ -84,7 +84,7 @@ function AddScanReason() {
       const user = addMember.data;
       // if (user.error) return message.error(user.error);
       message.success('Added successful!');
-      setOwner('');
+      // setOwner('');
       setName('');
       console.log(`${endpoint.appUsers} response -> `, user);
     } catch (error) {

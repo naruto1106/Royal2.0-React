@@ -26,6 +26,7 @@ const { Title, Text } = Typography;
 const inputStyle = {
   borderRadius: '10px'
 };
+
 function AddTransaction() {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,6 +37,8 @@ function AddTransaction() {
   const [branchISbb_loyal2_branchesID, setBranchISbb_loyal2_branchesID] =
     useState('');
   const [branches, setBranches] = useState([]);
+  const [memberIDList, setMemberIDList] = useState([]);
+  const [memberISbb_usersID, set_memberISbb_usersID] = useState(null);
 
   const handleChange = e => {
     console.log(e.target.value);
@@ -58,6 +61,10 @@ function AddTransaction() {
         endpoint.getModuleDataEndpoint('bb_loyal2_branches')
       );
       setBranches(branchesList.data.list);
+      const membersIDList = await Axios.get(
+        endpoint.getDataManagerSchemaEndpoint('list')
+      );
+      setMemberIDList(membersIDList.data.layout.data);
       // end default part
     } catch (error) {
       handleError(error, true);
@@ -94,7 +101,7 @@ function AddTransaction() {
       _isMounted.current && setLoadingSchema(true);
       const {
         // ownerISbb_usersID,
-        memberISbb_usersID,
+        // memberISbb_usersID,
         total_valueNUM,
         transaction_ref,
         code,
@@ -186,7 +193,7 @@ function AddTransaction() {
             <Row>
               <Col span={20}>
                 <Text strong>Member</Text>
-                <Form.Item
+                {/* <Form.Item
                   className="mb-3"
                   name="memberISbb_usersID"
                   rules={[
@@ -196,7 +203,29 @@ function AddTransaction() {
                   ]}
                 >
                   <Input style={inputStyle} />
-                </Form.Item>
+                </Form.Item> */}
+                <Form1.Select
+                  style={inputStyle}
+                  onChange={e => set_memberISbb_usersID(e.target.value)}
+                >
+                  <option key={'null'} value={null}></option>
+                  {memberIDList.map((item, index) => {
+                    let Company_name = item.company_name
+                      ? item.company_name
+                      : '';
+                    return (
+                      <>
+                        <option key={index} value={item._id}>
+                          {item.last_name +
+                            ', ' +
+                            item.first_name +
+                            ' ' +
+                            Company_name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </Form1.Select>
               </Col>
             </Row>
 

@@ -78,19 +78,19 @@ function AddIssuedVouchers() {
       _isMounted.current && setLoadingSchema(true);
       const {
         voucherISbb_loyal2_vouchersID,
-        ownerISbb_usersID
-        // code,
-        // points_usedNUM,
+        // ownerISbb_usersID,
+        code,
+        points_usedNUM
         // memberISbb_usersID
       } = values;
       const addMember = await Axios.post(
         endpoint.getDataAddEndpoint('bb_loyal2_vouchers_issued'),
         {
           voucherISbb_loyal2_vouchersID,
-          ownerISbb_usersID,
+          // ownerISbb_usersID,
           transaction_date,
-          // code,
-          // points_usedNUM,
+          code,
+          points_usedNUM,
           // memberISbb_usersID,
           branchISbb_loyal2_branchesID
         }
@@ -168,7 +168,7 @@ function AddIssuedVouchers() {
                   className="mt-1"
                   rules={[
                     {
-                      required: true,
+                      required: false,
                       message: 'Please input Qty!'
                     }
                   ]}

@@ -12,7 +12,6 @@ import {
   Upload,
   Switch,
   DatePicker,
-  Divider,
   message
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
@@ -23,25 +22,46 @@ import Loading from 'components/loading';
 import handleError from 'utils/handleError';
 import { setMemberMenuData } from 'redux/slices/currentDataSlice';
 import { Button, Form as BootstrapForm, Collapse } from 'react-bootstrap';
-
+import moment from 'moment';
 const { Title, Text } = Typography;
 
 const inputBorderRadius = { borderRadius: '10px' };
 const inputNumberStyle = { borderRadius: '10px', width: '100%' };
-
+const getBase64 = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 function UpdateAllVouchers() {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const _isMounted = useRef(false);
+  const dateFormat = 'YYYY-MM-DD HH:mm:ss';
   let { routeKey, id } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [open, setOpen] = useState(false);
   const [branches, setBranches] = useState([]);
   const [groups, setGroups] = useState([]);
-  // const [imageISfile, setImageISfile] = useState([]);
-  // const [eventISbb_loyal2_eventsID, set_eventISbb_loyal2_eventsID] =
-  //   useState('select1');
+  const [branchISbb_loyal2_branchesID, set_branchISbb_loyal2_branchesID] =
+    useState(null);
+  const [available_for_self_selectionYN, set_available_for_self_selectionYN] =
+    useState(false);
+  const [value_type, set_value_type] = useState('');
+  const [groupISbb_loyal2_groupsID, set_groupISbb_loyal2_groupsID] =
+    useState(null);
+  // const [date_from, set_date_from] = useState('');
+  // const [date_to, set_date_to] = useState('');
+  const [
+    optional_email_templateISbb_loyal2_templatesID,
+    set_optional_email_templateISbb_loyal2_templatesID
+  ] = useState('');
+  const [imageISfile, setImageISfile] = useState({});
+  const [eventISbb_loyal2_eventsID, set_eventISbb_loyal2_eventsID] =
+    useState('');
+  // const [fileList, setFileList] = useState([]);
   const initPageModule = async () => {
     try {
       // default part
@@ -61,6 +81,22 @@ function UpdateAllVouchers() {
         endpoint.getModuleDataEndpoint('bb_loyal2_groups')
       );
       setGroups(groupList.data.list);
+      set_branchISbb_loyal2_branchesID(
+        layoutSchema.data[0][0].branchISbb_loyal2_branchesID
+      );
+      set_value_type(layoutSchema.data[0][0].value_type);
+      set_groupISbb_loyal2_groupsID(
+        layoutSchema.data[0][0].groupISbb_loyal2_groupsID
+      );
+      set_optional_email_templateISbb_loyal2_templatesID(
+        layoutSchema.data[0][0].optional_email_templateISbb_loyal2_templatesID
+      );
+      set_eventISbb_loyal2_eventsID(
+        layoutSchema.data[0][0].eventISbb_loyal2_eventsID
+      );
+      set_available_for_self_selectionYN(
+        layoutSchema.data[0][0].available_for_self_selectionYN
+      );
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -84,17 +120,43 @@ function UpdateAllVouchers() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
 
   const onFinish = async values => {
-    console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
-      const { _id, name, points_requiredNUM } = values;
+      const {
+        _id,
+        name,
+        points_requiredNUM,
+        trigger_on_total_points_earnedNUM,
+        points_earned_in_monthsNUM,
+        code,
+        valueNUM,
+        expires_after_daysNUM,
+        min_valueNUM,
+        limited_to_per_memberNUM
+      } = values;
+      const date_from = values['date_from'].format('YYYY-MM-DD HH:mm:ss');
+      const date_to = values['date_to'].format('YYYY-MM-DD HH:mm:ss');
       const addMember = await Axios.patch(
         endpoint.getDataAddEndpoint(`bb_loyal2_vouchers/${_id}`),
         {
           _id,
           name,
-          points_requiredNUM
-          // eventISbb_loyal2_eventsID,
+          points_requiredNUM,
+          trigger_on_total_points_earnedNUM,
+          points_earned_in_monthsNUM,
+          code,
+          valueNUM,
+          expires_after_daysNUM,
+          min_valueNUM,
+          limited_to_per_memberNUM,
+          branchISbb_loyal2_branchesID,
+          available_for_self_selectionYN,
+          eventISbb_loyal2_eventsID,
+          value_type,
+          groupISbb_loyal2_groupsID,
+          date_from,
+          date_to,
+          optional_email_templateISbb_loyal2_templatesID
           // imageISfile
         }
       );
@@ -111,32 +173,57 @@ function UpdateAllVouchers() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-  const handleChange = info => {
-    console.log(info);
-    // setImageISfile(info.file);
-    // let newFileList = [...info.fileList];
+  const handleChange = async info => {
+    const base64_img = await getBase64(info.file.originFileObj);
+    const base64_array = base64_img.split(',');
+    const data = {
+      name: info.file.name,
+      type: info.file.type,
+      size: info.file.size,
+      data: base64_array[1]
+    };
+
+    setImageISfile(data);
+    console.log(imageISfile);
   };
+
   const onChangeEvent = event => {
     console.log(event);
-    // set_eventISbb_loyal2_eventsID(event);
+    set_eventISbb_loyal2_eventsID(event);
   };
   const onChange = checked => {
+    set_available_for_self_selectionYN(checked);
     console.log(`switch to ${checked}`);
   };
+  // const onChangeFrom = (date, dateString) => {
+  //   set_date_from(dateString);
+  // };
+  // const onChangeTo = (date, dateString) => {
+  //   set_date_to(dateString);
+  // };
   let FieldsData = layoutData.data[0];
+  const select_date_from = moment(FieldsData[0].date_from, dateFormat);
+  const select_date_to = moment(FieldsData[0].date_to, dateFormat);
+
+  const initValues = {
+    date_from: select_date_from,
+    date_to: select_date_to
+  };
   form.setFieldsValue({
     name: FieldsData[0].name,
     points_requiredNUM: FieldsData[0].points_requiredNUM,
+    trigger_on_total_points_earnedNUM:
+      FieldsData[0].trigger_on_total_points_earnedNUM,
+    points_earned_in_monthsNUM: FieldsData[0].points_earned_in_monthsNUM,
+    code: FieldsData[0].code,
+    valueNUM: FieldsData[0].valueNUM,
+    expires_after_daysNUM: FieldsData[0].expires_after_daysNUM,
+    min_valueNUM: FieldsData[0].min_valueNUM,
+    limited_to_per_memberNUM: FieldsData[0].limited_to_per_memberNUM,
     _id: FieldsData[0]._id
   });
   return (
     <>
-      <Row className="mx-4 mt-3">
-        <Col span={24}>
-          <Title level={3}>Vouchers</Title>
-        </Col>
-      </Row>
-      <Divider />
       <Row className="mx-4 mt-3">
         <Col span={24}>
           <Title level={4} className="mb-3">
@@ -154,13 +241,11 @@ function UpdateAllVouchers() {
             wrapperCol={{
               span: 24
             }}
-            initialValues={{
-              remember: true
-            }}
+            initialValues={initValues}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-            autoComplete="off"
             form={form}
+            autoComplete="off"
           >
             <Form.Item name="_id" hidden="hidden">
               <Input />
@@ -201,18 +286,18 @@ function UpdateAllVouchers() {
               </Col>
               <Col xs={20} sm={10} md={10} lg={10} xl={10}>
                 <Row align="middle">
-                  <Col span={12}>
+                  <Col span={11}>
                     <Text strong className="text-label">
                       Auto Allocate On Event
                     </Text>
                   </Col>
-                  <Col span={12}>
+                  <Col span={13}>
                     <BootstrapForm.Select
-                      placeholder="Select"
+                      defaultValue={eventISbb_loyal2_eventsID}
                       style={inputBorderRadius}
                       onChange={e => onChangeEvent(e.target.value)}
                     >
-                      <option value=""></option>
+                      <option value></option>
                       <option value="1">Every Month on the 1st</option>
                       <option value="2">On Member Birthday</option>
                       <option value="3">On Member First Login</option>
@@ -221,7 +306,7 @@ function UpdateAllVouchers() {
                       </option>
                       <option value="5">On Member Points=Voucher Value</option>
                       <option value="6">On Member Signup</option>
-                      <option value="6">On Member SignUp Anniversary</option>
+                      <option value="7">On Member SignUp Anniversary</option>
                     </BootstrapForm.Select>
                   </Col>
                 </Row>
@@ -240,7 +325,7 @@ function UpdateAllVouchers() {
                       colorBorder="blue"
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                       listType="picture"
-                      onChange={handleChange}
+                      onChange={e => handleChange(e)}
                     >
                       <Button
                         variant="light"
@@ -260,7 +345,10 @@ function UpdateAllVouchers() {
                     </Text>
                   </Col>
                   <Col span={8} style={{ textAlign: 'end' }}>
-                    <Switch onChange={onChange} />
+                    <Switch
+                      defaultChecked={available_for_self_selectionYN}
+                      onChange={onChange}
+                    />
                   </Col>
                 </Row>
               </Col>
@@ -297,7 +385,10 @@ function UpdateAllVouchers() {
                       <Text strong className="text-label">
                         Trigger On Total Points Earned
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item
+                        name="trigger_on_total_points_earnedNUM"
+                        className="mt-1"
+                      >
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -305,7 +396,10 @@ function UpdateAllVouchers() {
                       <Text strong className="text-label">
                         Points Earned In Month
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item
+                        name="points_earned_in_monthsNUM"
+                        className="mt-1"
+                      >
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -332,7 +426,10 @@ function UpdateAllVouchers() {
                       <Text strong className="text-label">
                         Can Be Redeemed For Points
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item
+                        name="can_be_redeemed_for_pointsNUM"
+                        className="mt-1"
+                      >
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -342,7 +439,7 @@ function UpdateAllVouchers() {
                       <Text strong className="text-label">
                         Value
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item name="valueNUM" className="mt-1">
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -350,7 +447,7 @@ function UpdateAllVouchers() {
                       <Text strong className="text-label">
                         Expire After Days
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item name="expires_after_daysNUM" className="mt-1">
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -360,7 +457,7 @@ function UpdateAllVouchers() {
                       <Text strong className="text-label">
                         Min Sale Value
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item name="min_valueNUM" className="mt-1">
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -373,17 +470,18 @@ function UpdateAllVouchers() {
                         </Col>
                         <Col span={12}>
                           <BootstrapForm.Select
-                            placeholder="Select Image"
+                            defaultValue={branchISbb_loyal2_branchesID}
                             style={inputBorderRadius}
+                            onChange={e =>
+                              set_branchISbb_loyal2_branchesID(e.target.value)
+                            }
                           >
                             <option key={'null'} value={null}></option>
                             {branches.map((item, index) => {
                               return (
-                                <>
-                                  <option key={index} value={item._id}>
-                                    {item.name}
-                                  </option>
-                                </>
+                                <option key={index} value={item._id}>
+                                  {item.name}
+                                </option>
                               );
                             })}
                           </BootstrapForm.Select>
@@ -401,8 +499,9 @@ function UpdateAllVouchers() {
                         </Col>
                         <Col span={12}>
                           <BootstrapForm.Select
-                            placeholder="Select Image"
+                            defaultValue={value_type}
                             style={inputBorderRadius}
+                            onChange={e => set_value_type(e.target.value)}
                           >
                             <option value=""></option>
                             <option value="0">Currency Value</option>
@@ -423,9 +522,13 @@ function UpdateAllVouchers() {
                         </Col>
                         <Col span={12}>
                           <BootstrapForm.Select
-                            placeholder="Select Image"
+                            defaultValue={groupISbb_loyal2_groupsID}
                             style={inputBorderRadius}
+                            onChange={e =>
+                              set_groupISbb_loyal2_groupsID(e.target.value)
+                            }
                           >
+                            <option value={null}></option>
                             {groups.map((row, index) => {
                               return (
                                 <option key={index} value={row._id}>
@@ -447,8 +550,10 @@ function UpdateAllVouchers() {
                           </Text>
                         </Col>
                         <Col span={7}>
-                          <Form.Item name="from" className="m-0">
+                          <Form.Item name="date_from" className="m-0">
                             <DatePicker
+                              // onChange={onChangeFrom}
+                              value={select_date_from}
                               style={inputBorderRadius}
                               className="w-100"
                             />
@@ -460,8 +565,10 @@ function UpdateAllVouchers() {
                           </Text>
                         </Col>
                         <Col span={7}>
-                          <Form.Item name="to" className="m-0">
+                          <Form.Item name="date_to" className="m-0">
                             <DatePicker
+                              // onChange={onChangeTo}
+                              value={select_date_to}
                               style={inputBorderRadius}
                               className="w-100"
                             />
@@ -477,10 +584,12 @@ function UpdateAllVouchers() {
                           </Text>
                         </Col>
                         <Col span={12}>
-                          <InputNumber
-                            // placeholder="Select Image"
-                            style={inputNumberStyle}
-                          ></InputNumber>
+                          <Form.Item
+                            name="limited_to_per_memberNUM"
+                            className="m-0"
+                          >
+                            <InputNumber style={inputNumberStyle} />
+                          </Form.Item>
                         </Col>
                       </Row>
                     </Col>
@@ -491,8 +600,15 @@ function UpdateAllVouchers() {
                         Optional Email Template
                       </Text>
                       <BootstrapForm.Select
-                        placeholder="Select Image"
+                        defaultValue={
+                          optional_email_templateISbb_loyal2_templatesID
+                        }
                         style={inputBorderRadius}
+                        onChange={e =>
+                          set_optional_email_templateISbb_loyal2_templatesID(
+                            e.target.value
+                          )
+                        }
                       >
                         <option value=""></option>
                         <option value="0">Account Update Email</option>

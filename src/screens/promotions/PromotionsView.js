@@ -26,6 +26,16 @@ function ViewManageUsers() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberData, setMemberData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const eventList = [
+    { id: '1', name: 'On Member Signup' },
+    { id: '2', name: 'On Member Birthday' },
+    { id: '5', name: 'Every Month on the 1st' },
+    { id: '7', name: 'On QuickScan' },
+    { id: '8', name: 'On Member First Login' },
+    { id: '9', name: 'On QuickScan (Button)' }
+  ];
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -44,7 +54,14 @@ function ViewManageUsers() {
         endpoint.appUsers(`/module/bb_loyal2_promotions/${id}`)
       );
       setMemberData(memberRes.data);
-      console.log(memberRes, 'memberres');
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
@@ -67,8 +84,37 @@ function ViewManageUsers() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   let layoutFields = layoutData.options.fields;
 
+  if (layoutFields.eventISbb_loyal2_eventsID && memberData) {
+    let value = memberData.eventISbb_loyal2_eventsID;
+    let index = eventList.findIndex(val => {
+      return value == val.id;
+    });
+    if (index === -1) value = '';
+    else value = eventList[index].name;
+    memberData.eventName = value;
+  }
+
+  if (layoutFields.groupISbb_loyal2_groupsID && memberData) {
+    let value = memberData.groupISbb_loyal2_groupsID;
+    let index = groups.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = groups[index].name;
+    memberData.groupISbb_loyal2_groupsID = value;
+  }
+
+  if (layoutFields.branchISbb_loyal2_branchesID && memberData) {
+    let value = memberData.branchISbb_loyal2_branchesID;
+    let index = branches.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = branches[index].name;
+    memberData.branchISbb_loyal2_branchesID = value;
+  }
+
   const editUser = id => {
-    console.log(id, 'aaaaaaaaaaaaaaaaaaaaa');
     navigate(`/datamanager/bb_loyal2_promotions/edit/${id}`);
   };
   const showDeleteConfirm = id => {
@@ -197,7 +243,7 @@ function ViewManageUsers() {
                     {layoutFields.eventISbb_loyal2_eventsID}
                   </td>
                   <td style={tdright}>
-                    {memberData ? memberData.eventISbb_loyal2_eventsID : ''}
+                    {memberData ? memberData.eventName : ''}
                   </td>
                 </tr>
               ) : null}

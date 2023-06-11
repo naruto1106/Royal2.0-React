@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Row, Col, Tooltip, Upload, Input } from 'antd';
-import { Button, Card, Form as BootstrapForm } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
@@ -111,10 +111,44 @@ function SecondSite() {
                     <option value="0">select</option>
                     <option value="1">select1</option>
                   </BootstrapForm.Select> */}
+                  <Input
+                    type="color"
+                    style={inputStyle}
+                    onChange={e => console.log(e)}
+                    // value={'#478120'}
+                    // value={'#478120'}
+                  />
+                </Col>
+              </Row>
+              <Row align="middle" className="mt-3">
+                <Col span={15}>
+                  <Text strong className="text-label">
+                    Micro-site page color{' '}
+                  </Text>
+                </Col>
+                <Col span={7} style={{ textAlign: 'end' }}>
+                  {/* <BootstrapForm.Select style={inputStyle}>
+                    <option value="0">select</option>
+                    <option value="1">select1</option>
+                  </BootstrapForm.Select> */}
                   <Input type="color" style={inputStyle} />
                 </Col>
               </Row>
               <Row align="middle" className="mt-3">
+                <Col span={15}>
+                  <Text strong className="text-label">
+                    Micro-site font color{' '}
+                  </Text>
+                </Col>
+                <Col span={7} style={{ textAlign: 'end' }}>
+                  {/* <BootstrapForm.Select style={inputStyle}>
+                    <option value="0">select</option>
+                    <option value="1">select1</option>
+                  </BootstrapForm.Select> */}
+                  <Input type="color" style={inputStyle} />
+                </Col>
+              </Row>
+              {/* <Row align="middle" className="mt-3">
                 <Col span={15}>
                   <Text strong className="text-label">
                     Micro-site theme{' '}
@@ -127,7 +161,7 @@ function SecondSite() {
                     <option value="2">Dark</option>
                   </BootstrapForm.Select>
                 </Col>
-              </Row>
+              </Row> */}
               <Row className="mt-5 mb-3">
                 <Button
                   variant="outline-primary"

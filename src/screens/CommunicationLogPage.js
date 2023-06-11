@@ -198,7 +198,7 @@ function CommunicationLogPage() {
               <Row className="mx-4 mt-3">
                 <Col xs={24} md={24} lg={23}>
                   <Text strong className="text-label">
-                    Sent to number
+                    Sent to member
                   </Text>
                   <Input
                     className="mt-1"

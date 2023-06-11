@@ -26,6 +26,9 @@ function ViewManageUsers() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberData, setMemberData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [memberIDList, setMemberIDList] = useState([]);
+
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -44,7 +47,14 @@ function ViewManageUsers() {
         endpoint.appUsers(`/module/bb_loyal2_transactions/${id}`)
       );
       setMemberData(memberRes.data);
-      console.log(memberRes, 'memberres');
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const membersIDList = await Axios.get(
+        endpoint.getDataManagerSchemaEndpoint('list')
+      );
+      setMemberIDList(membersIDList.data.layout.data);
       _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
@@ -67,8 +77,34 @@ function ViewManageUsers() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   let layoutFields = layoutData.options.fields;
 
+  if (layoutFields.branchISbb_loyal2_branchesID && memberData) {
+    let value = memberData.branchISbb_loyal2_branchesID;
+    let index = branches.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = branches[index].name;
+    memberData.branchISbb_loyal2_branchesID = value;
+  }
+  if (layoutFields.memberISbb_usersID && memberData) {
+    let value = memberData.memberISbb_usersID;
+    let index = memberIDList.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else {
+      let Company_name = memberIDList[index].company_name
+        ? memberIDList[index].company_name
+        : '';
+      value =
+        memberIDList[index].last_name +
+        memberIDList[index].first_name +
+        Company_name;
+      memberData.memberISbb_usersID = value;
+    }
+  }
+
   const editUser = id => {
-    console.log(id, 'aaaaaaaaaaaaaaaaaaaaa');
     navigate(`/datamanager/bb_loyal2_transactions/edit/${id}`);
   };
   const showDeleteConfirm = id => {

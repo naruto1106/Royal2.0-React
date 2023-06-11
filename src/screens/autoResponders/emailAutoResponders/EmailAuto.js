@@ -66,36 +66,37 @@ function EmailAuto(props) {
   const [open, setOpen] = useState(false);
   const onFinish = async values => {
     console.log('Success:', values);
-    try {
-      props._isMounted.current && props.setLoadingSchema(true);
-      const {
-        name
-        // ownerISbb_usersID
-        // transaction_date,
-        // code,
-        // points_usedNUM,
-        // memberISbb_userID
-      } = values;
-      const addMember = await Axios.post(
-        endpoint.getDataAddEndpoint('bb_loyal2_templates'),
-        {
+    if (values == 3)
+      try {
+        props._isMounted.current && props.setLoadingSchema(true);
+        const {
           name
           // ownerISbb_usersID
           // transaction_date,
           // code,
           // points_usedNUM,
           // memberISbb_userID
-        }
-      );
-      const user = addMember.data;
-      if (user.error) return message.error(user.error);
-      message.success('Added successful!');
-      console.log(`${endpoint.appUsers} response -> `, user);
-    } catch (error) {
-      handleError(error, true);
-    } finally {
-      props._isMounted.current && props.setLoadingSchema(false);
-    }
+        } = values;
+        const addMember = await Axios.post(
+          endpoint.getDataAddEndpoint('bb_loyal2_templates'),
+          {
+            name
+            // ownerISbb_usersID
+            // transaction_date,
+            // code,
+            // points_usedNUM,
+            // memberISbb_userID
+          }
+        );
+        const user = addMember.data;
+        if (user.error) return message.error(user.error);
+        message.success('Added successful!');
+        console.log(`${endpoint.appUsers} response -> `, user);
+      } catch (error) {
+        handleError(error, true);
+      } finally {
+        props._isMounted.current && props.setLoadingSchema(false);
+      }
   };
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);

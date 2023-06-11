@@ -22,6 +22,8 @@ function PromotionsList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
   // let { routeKey } = useParams();
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
@@ -29,6 +31,14 @@ function PromotionsList() {
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
   let _array = [];
+  const eventList = [
+    { id: '1', name: 'On Member Signup' },
+    { id: '2', name: 'On Member Birthday' },
+    { id: '5', name: 'Every Month on the 1st' },
+    { id: '7', name: 'On QuickScan' },
+    { id: '8', name: 'On Member First Login' },
+    { id: '9', name: 'On QuickScan (Button)' }
+  ];
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -59,13 +69,20 @@ function PromotionsList() {
       dispatch(
         setPromotionsMenuData({ currentPromotionsMenuSchema: schema.menu })
       ); // store current Promotions menu
-      _isMounted.current && setLayoutData(layoutSchema);
-
       // end default part
       // const promotionsRes = await Axios.get(
       //   endpoint.appUsers('/app/users/') + `?user_type=3`
       // );
       // setPromotionsLists(promotionsRes.data);
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupList.data.list);
+      _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -171,7 +188,28 @@ function PromotionsList() {
           tempElement.accessor = key;
           tempElement.Header = objectData[key];
           tempElement.Cell = function (rowData) {
-            const value = rowData.row.original[key];
+            let value = rowData.row.original[key];
+
+            if (key === 'branchISbb_loyal2_branchesID') {
+              let index = branches.findIndex(val => {
+                return value == val._id;
+              });
+              if (index === -1) value = '';
+              else value = branches[index].name;
+            } else if (key === 'groupISbb_loyal2_groupsID') {
+              let index = groups.findIndex(val => {
+                return value == val._id;
+              });
+              if (index === -1) value = '';
+              else value = groups[index].name;
+            } else if (key === 'eventISbb_loyal2_eventsID') {
+              let index = eventList.findIndex(val => {
+                return value == val.id;
+              });
+              if (index === -1) value = '';
+              else value = eventList[index].name;
+            }
+
             const divTag = (
               <div
                 onClick={() => {

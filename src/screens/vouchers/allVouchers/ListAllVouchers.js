@@ -29,6 +29,17 @@ function ListAllVouchers() {
   const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const eventList = [
+    { id: '1', name: 'Every Month on the 1st' },
+    { id: '2', name: 'On Member Birthday' },
+    { id: '3', name: 'On Member First Login' },
+    { id: '4', name: 'On Member Points=Points Required' },
+    { id: '5', name: 'On Member Points=Voucher Value' },
+    { id: '6', name: 'On Member Signup' },
+    { id: '7', name: 'On Member SignUp Anniversary' }
+  ];
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
       const defaultRef = React.useRef();
@@ -57,12 +68,21 @@ function ListAllVouchers() {
       console.log('menuSchema:->', schema);
       let layoutSchema = schema.layout;
       dispatch(setMemberMenuData({ currentMemberMenuSchema: schema.menu })); // store current member menu
-      _isMounted.current && setLayoutData(layoutSchema);
+
       // end default part
-      const memberRes = await Axios.get(
-        endpoint.getModuleDataEndpoint('bb_loyal2_vouchers')
+      // const memberRes = await Axios.get(
+      //   endpoint.getModuleDataEndpoint('bb_loyal2_vouchers')
+      // );
+      setMemeberLists(layoutSchema.data);
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
       );
-      setMemeberLists(memberRes.data.list);
+      setBranches(branchesList.data.list);
+      const groupList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupList.data.list);
+      _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -167,7 +187,28 @@ function ListAllVouchers() {
         tempElement.Header = objectData[key];
         tempElement.Cell = function (rowData) {
           //  const { code } = rowData.row.original;
-          const value = rowData.row.original[key];
+          let value = rowData.row.original[key];
+          if (key === 'branchISbb_loyal2_branchesID') {
+            let index = branches.findIndex(val => {
+              return value == val._id;
+            });
+            if (index === -1) value = '';
+            else value = branches[index].name;
+          }
+          if (key === 'groupISbb_loyal2_groupsID') {
+            let index = groups.findIndex(val => {
+              return value == val._id;
+            });
+            if (index === -1) value = '';
+            else value = groups[index].name;
+          }
+          if (key === 'eventISbb_loyal2_eventsID') {
+            let index = eventList.findIndex(val => {
+              return value == val.id;
+            });
+            if (index === -1) value = '';
+            else value = eventList[index].name;
+          }
           const divTag = (
             <div
               onClick={() => {

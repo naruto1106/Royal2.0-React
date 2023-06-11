@@ -27,7 +27,13 @@ const { Title, Text } = Typography;
 
 const inputBorderRadius = { borderRadius: '10px' };
 const inputNumberStyle = { borderRadius: '10px', width: '100%' };
-
+const getBase64 = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 function AddAllVouchers() {
   const dispatch = useDispatch();
   const _isMounted = useRef(false);
@@ -37,9 +43,23 @@ function AddAllVouchers() {
   const [open, setOpen] = useState(false);
   const [branches, setBranches] = useState([]);
   const [groups, setGroups] = useState([]);
-  // const [imageISfile, setImageISfile] = useState([]);
-  // const [eventISbb_loyal2_eventsID, set_eventISbb_loyal2_eventsID] =
-  //   useState('select1');
+  const [branchISbb_loyal2_branchesID, set_branchISbb_loyal2_branchesID] =
+    useState(null);
+  const [available_for_self_selectionYN, set_available_for_self_selectionYN] =
+    useState(false);
+  const [value_type, set_value_type] = useState('');
+  const [groupISbb_loyal2_groupsID, set_groupISbb_loyal2_groupsID] =
+    useState(null);
+  const [date_from, set_date_from] = useState('');
+  const [date_to, set_date_to] = useState('');
+  const [
+    optional_email_templateISbb_loyal2_templatesID,
+    set_optional_email_templateISbb_loyal2_templatesID
+  ] = useState('');
+  const [imageISfile, setImageISfile] = useState({});
+  const [eventISbb_loyal2_eventsID, set_eventISbb_loyal2_eventsID] =
+    useState('');
+  // const [fileList, setFileList] = useState([]);
   const initPageModule = async () => {
     try {
       // default part
@@ -82,16 +102,39 @@ function AddAllVouchers() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
 
   const onFinish = async values => {
-    console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
-      const { name, points_requiredNUM } = values;
+      const {
+        name,
+        points_requiredNUM,
+        trigger_on_total_points_earnedNUM,
+        points_earned_in_monthsNUM,
+        code,
+        valueNUM,
+        expires_after_daysNUM,
+        min_valueNUM,
+        limited_to_per_memberNUM
+      } = values;
       const addMember = await Axios.post(
         endpoint.getDataAddEndpoint('bb_loyal2_vouchers'),
         {
           name,
-          points_requiredNUM
-          // eventISbb_loyal2_eventsID,
+          points_requiredNUM,
+          trigger_on_total_points_earnedNUM,
+          points_earned_in_monthsNUM,
+          code,
+          valueNUM,
+          expires_after_daysNUM,
+          min_valueNUM,
+          limited_to_per_memberNUM,
+          branchISbb_loyal2_branchesID,
+          available_for_self_selectionYN,
+          eventISbb_loyal2_eventsID,
+          value_type,
+          groupISbb_loyal2_groupsID,
+          date_from,
+          date_to,
+          optional_email_templateISbb_loyal2_templatesID
           // imageISfile
         }
       );
@@ -108,17 +151,33 @@ function AddAllVouchers() {
   const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
-  const handleChange = info => {
-    console.log(info);
-    // setImageISfile(info.file);
-    // let newFileList = [...info.fileList];
+  const handleChange = async info => {
+    const base64_img = await getBase64(info.file.originFileObj);
+    const base64_array = base64_img.split(',');
+    const data = {
+      name: info.file.name,
+      type: info.file.type,
+      size: info.file.size,
+      data: base64_array[1]
+    };
+
+    setImageISfile(data);
+    console.log(imageISfile);
   };
+
   const onChangeEvent = event => {
     console.log(event);
-    // set_eventISbb_loyal2_eventsID(event);
+    set_eventISbb_loyal2_eventsID(event);
   };
   const onChange = checked => {
+    set_available_for_self_selectionYN(checked);
     console.log(`switch to ${checked}`);
+  };
+  const onChangeFrom = (date, dateString) => {
+    set_date_from(dateString);
+  };
+  const onChangeTo = (date, dateString) => {
+    set_date_to(dateString);
   };
   return (
     <>
@@ -193,7 +252,7 @@ function AddAllVouchers() {
                       style={inputBorderRadius}
                       onChange={e => onChangeEvent(e.target.value)}
                     >
-                      <option value=""></option>
+                      <option value></option>
                       <option value="1">Every Month on the 1st</option>
                       <option value="2">On Member Birthday</option>
                       <option value="3">On Member First Login</option>
@@ -202,7 +261,7 @@ function AddAllVouchers() {
                       </option>
                       <option value="5">On Member Points=Voucher Value</option>
                       <option value="6">On Member Signup</option>
-                      <option value="6">On Member SignUp Anniversary</option>
+                      <option value="7">On Member SignUp Anniversary</option>
                     </BootstrapForm.Select>
                   </Col>
                 </Row>
@@ -221,7 +280,7 @@ function AddAllVouchers() {
                       colorBorder="blue"
                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                       listType="picture"
-                      onChange={handleChange}
+                      onChange={e => handleChange(e)}
                     >
                       <Button
                         variant="light"
@@ -278,7 +337,10 @@ function AddAllVouchers() {
                       <Text strong className="text-label">
                         Trigger On Total Points Earned
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item
+                        name="trigger_on_total_points_earnedNUM"
+                        className="mt-1"
+                      >
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -286,7 +348,10 @@ function AddAllVouchers() {
                       <Text strong className="text-label">
                         Points Earned In Month
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item
+                        name="points_earned_in_monthsNUM"
+                        className="mt-1"
+                      >
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -313,7 +378,10 @@ function AddAllVouchers() {
                       <Text strong className="text-label">
                         Can Be Redeemed For Points
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item
+                        name="can_be_redeemed_for_pointsNUM"
+                        className="mt-1"
+                      >
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -323,7 +391,7 @@ function AddAllVouchers() {
                       <Text strong className="text-label">
                         Value
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item name="valueNUM" className="mt-1">
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -331,7 +399,7 @@ function AddAllVouchers() {
                       <Text strong className="text-label">
                         Expire After Days
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item name="expires_after_daysNUM" className="mt-1">
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -341,7 +409,7 @@ function AddAllVouchers() {
                       <Text strong className="text-label">
                         Min Sale Value
                       </Text>
-                      <Form.Item name="points_required" className="mt-1">
+                      <Form.Item name="min_valueNUM" className="mt-1">
                         <InputNumber style={inputNumberStyle} />
                       </Form.Item>
                     </Col>
@@ -356,6 +424,9 @@ function AddAllVouchers() {
                           <BootstrapForm.Select
                             placeholder="Select Image"
                             style={inputBorderRadius}
+                            onChange={e =>
+                              set_branchISbb_loyal2_branchesID(e.target.value)
+                            }
                           >
                             <option key={'null'} value={null}></option>
                             {branches.map((item, index) => {
@@ -382,6 +453,7 @@ function AddAllVouchers() {
                           <BootstrapForm.Select
                             placeholder="Select Image"
                             style={inputBorderRadius}
+                            onChange={e => set_value_type(e.target.value)}
                           >
                             <option value=""></option>
                             <option value="0">Currency Value</option>
@@ -404,6 +476,9 @@ function AddAllVouchers() {
                           <BootstrapForm.Select
                             placeholder="Select Image"
                             style={inputBorderRadius}
+                            onChange={e =>
+                              set_groupISbb_loyal2_groupsID(e.target.value)
+                            }
                           >
                             <option value={null}></option>
                             {groups.map((row, index) => {
@@ -429,6 +504,7 @@ function AddAllVouchers() {
                         <Col span={7}>
                           <Form.Item name="from" className="m-0">
                             <DatePicker
+                              onChange={onChangeFrom}
                               style={inputBorderRadius}
                               className="w-100"
                             />
@@ -442,6 +518,7 @@ function AddAllVouchers() {
                         <Col span={7}>
                           <Form.Item name="to" className="m-0">
                             <DatePicker
+                              onChange={onChangeTo}
                               style={inputBorderRadius}
                               className="w-100"
                             />
@@ -457,10 +534,12 @@ function AddAllVouchers() {
                           </Text>
                         </Col>
                         <Col span={12}>
-                          <InputNumber
-                            // placeholder="Select Image"
-                            style={inputNumberStyle}
-                          ></InputNumber>
+                          <Form.Item
+                            name="limited_to_per_memberNUM"
+                            className="m-0"
+                          >
+                            <InputNumber style={inputNumberStyle} />
+                          </Form.Item>
                         </Col>
                       </Row>
                     </Col>
@@ -473,6 +552,11 @@ function AddAllVouchers() {
                       <BootstrapForm.Select
                         placeholder="Select Image"
                         style={inputBorderRadius}
+                        onChange={e =>
+                          set_optional_email_templateISbb_loyal2_templatesID(
+                            e.target.value
+                          )
+                        }
                       >
                         <option value=""></option>
                         <option value="0">Account Update Email</option>

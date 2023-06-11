@@ -399,10 +399,13 @@ function PromotionsAdd() {
                           style={inputBorderRadius}
                           onChange={e => handleChange3(e)}
                         >
-                          <option value=""></option>
-                          <option value="1">Auto1</option>
-                          <option value="2">Auto2</option>
-                          <option value="3">Auto3</option>
+                          <option value></option>
+                          <option value="5">Every Month on the 1st</option>
+                          <option value="2">On Member Birthday</option>
+                          <option value="8">On Member First Login</option>
+                          <option value="1">On Member Signup</option>
+                          <option value="7">On QuickScan</option>
+                          <option value="9">On QuickScan (Button)</option>
                         </BootstrapForm.Select>
                         {/* </Form.Item> */}
                       </Col>
@@ -494,11 +497,10 @@ function PromotionsAdd() {
                   </Col>
                   <Col span={6}>
                     <BootstrapForm.Select style={{ borderRadius: '10px' }}>
-                      <option>12345</option>
-                      <option>12345</option>
-                      <option>12345</option>
-                      <option>12345</option>
-                      <option>12345</option>
+                      <option></option>
+                      <option value="1">Category1</option>
+                      <option value="2">Category2</option>
+                      <option value="3">Category3</option>
                     </BootstrapForm.Select>
                   </Col>
                   <Col span={1}></Col>

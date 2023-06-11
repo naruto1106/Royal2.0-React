@@ -182,7 +182,7 @@ function SettingsUpdate() {
               level={4}
               style={{ color: '#444444' }}
             >
-              Update this point
+              Update this points record
             </Title>
           </Col>
         </Row>
@@ -272,11 +272,9 @@ function SettingsUpdate() {
               <option key={'null'} value={null}></option>
               {branches.map((item, index) => {
                 return (
-                  <>
-                    <option key={index} value={item._id}>
-                      {item.name}
-                    </option>
-                  </>
+                  <option key={index} value={item._id}>
+                    {item.name}
+                  </option>
                 );
               })}
             </BootstrapForm.Select>

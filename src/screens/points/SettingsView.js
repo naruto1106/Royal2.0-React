@@ -27,6 +27,7 @@ function SettingsView() {
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
   const [memberData, setMemberData] = useState(null);
+  const [branches, setBranches] = useState([]);
   const initPageModule = async () => {
     try {
       _isMounted.current && setLoadingSchema(true);
@@ -44,6 +45,10 @@ function SettingsView() {
       );
       setMemberData(memberRes.data);
       console.log(memberRes, 'memberres');
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
@@ -66,8 +71,17 @@ function SettingsView() {
   if (!layoutData) return getErrorAlert({ onRetry: initPageModule });
   let layoutFields = layoutData.options.fields;
 
+  if (layoutFields.branchISbb_loyal2_branchesID && memberData) {
+    let value = memberData.branchISbb_loyal2_branchesID;
+    let index = branches.findIndex(val => {
+      return value == val._id;
+    });
+    if (index === -1) value = '';
+    else value = branches[index].name;
+    memberData.branchISbb_loyal2_branchesID = value;
+  }
+
   const editUser = id => {
-    console.log(id, 'aaaaaaaaaaaaaaaaaaaaa');
     navigate(`/datamanager/bb_loyal2_points/edit/${id}`);
   };
   const showDeleteConfirm = id => {
@@ -90,7 +104,6 @@ function SettingsView() {
   const onDelete = async id => {
     try {
       _isMounted.current && setLoadingSchema(true);
-
       const deleteMember = await Axios.delete(
         endpoint.appUsers(`/module/bb_loyal2_points/${id}`)
       );
@@ -121,14 +134,6 @@ function SettingsView() {
         <Col span={20}>
           <Table responsive style={{ marginTop: '60px', width: '100%' }}>
             <tbody style={tdpadding}>
-              {layoutFields.ownerISbb_usersID ? (
-                <tr>
-                  <td style={tdpadding}>{layoutFields.ownerISbb_usersID}</td>
-                  <td style={tdright}>
-                    {memberData ? memberData.ownerISbb_usersID : ''}
-                  </td>
-                </tr>
-              ) : null}
               {layoutFields.memberISbb_usersID ? (
                 <tr>
                   <td style={tdpadding}>{layoutFields.memberISbb_usersID}</td>

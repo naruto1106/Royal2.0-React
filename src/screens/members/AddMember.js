@@ -93,7 +93,7 @@ function AddMember() {
     console.log('Success:', values);
     try {
       _isMounted.current && setLoadingSchema(true);
-      const { first_name, last_name, email } = values;
+      const { first_name, last_name, email, company_name } = values;
       console.log(endpoint.appUsers(layoutData.options.post_endpoint));
 
       const addMember = await Axios.post(
@@ -102,6 +102,7 @@ function AddMember() {
           first_name,
           last_name,
           email,
+          company_name,
           user_type: 3
         }
       );
@@ -184,7 +185,7 @@ function AddMember() {
             {layoutFields.company_name ? (
               <>
                 <Form.Item
-                  name="companyname"
+                  name="company_name"
                   rules={[
                     {
                       required: false,

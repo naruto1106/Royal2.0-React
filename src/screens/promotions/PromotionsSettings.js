@@ -30,6 +30,8 @@ function PromotionsSettings() {
   const _isMounted = useRef(false);
   const [loadingSchema, setLoadingSchema] = useState(true);
   const [layoutData, setLayoutData] = useState(null);
+  const [branches, setBranches] = useState([]);
+  const [groups, setGroups] = useState([]);
   const initPageModule = async () => {
     try {
       // default part
@@ -43,6 +45,14 @@ function PromotionsSettings() {
       dispatch(
         setPromotionsMenuData({ currentPromotionsMenuSchema: schema.menu })
       ); // store current Promotions menu
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
+      );
+      setBranches(branchesList.data.list);
+      const groupsList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_groups')
+      );
+      setGroups(groupsList.data.list);
       _isMounted.current && setLayoutData(layoutSchema);
       // end default part
     } catch (error) {
@@ -271,26 +281,11 @@ function PromotionsSettings() {
                     <Row className="mt-3" align="middle">
                       <Col span={5}>
                         <Text strong className="text-label">
-                          Category
-                        </Text>
-                      </Col>
-                      <Col span={6}>
-                        <BootStrapForm.Select style={{ borderRadius: '10px' }}>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                        </BootStrapForm.Select>
-                      </Col>
-                      <Col span={1}></Col>
-
-                      <Col span={3}>
-                        <Text strong className="text-label">
                           Code
                         </Text>
                       </Col>
-                      <Col span={9}>
+
+                      <Col span={7}>
                         <Input style={{ borderRadius: '10px' }} />
                       </Col>
                     </Row>
@@ -303,11 +298,14 @@ function PromotionsSettings() {
                       </Col>
                       <Col span={6}>
                         <BootStrapForm.Select style={{ borderRadius: '10px' }}>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
+                          <option key={'null'} value={null}></option>
+                          {groups.map((item, index) => {
+                            return (
+                              <option key={index} value={item._id}>
+                                {item.name}
+                              </option>
+                            );
+                          })}
                         </BootStrapForm.Select>
                       </Col>
                       <Col span={1}></Col>
@@ -336,11 +334,14 @@ function PromotionsSettings() {
                       </Col>
                       <Col span={6}>
                         <BootStrapForm.Select style={{ borderRadius: '10px' }}>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
-                          <option>12345</option>
+                          <option key={'null'} value={null}></option>
+                          {branches.map((item, index) => {
+                            return (
+                              <option key={index} value={item._id}>
+                                {item.name}
+                              </option>
+                            );
+                          })}
                         </BootStrapForm.Select>
                       </Col>
                     </Row>

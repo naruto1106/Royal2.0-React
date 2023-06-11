@@ -27,6 +27,9 @@ function ListTransaction() {
   const [memberLists, setMemeberLists] = useState([]);
   const [columns, setColumns] = useState([]);
   const [resultsPerPage, SetresultsPerPage] = useState(999);
+  const [branches, setBranches] = useState([]);
+  const [memberIDList, setMemberIDList] = useState([]);
+
   let _array = [];
   const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -58,14 +61,19 @@ function ListTransaction() {
       dispatch(
         setTransactionMenuData({ currentTransactionMenuSchema: schema.menu })
       ); // store current member menu
-      _isMounted.current && setLayoutData(layoutSchema);
-      // end default part
-      const memberRes = await Axios.get(
-        endpoint.appUsers('/module/bb_loyal2_transactions/')
+
+      const branchesList = await Axios.get(
+        endpoint.getModuleDataEndpoint('bb_loyal2_branches')
       );
-      setMemeberLists(memberRes.data.list);
-      console.log(memberRes.data.list,"1234567890")
-      // console.log(memberRes.data,"memberRes.daata")
+      setBranches(branchesList.data.list);
+      const membersIDList = await Axios.get(
+        endpoint.getDataManagerSchemaEndpoint('list')
+      );
+      setMemberIDList(membersIDList.data.layout.data);
+      setMemeberLists(layoutSchema.data);
+      // console.log(layoutSchema.data,"234567890")
+      // console.log(branchesList.data.list,"bb234567890")
+      _isMounted.current && setLayoutData(layoutSchema);
     } catch (error) {
       handleError(error, true);
     } finally {
@@ -147,7 +155,6 @@ function ListTransaction() {
     });
   };
   useEffect(() => {
-    console.log(layoutData, 'this is layoutdata------');
     if (layoutData) {
       console.log(layoutData.options.columns);
       let objectData = layoutData.options.columns;
@@ -171,7 +178,31 @@ function ListTransaction() {
           tempElement.accessor = key;
           tempElement.Header = objectData[key];
           tempElement.Cell = function (rowData) {
-            const value = rowData.row.original[key];
+            let value = rowData.row.original[key];
+
+            if (key === 'branchISbb_loyal2_branchesID') {
+              let index = branches.findIndex(val => {
+                return value == val._id;
+              });
+              if (index === -1) value = '';
+              else value = branches[index].name;
+            }
+            if (key === 'memberISbb_usersID') {
+              let index = memberIDList.findIndex(val => {
+                return value == val._id;
+              });
+              if (index === -1) value = '';
+              else {
+                let Company_name = memberIDList[index].company_name
+                  ? memberIDList[index].company_name
+                  : '';
+                value =
+                  memberIDList[index].last_name +
+                  memberIDList[index].first_name +
+                  Company_name;
+              }
+            }
+
             const divTag = (
               <div
                 onClick={() => {
